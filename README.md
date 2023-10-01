@@ -85,8 +85,8 @@ To ensure consistency and quality in the code, the following standards are enfor
 - **Enums**: All enums should be declared with `enum`.
 
 ### Libraries/Utilities:
-Libraries or utility files, a common convention is to use camelCase or kebab-case.
-- Example: `myUtility.ts`, `my-utility.ts`, `myUtility.js`, `my-utility.js`
+Libraries or utility files, should be written in `kebab-case`, this ensures its easy to see its either library or utility file.
+- Example: `my-utility.ts`, `my-utility.js`
 
 
 These conventions help maintain a consistent and understandable project structure, making it easier for developers to navigate and work with the codebase.
