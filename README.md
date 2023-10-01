@@ -66,6 +66,7 @@ Naming should be consistent throughout the project, and most importantly ALWAYS 
 - **Enum names**: All enum names should be in `PascalCase` (e.g. `MyEnum`).
 - **Enum members**: All enum members should be in `UPPER_CASE` (e.g. `MY_ENUM_MEMBER`).
 - **Constants**: All constants should be in `UPPER_CASE` (e.g. `MY_CONSTANT`).
+- **Short names**: Short names should be avoided unless they are very common (e.g. `i`, `j`, `k`, `x`, `y`, `z`), or makes sense (discuss with teammembers).
 
 ### Code Formatting
 - **Indentation**: All code should be indented with 2 spaces.
@@ -79,7 +80,7 @@ Naming should be consistent throughout the project, and most importantly ALWAYS 
 - **Comments**: All comments should be in English and follow the [JSDoc](https://jsdoc.app/) standard. if applicable.
 
 ### Code Quality
-- **TypeScript**: All code should be written in TypeScript.
+- **TypeScript/JavaScript**: All code should be written in TypeScript or JS.
 - **Imports**: All imports should be sorted alphabetically.
 - **Variables**: All variables should be declared with `const` or `let`.
 - **Functions**: All functions should be declared with `const`.
