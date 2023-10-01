@@ -54,7 +54,10 @@ Now, open http://localhost:3000 in your browser to see the app running.
 ## Code Standards
 To ensure consistency and quality in the code, the following standards are enforced:
 
+
+
 ### Naming Conventions
+Naming should be consistent throughout the project, and most importantly ALWAYS BE DESCRIPTIVE... The following naming conventions should be used:
 - **Component names / File names**: All component names should be in `PascalCase` (e.g. `MyComponent`).
 - **Variable names**: All variable names should be in `camelCase` (e.g. `myVariable`).
 - **Function names**: All function names should be in `camelCase` (e.g. `myFunction`).
