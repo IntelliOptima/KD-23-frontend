@@ -16,7 +16,8 @@ export default function CustomSwitch() {
           onChange={setAgreed}
           className={classNames(
             agreed ? "bg-blue-600" : "bg-gray-200",
-            "flex w-8 flex-none cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+            "flex w-8 flex-none cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200", 
+            "ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
           )}
         >
           <span className="sr-only">Agree to policies</span>
