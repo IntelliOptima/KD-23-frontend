@@ -1,11 +1,10 @@
-import CustomSwitch from '@/components/CustomInputs/CustomSwitch'
-import LoginForm from '@/components/Forms/LoginForm'
+import Navbar from '@/components/Landingpage/Navbar/Navbar'
 
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-56">
-        <LoginForm />
+    <main>
+        <Navbar />
     </main>
   )
 }
