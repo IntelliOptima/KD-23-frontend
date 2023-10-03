@@ -4,5 +4,8 @@
         ".vscode{,/**}"
     ],
     "appService.defaultWebAppToDeploy": "/subscriptions/4cee82c6-63da-40bc-9f53-795a9a12256d/resourceGroups/KinoXP/providers/Microsoft.Web/sites/KinoXP-Frontend",
-    "appService.deploySubpath": "."
+    "appService.deploySubpath": ".",
+    "files.associations": {
+        "*.css": "tailwindcss"
+      }
 }
