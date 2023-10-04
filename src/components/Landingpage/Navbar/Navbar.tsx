@@ -4,11 +4,11 @@ import React from 'react'
 
 const Navbar = () => {
     return (
-        <nav>
+        <nav className="border-b border-white">
             <div className="flex flex-row items-center justify-between py-4 lg:mx-20 md:mx-10 sm:mx-5">
                 <div>
                     <Link
-                    href="/"
+                        href="/"
                     >
                         <Image
                             src="/kinoxp-logo-text.png"
@@ -18,10 +18,14 @@ const Navbar = () => {
                         />
                     </Link>
                 </div>
-                <div>
-                    <button className="btn-primary">Sign Up</button>
+                <div className="flex flex-row items-center space-x-4">
+                    <div>
+                        <button className="btn-primary">Sign Up</button>
+                    </div>
+                    <div>
+                        <a href="/" className="text-white text-xl">Login</a>
+                    </div>
                 </div>
-                
 
             </div>
         </nav>
