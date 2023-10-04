@@ -1,0 +1,25 @@
+{
+    "eventcards": [
+        {
+            "eventTitle": "Lord of the Rings Marathon",
+            "eventDuration": "20 Hours",
+            "eventImage": "/lord-of-the-rings.jpg",
+            "eventDate": "30-10-2023",
+            "eventDescription": "Calling all hobbits, wizards, elves, and warriors!\n Sit back and Step into the enchanting world of J.R.R. Tolkien's masterpieces..."
+        },
+        {
+            "eventTitle": "Harry Potter Marathon",
+            "eventDuration": "16 Hours",
+            "eventImage": "/harry-potter.jpg",
+            "eventDate": "21-10-2023",
+            "eventDescription": "Muggles and wizards alike, we're thrilled to invite you to our enchanting Harry Potter Marathon!\nJoin us for a magical day filled with broomsticks, wands, and snacks..."
+        },
+        {
+            "eventTitle": "Back to the future Marathon",
+            "eventDuration": "9 Hours",
+            "eventImage": "/back-to-the-future.jpg",
+            "eventDate": "15-10-2023",
+            "eventDescription": "Are you ready for a wild ride through past, present, and future? Join us for our Back to the Future Marathon, a thrilling adventure that's 1.21 gigawatts of fun!..."
+        }
+    ]
+}
