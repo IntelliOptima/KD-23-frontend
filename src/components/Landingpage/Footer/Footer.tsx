@@ -33,7 +33,6 @@ const Footer = () => {
                         <div>
                             <p>fre - sun</p>
                             <p>08:00 - 23:00</p>
-                            
                         </div>
                     </div>
                 </div>

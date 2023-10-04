@@ -1,20 +1,17 @@
 "use client"
 import { Navigation } from "swiper/modules";
 import React, { useRef } from 'react';
-import CarouselImageList from '../../../../public/assets/CarouselImageList';
+import CarouselImageList from '@/assets/CarouselImageList';
 import { Swiper, SwiperSlide } from 'swiper/react'
-import StandardSwipe from '../StandardSwipe/StandardSwipe';
+import StandardSwipe from '@/components/Landingpage/StandardSwipe/StandardSwipe';
 import "swiper/css";
 import "swiper/css/navigation";
 
 import 'swiper/swiper-bundle.css'; // Import Swiper styles
 
 
-
-
 const Carousel = () => {
     return (
-
         <Swiper
             slidesPerView={1}
             rewind={true}
@@ -29,7 +26,6 @@ const Carousel = () => {
                         alt={alt} />
                 </SwiperSlide>
             ))}
-
 
         </Swiper >);
 };

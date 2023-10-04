@@ -26,7 +26,6 @@ const Navbar = () => {
                         <a href="/" className="text-white text-xl">Login</a>
                     </div>
                 </div>
-
             </div>
         </nav>
 

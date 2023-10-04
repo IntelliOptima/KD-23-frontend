@@ -20,10 +20,9 @@ const StandardSwipe: FC<SwiperCardProps> = (props: SwiperCardProps) => {
             priority
             src={props.image}
             alt={props.alt}
-        >
-
-        </Image>
-        <Button></Button>
+        />
+        {/* Consider more concrete naming */}
+        <Button/>
     </div>
     )
 }
