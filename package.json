@@ -17,10 +17,11 @@
     "@headlessui/tailwindcss": "^0.2.0",
     "@heroicons/react": "^2.0.18",
     "@material-tailwind/react": "^2.1.1",
-    "next": "latest",
+    "next": "^13.5.4",
     "react": "latest",
     "react-dom": "latest",
-    "react-hook-form": "^7.46.2"
+    "react-hook-form": "^7.46.2",
+    "swiper": "^10.3.1"
   },
   "devDependencies": {
     "@types/node": "18.17.1",
