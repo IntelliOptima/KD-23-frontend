@@ -1,0 +1,56 @@
+{
+    "movieListOnDay": [
+        {
+            "movieTitle": "All Quiet on the Western Front",
+            "duration": "147",
+            "movieImage": "https://image.tmdb.org/t/p/w500//2IRjbi9cADuDMKmHdLK7LaqQDKA.jpg",
+            "showTimes": ["4:00 PM","6:00 PM", "8:00 PM"]
+            
+        },
+        {
+            "movieTitle": "The Song of Styrene",
+            "duration": "13",
+            "movieImage": "https://image.tmdb.org/t/p/w500//iYS3ZWHMQwDMSaFVr1eo0UL2Jcy.jpg",
+            "showTimes": ["4:00 PM","6:00 PM", "8:00 PM"]
+            
+        },
+        {
+            "movieTitle": "Billy Joel plays his greatest hits in the Big Apple.",
+            "duration": "86",
+            "movieImage": "https://image.tmdb.org/t/p/w500//yTp3ansrRrQ2Gs76wnRREzBZRfI.jpg",
+            "showTimes": ["4:00 PM","6:00 PM", "8:00 PM"]
+            
+        },{
+            "movieTitle": "Mixtape",
+            "duration": "94",
+            "movieImage": "https://image.tmdb.org/t/p/w500//2fpG1PiHPHdLt8X2e7WAct7EVB7.jpg",
+            "showTimes": ["4:00 PM","6:00 PM", "8:00 PM"]
+            
+        },{
+            "movieTitle": "Grizzly II: Revenge",
+            "duration": "74",
+            "movieImage": "https://image.tmdb.org/t/p/w500//dKHoRIicgHLoNPKiRJpRPHd96Gx.jpg",
+            "showTimes": ["4:00 PM","6:00 PM", "8:00 PM"]
+            
+        },{
+            "movieTitle": "Bad Boys for Life",
+            "duration": "124",
+            "movieImage": "https://image.tmdb.org/t/p/w500//y95lQLnuNKdPAzw9F9Ab8kJ80c3.jpg",
+            "showTimes": ["4:00 PM","6:00 PM", "8:00 PM"]
+            
+        },{
+            "movieTitle": "Monkey Magic",
+            "duration": "66",
+            "movieImage": "https://image.tmdb.org/t/p/w500//17qLr7WaMg2XMwzeQs6xHAw0xeA.jpg",
+            "showTimes": ["4:00 PM","6:00 PM", "8:00 PM"]
+            
+        },{
+            "movieTitle": "Krystal",
+            "duration": "90",
+            "movieImage": "https://image.tmdb.org/t/p/w500//5Do7HKvKPgjiBVJieMAOt8aZXAB.jpg",
+            "showTimes": ["2:00 PM","6:30 PM", "8:30 PM"]
+            
+        }
+        
+    ]
+}

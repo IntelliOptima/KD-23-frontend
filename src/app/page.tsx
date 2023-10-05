@@ -18,9 +18,9 @@ export default function Home() {
         <NowPlaying />
         <DayTable />
         <EventCards />
-        </div>
+        
         <Footer />
-
+        </div>
     </main>
   )
 }
