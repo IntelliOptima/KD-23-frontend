@@ -1,4 +1,4 @@
-import Navbar from '@/components/Landingpage/Navbar/Navbar'
+import Navbar from '@/components/Globals/Navbar/Navbar'
 import React from 'react'
 
 const HeaderSection = () => {

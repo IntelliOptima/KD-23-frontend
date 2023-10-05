@@ -1,4 +1,4 @@
-import Footer from '@/components/Landingpage/Footer/Footer'
+import Footer from '@/components/Globals/Footer/Footer'
 import React from 'react'
 
 const FooterSection = () => {

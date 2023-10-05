@@ -1,5 +1,5 @@
 import AdminDashboard from '@/components/AdminDashboard/AdminDashboard'
-import EventCards from '@/components/Landingpage/EventCards/EventCards'
+import EventCards from '@/components/EventCards/EventCards'
 
 
 

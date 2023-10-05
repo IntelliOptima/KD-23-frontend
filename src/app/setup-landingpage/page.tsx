@@ -1,4 +1,4 @@
-import Footer from '@/components/Landingpage/Footer/Footer'
+import Footer from '@/components/Globals/Footer/Footer'
 import HeaderSection from '@/layouts/SetupLandingpageLayout/HeaderSection'
 import MainSection from '@/layouts/SetupLandingpageLayout/MainSection'
 import { NextPage } from 'next'
@@ -10,7 +10,6 @@ const SetupLandingpage:NextPage = () => {
         <HeaderSection />
         <MainSection />
         <Footer />
-
     </div>
   )
 }
