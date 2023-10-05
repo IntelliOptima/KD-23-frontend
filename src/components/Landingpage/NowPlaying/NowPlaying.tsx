@@ -3,9 +3,9 @@ import React from 'react'
 
 const NowPlaying = () => {
     return (
-        <div>
-            <p className="font-inter text-center font-black italic text-8xl">CURRENT SHOWS</p>
-        </div>
+        
+            <p className=" mt-10 font-inter text-center font-black italic text-8xl">CURRENT SHOWS</p>
+        
         
     );
 };
