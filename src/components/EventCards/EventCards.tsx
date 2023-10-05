@@ -8,6 +8,7 @@ const EventCards = () => {
 
 
 
+
     return (
         <div>
 
@@ -18,29 +19,18 @@ const EventCards = () => {
                 </div>
 
                 <div className="flex justify-center gap-10 w-5/6">
-                    <EventCard
-                        title={eventCards[0].eventTitle}
-                        duration={eventCards[0].eventDuration}
-                        image={eventCards[0].eventImage}
-                        date={eventCards[0].eventDate}
-                        description={eventCards[0].eventDescription}
-                    />
 
-                    <EventCard
-                        title={eventCards[1].eventTitle}
-                        duration={eventCards[1].eventDuration}
-                        image={eventCards[1].eventImage}
-                        date={eventCards[1].eventDate}
-                        description={eventCards[1].eventDescription}
-                    />
+                    {eventCards.map((eventCard) => (
+                        <EventCard
+                            title={eventCard.eventTitle}
+                            description={eventCard.eventDescription}
+                            image={eventCard.eventImage}
+                            date={eventCard.eventDate}
+                            duration={eventCard.eventDuration}
+                        />
+                    ))}
+                
 
-                    <EventCard
-                        title={eventCards[2].eventTitle}
-                        duration={eventCards[2].eventDuration}
-                        image={eventCards[2].eventImage}
-                        date={eventCards[2].eventDate}
-                        description={eventCards[2].eventDescription}
-                    />
 
                 </div>
             </div>

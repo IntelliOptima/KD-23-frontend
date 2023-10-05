@@ -8,12 +8,27 @@ const MovieDetails = () => {
     const hours = Math.floor(movieData.runtime / 60);
     const minutes = Math.floor(movieData.runtime % 60);
     const movieTrailerId = movieData.trailer.split('v=')[1];
+    const durrentDate = new Date();
+    const weekDates = [];
+
+    for (let i = 0; i < 7; i++) {
+        let nextDay = new Date(durrentDate);
+        nextDay.setDate(durrentDate.getDate() + i);
+        weekDates.push(nextDay.toDateString());
+    }
 
     return (
         <div className="flex flex-col items-center">
             <div className="py-10">
-                <h1 className="text-[80px] font-extrabold text-gray-600 tracking-wider">{movieData.title.toUpperCase()}</h1>
+                <h1 className="text-[80px] font-extrabold text-white tracking-wider">{movieData.title.toUpperCase()}</h1>
             </div>
+
+            <div className="flex my-10 gap-4">
+                {weekDates.map((date) => (
+                    <div className="bg-white rounded p-4">{date}</div>
+                ))}
+            </div>
+
             <div className="flex justify-around">
 
                 <div className="relative h-[550px] w-[400px]">
@@ -22,7 +37,7 @@ const MovieDetails = () => {
                         className="rounded-lg shadow-2xl shadow-black"
                         layout="fill"
                         objectFit="cover"
-                        alt='sdsad'
+                        alt='movie poster'
                     />
 
                 </div>
