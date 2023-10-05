@@ -1,19 +1,19 @@
 import AdminDashboard from '@/components/AdminDashboard/AdminDashboard'
 import EventCards from '@/components/Landingpage/EventCards/EventCards'
+import React from 'react'
 
-
-
-export default function Home() {
+const HeroSection = () => {
   return (
-    <main className="bg-white">
+    <div>
       <AdminDashboard>
-        
+        <main>
           <EventCards />
           <EventCards />
           <EventCards />
-      
+        </main>
       </AdminDashboard>
-    </main >
-
+    </div>
   )
 }
+
+export default HeroSection
