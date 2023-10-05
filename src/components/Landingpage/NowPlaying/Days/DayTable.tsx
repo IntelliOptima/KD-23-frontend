@@ -1,5 +1,4 @@
 import React from 'react';
-import Day from '@components/Landingpage/NowPlaying/Days/Day';
 import DayRow from './DayRow';
 
 const todaysDate = new Date();
@@ -7,10 +6,10 @@ const todaysDate = new Date();
 
 const DayTable = () => {
     return (
-
-        <DayRow startDay={0} endDay={3} date={todaysDate} numberOfDays={4}></DayRow>
-
-
+        <>
+        <DayRow startDay={0} endDay={4} date={todaysDate} numberOfDays={4} />
+        <DayRow startDay={4} endDay={8} date={todaysDate} numberOfDays={4} />
+        </>
     );
 
 

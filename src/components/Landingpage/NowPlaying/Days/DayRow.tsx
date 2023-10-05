@@ -11,7 +11,7 @@ const DayRow: React.FC<DayProps> = ({ startDay, endDay, date, numberOfDays }) =>
 
   const dayElements = [];
 
-  for (let index = 0; index < numberOfDays; index++) {
+  for (let index = startDay; index < endDay; index++) {
     // Create JSX elements and push them to the array
     const newDate = new Date(date)
     newDate.setDate(date.getDate() + index)
@@ -19,7 +19,17 @@ const DayRow: React.FC<DayProps> = ({ startDay, endDay, date, numberOfDays }) =>
 
 
   return (
-    <div>{dayElements}</div>
+    
+
+    //<div>{dayElements}</div>
+
+    <div className='mt-5 flex flex-wrap flex-row justify-center items-center gap-4'>
+    {dayElements.map((dayElement,index) => (
+      <div key={index} className=''>{dayElement}</div>
+
+      
+  ))}
+  </div> 
   );
 };
 

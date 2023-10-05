@@ -11,7 +11,9 @@ const Day: React.FC<DayProps>= ({ date }) => {
     
     
     console.log(dayForShowing.toLocaleString('en-UK', { weekday: 'long' }))
-    debugger;
+    
+    console.log(today.toISOString());
+    console.log(dayForShowing.toISOString())
 
     return (
         
@@ -21,10 +23,10 @@ const Day: React.FC<DayProps>= ({ date }) => {
         >
             <button className='text-white font-inter font-black absolute text-center bg-black w-56 h-12'>
                 <p>
-                    {(dayForShowing!==today? dayForShowing.toLocaleDateString('en-UK', {weekday: 'long' }) + ' ': "Today ")}
+                 {(dayForShowing.getDate()!==today.getDate()? dayForShowing.toLocaleDateString('en-UK', {weekday: 'long' }) + ' ': "Today ")}
                        the 
                     {' ' + dayForShowing.getDate() + ' '} / {' ' + dayForShowing.getMonth()}
-
+                    {}
                 </p>
             </button>
         </div>
