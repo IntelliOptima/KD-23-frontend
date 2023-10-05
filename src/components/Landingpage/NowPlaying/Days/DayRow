@@ -1,0 +1,18 @@
+import React from 'react';
+import Day from '@components/Landingpage/NowPlaying/Days/Day';
+
+interface DayProps {
+    date: Date;
+  }
+  const DayRow: React.FC<DayProps>= ({ date }) => {
+    return(
+        for (let index = 0; index < 8; index++) {
+            
+            
+        }
+
+    );
+  };
+
+
+export default DayRow;
