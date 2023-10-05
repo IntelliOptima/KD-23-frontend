@@ -1,10 +1,10 @@
-import EventCards from '@/components/EventCards/EventCards'
+
 import MovieDetails from '@/components/MovieDetails/MovieDetails'
 import React from 'react'
 
 const MainSection = () => {
   return (
-    <div>
+    <div className="py-10">
         <MovieDetails />
     </div>
   )
