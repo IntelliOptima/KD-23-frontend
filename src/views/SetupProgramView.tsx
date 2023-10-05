@@ -1,5 +1,5 @@
-import HeroSection from "@/layouts/SetupProgramLayout/HeroSection"
-import HeaderSection from "@/layouts/SetupProgramLayout/HeroSection"
+import HeroSection from "@/layouts/SetupProgramLayout/MainSection"
+import HeaderSection from "@/layouts/SetupProgramLayout/MainSection"
 
 const SetupProgramView = () => {
     return (
