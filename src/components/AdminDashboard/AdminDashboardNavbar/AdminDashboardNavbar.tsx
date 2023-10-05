@@ -4,18 +4,22 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const AdminDashboardNavbar = () => {
+type AdminDashboardNavbarProps = {
+    openSidebar: () => void;
+    };
+
+const AdminDashboardNavbar = ({ openSidebar } : AdminDashboardNavbarProps) => {
     return (
         <nav className="bg-[#232323] p-2 flex flex-row items-center justify-between">
         
-            <div className="flex items-center ml-10">
+            <div className="flex items-center ml-[270px]">
 
                 <Image 
                 src="/menu-icon.png"
                 height={20}
                 width={20}
                 alt="menu icon"
-                onClick={() => {}}
+                onClick={openSidebar}
                 className="cursor-pointer hover:scale-105"
                 />
 
