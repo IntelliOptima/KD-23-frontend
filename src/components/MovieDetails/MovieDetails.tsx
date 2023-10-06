@@ -39,11 +39,11 @@ const MovieDetails = () => {
                                         <Image src="/ticket.png" width={30} height={30} alt="ticket icon" className="ml-2"/>
                                     </a>
                                     <a href="/" className="flex justify-center text-[#F1A94B] text-[18px] font-bold hover:scale-105">
-                                        12:00
+                                        14:00
                                         <Image src="/ticket.png" width={30} height={30} alt="ticket icon" className="ml-2"/>
                                     </a>
                                     <a href="/" className="flex justify-center text-[#F1A94B] text-[18px] font-bold hover:scale-105">
-                                        12:00
+                                        16:00
                                         <Image src="/ticket.png" width={30} height={30} alt="ticket icon" className="ml-2"/>
                                     </a>
                                 </td>
@@ -56,7 +56,7 @@ const MovieDetails = () => {
 
             <div className="flex justify-around">
 
-                <div className="relative h-[550px] w-[400px]">
+                <div className="relative h-[650px] w-[500px]">
                     <Image
                         src={movieData.poster}
                         className="rounded-lg shadow-2xl shadow-black"
@@ -86,11 +86,11 @@ const MovieDetails = () => {
                             <p className="italic">{movieData.description}</p>
                         </div>
                         <div className="flex col-span-3 justify-between">
-                            <div>
+                            <div className="col-span-1">
                                 <h3 className="text-[18px] font-semibold leading-loose">Genre: </h3>
                                 <p>Family, Animation</p>
                             </div>
-                            <div >
+                            <div className="col-span-3">
                                 <h3 className="text-[18px] font-semibold leading-loose">Actors: </h3>
                                 <p>Tom Hanks, Tom Cruise, Will Smith</p>
                             </div>
