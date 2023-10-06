@@ -1,0 +1,14 @@
+
+{
+    "movie": {
+        "id": 12,
+        "title": "Finding Nemo",
+        "releaseDate": "2003-05-30",
+        "poster": "https://image.tmdb.org/t/p/w500//ggQ6o8X5984OCh3kZi2UIJQJY5y.jpg",
+        "trailer": "https://www.youtube.com/watch?v=ZS_8btMjx2U",
+        "description": "Nemo, an adventurous young clownfish, is unexpectedly taken from his Great Barrier Reef home to a dentist's office aquarium. It's up to his worrisome father Marlin and a friendly but forgetful fish Dory to bring Nemo home -- meeting vegetarian sharks, surfer dude turtles, hypnotic jellyfish, hungry seagulls, and more along the way.",
+        "runtime": 100,
+        "voteRating": 7.824,
+        "adult": false
+    }
+}
