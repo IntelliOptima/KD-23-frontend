@@ -1,7 +1,7 @@
 import WeekCalendar from "@/components/CustomCalendar/WeekCalendar"
 
 
-const HeroSection = () => {
+const MainSection = () => {
     return (
         <>
             <WeekCalendar />
@@ -9,4 +9,4 @@ const HeroSection = () => {
     )
 }
 
-export default HeroSection
+export default MainSection
