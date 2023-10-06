@@ -3,7 +3,7 @@ import { Navigation } from "swiper/modules";
 import React, { useRef } from 'react';
 import CarouselImageList from '@/assets/CarouselImageList';
 import { Swiper, SwiperSlide } from 'swiper/react'
-import StandardSwipe from '@/components/Landingpage/StandardSwipe/StandardSwipe';
+import StandardSwipe from '@/components/StandardSwipe/StandardSwipe';
 import "swiper/css";
 import "swiper/css/navigation";
 

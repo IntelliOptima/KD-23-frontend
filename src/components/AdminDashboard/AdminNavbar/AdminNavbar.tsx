@@ -4,11 +4,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-type AdminDashboardNavbarProps = {
+type AdminNavbarProps = {
     openSidebar: () => void;
     };
 
-const AdminDashboardNavbar = ({ openSidebar } : AdminDashboardNavbarProps) => {
+const AdminNavbar = ({ openSidebar } : AdminNavbarProps) => {
     return (
         <nav className="bg-[#232323] p-2 flex flex-row items-center justify-between">
         
@@ -50,4 +50,4 @@ const AdminDashboardNavbar = ({ openSidebar } : AdminDashboardNavbarProps) => {
     )
 }
 
-export default AdminDashboardNavbar
+export default AdminNavbar

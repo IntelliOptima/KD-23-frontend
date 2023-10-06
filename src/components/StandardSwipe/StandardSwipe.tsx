@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import Image from 'next/image'
-import Button from '@components/Landingpage/StandardSwipe/Button/Button'
+import Image from 'next/image';
 
 interface SwiperCardProps {
     image: string;
@@ -22,7 +21,9 @@ const StandardSwipe: FC<SwiperCardProps> = (props: SwiperCardProps) => {
             alt={props.alt}
         />
 
-        <Button buttonText="Buy Ticket"/>
+        <button className=' absolute left-20 top-80 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-20 rounded'>
+            Buy tickets
+        </button>
     </div>
     )
 }

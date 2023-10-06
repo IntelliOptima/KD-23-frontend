@@ -1,5 +1,6 @@
+import './admin-dashboard.css';
 import type { Metadata } from 'next'
-import AdminDashboard from '@/components/AdminDashboard/AdminDashboard'
+import AdminPanel from '@/components/AdminDashboard/AdminPanel'
 
 
 export const metadata: Metadata = {
@@ -7,14 +8,14 @@ export const metadata: Metadata = {
   description: 'KinoXP - The best cinema in the world, with only the best movies.',
 }
 
-export default function AdminDashboardLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <AdminDashboard>
+    <AdminPanel>
         {children}
-    </AdminDashboard>
+    </AdminPanel>
   )
 }

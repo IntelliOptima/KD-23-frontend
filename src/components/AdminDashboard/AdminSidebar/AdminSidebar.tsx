@@ -1,16 +1,15 @@
 import Link from 'next/link'
 import React from 'react'
 
-type AdminDashboardSidebarProps = {
+type AdminSidebarProps = {
   sidebarOpen: boolean;
 };
 
-const AdminDashboardSidebar = ({ sidebarOpen }: AdminDashboardSidebarProps) => {
+const AdminSidebar = ({ sidebarOpen }: AdminSidebarProps) => {
   return (
 
     <div
-      className={`fixed top-0 h-full w-[250px] bg-[#232323] transition-transform transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+    className={`fixed top-0 h-full w-[250px] bg-[#232323] transition-transform duration-300 ease-in-out transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
     >
       <div className="w-full h-full">
         <ul className="flex flex-col ml-20 pt-20 justify-between h-2/5 text-white leading-loose">
@@ -33,4 +32,4 @@ const AdminDashboardSidebar = ({ sidebarOpen }: AdminDashboardSidebarProps) => {
   );
 };
 
-export default AdminDashboardSidebar
+export default AdminSidebar
