@@ -23,11 +23,36 @@ const MovieDetails = () => {
                 <h1 className="text-[80px] font-extrabold text-white tracking-wider">{movieData.title.toUpperCase()}</h1>
             </div>
 
-            <div className="flex my-10 gap-4">
+            <div className="flex my-10 gap-4 pb-10">
                 {weekDates.map((date) => (
-                    <div className="bg-white rounded p-4">{date}</div>
+                    <table className="border border-collapse w-40 ">
+                        <thead className="bg-white text-center">
+                            <tr>
+                                <th className="p-2">{date}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="flex flex-col text-center p-2 bg-gray-600 gap-4">
+                                    <a href="/" className="flex justify-center text-[#F1A94B] text-[18px] font-bold hover:scale-105">
+                                        12:00
+                                        <Image src="/ticket.png" width={30} height={30} alt="ticket icon" className="ml-2"/>
+                                    </a>
+                                    <a href="/" className="flex justify-center text-[#F1A94B] text-[18px] font-bold hover:scale-105">
+                                        12:00
+                                        <Image src="/ticket.png" width={30} height={30} alt="ticket icon" className="ml-2"/>
+                                    </a>
+                                    <a href="/" className="flex justify-center text-[#F1A94B] text-[18px] font-bold hover:scale-105">
+                                        12:00
+                                        <Image src="/ticket.png" width={30} height={30} alt="ticket icon" className="ml-2"/>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 ))}
             </div>
+
 
             <div className="flex justify-around">
 
