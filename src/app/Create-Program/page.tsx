@@ -1,4 +1,4 @@
-import SetupProgramView from "@/views/SetupProgramView"
+import SetupProgramView from "@/views/CreateProgramView"
 import { NextPage } from "next"
 
 

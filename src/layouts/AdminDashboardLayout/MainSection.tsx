@@ -1,4 +1,3 @@
-import AdminDashboard from "@/components/AdminDashboard/AdminDashboard";
 import EventCards from "@/components/EventCards/EventCards";
 import React from "react";
 
