@@ -4,7 +4,8 @@ import Navbar from '@/components/Landingpage/Navbar/Navbar'
 import NowPlaying from '@/components/Landingpage/NowPlaying/NowPlaying'
 import DayTable from '@components/Landingpage/NowPlaying/Days/DayTable'
 import Carousel from '@/components/Landingpage/Carousel/Carousel'
-
+import AdminDashboard from '@/components/AdminDashboard/AdminDashboard'
+import EventCards from '@/components/EventCards/EventCards'
 
 
 
