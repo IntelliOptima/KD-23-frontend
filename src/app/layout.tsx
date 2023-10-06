@@ -1,3 +1,5 @@
+import Navbar from '@/components/Landingpage/Navbar/Navbar'
+import Footer from '@/components/Landingpage/Footer/Footer'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -18,14 +20,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <header>
-          {/* TODO --- Creater navbar for instance */}
+          <Navbar />
         </header>
         <main>
           {children}
         </main>
-        <footer>
-          {/* TODO --- Create footer section for instance */}
-        </footer>
+        <Footer />
         </body>
     </html>
   )
