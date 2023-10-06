@@ -1,5 +1,5 @@
-import HeaderSection from "@/layouts/SetupProgramLayout/HeaderSection"
-import MainSection from "@/layouts/SetupProgramLayout/MainSection"
+import HeaderSection from "@/layouts/CreateProgramLayout/HeaderSection"
+import MainSection from "@/layouts/CreateProgramLayout/MainSection"
 
 const SetupProgramView = () => {
     return (

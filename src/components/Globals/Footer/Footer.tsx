@@ -3,7 +3,6 @@ import React from 'react'
 
 const Footer = () => {
     return (
-
         <footer className="border-t border-white py-2">
             <div className="flex flex-row items-center justify-between py-4 px-10">
                 <div className="flex flex-col gap-10">
@@ -13,7 +12,7 @@ const Footer = () => {
                         height={100}
                         alt="Logo"
                     />
-                    <p className="text-white text-[12px]">Copyright © 2023 Kinoxp. All Rights Reserved.</p>
+                    <p className="text-white text-[12px]">Copyright © 2023 KinoXP. All Rights Reserved.</p>
                 </div>
                 <div className="flex flex-row mx-10">
                     <div className="text-white px-10 leading-relaxed">

@@ -8,12 +8,12 @@ const MovieDetails = () => {
     const hours = Math.floor(movieData.runtime / 60);
     const minutes = Math.floor(movieData.runtime % 60);
     const movieTrailerId = movieData.trailer.split('v=')[1];
-    const durrentDate = new Date();
+    const currentDate = new Date();
     const weekDates = [];
 
     for (let i = 0; i < 7; i++) {
-        let nextDay = new Date(durrentDate);
-        nextDay.setDate(durrentDate.getDate() + i);
+        let nextDay = new Date(currentDate);
+        nextDay.setDate(currentDate.getDate() + i);
         weekDates.push(nextDay.toDateString());
     }
 
@@ -24,8 +24,8 @@ const MovieDetails = () => {
             </div>
 
             <div className="flex my-10 gap-4 pb-10">
-                {weekDates.map((date) => (
-                    <table className="border border-collapse w-40 ">
+                {weekDates.map((date, index) => (
+                    <table key={index} className="border border-collapse w-40 ">
                         <thead className="bg-white text-center">
                             <tr>
                                 <th className="p-2">{date}</th>
@@ -79,7 +79,7 @@ const MovieDetails = () => {
                         </div>
 
                         <div className="text-center">
-                            <h3 className="text-[18px] font-semibold leading-loose">IMDB rating: </h3>
+                            <h3 className="text-[18px] font-semibold leading-loose"> IMDB rating: </h3>
                             <p>{movieData.voteRating ? movieData.voteRating : 'No available rating'}</p>
                         </div>
                         <div className="col-span-3 my-6">
