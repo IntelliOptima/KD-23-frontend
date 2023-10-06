@@ -1,10 +1,11 @@
-import EventCards from '@/components/Landingpage/EventCards/EventCards'
+
+import MovieDetails from '@/components/MovieDetails/MovieDetails'
 import React from 'react'
 
 const MainSection = () => {
   return (
-    <div>
-        <EventCards />
+    <div className="py-10">
+        <MovieDetails />
     </div>
   )
 }
