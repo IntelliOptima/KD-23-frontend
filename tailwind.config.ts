@@ -11,19 +11,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-                },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
-      colors: {
         'main-landing-color': '#232323',
         'secondary-landing-color': '#656565',
         'action-color': '#F1A94B',
         'text-color': '#FFFFFF',
         'link-color': '#5B64FD'
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      
     },
   },
   plugins: [],
