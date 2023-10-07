@@ -1,5 +1,5 @@
 import React from "react";
-import Day from "@components/Landingpage/NowPlaying/Days/Day";
+import Day from "@components/NowPlaying/Days/Day";
 
 interface DayProps {
   date: Date;

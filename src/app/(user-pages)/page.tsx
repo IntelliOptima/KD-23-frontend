@@ -1,5 +1,5 @@
-import NowPlaying from '@/components/Landingpage/NowPlaying/NowPlaying'
-import DayTable from '@components/Landingpage/NowPlaying/Days/DayTable'
+import NowPlaying from '@/components/NowPlaying/NowPlaying'
+import DayTable from '@components/NowPlaying/Days/DayTable'
 import Carousel from '@/components/Carousel/Carousel'
 import EventCards from '@/components/EventCards/EventCards'
 

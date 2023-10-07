@@ -15,7 +15,7 @@ export default function AdminLayout({
 }) {
   return (
     <AdminPanel>
-        {children}
+      {children}
     </AdminPanel>
   )
 }

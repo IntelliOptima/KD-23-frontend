@@ -1,5 +1,5 @@
 import React from 'react';
-import MovieMockData from '@components/Landingpage/NowPlaying/Movies/MovieMockData.json';
+import MovieMockData from '@components/NowPlaying/Movies/MovieMockData.json';
 import Movie from './Movie';
 
 const movieArr = MovieMockData.movieListOnDay;
