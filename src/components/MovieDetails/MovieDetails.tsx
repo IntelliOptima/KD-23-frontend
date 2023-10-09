@@ -8,12 +8,12 @@ const MovieDetails = () => {
     const hours = Math.floor(movieData.runtime / 60);
     const minutes = Math.floor(movieData.runtime % 60);
     const movieTrailerId = movieData.trailer.split('v=')[1];
-    const durrentDate = new Date();
+    const currentDate = new Date();
     const weekDates = [];
 
     for (let i = 0; i < 7; i++) {
-        let nextDay = new Date(durrentDate);
-        nextDay.setDate(durrentDate.getDate() + i);
+        let nextDay = new Date(currentDate);
+        nextDay.setDate(currentDate.getDate() + i);
         weekDates.push(nextDay.toDateString());
     }
 
