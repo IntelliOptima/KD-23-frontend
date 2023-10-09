@@ -8,11 +8,12 @@ type InputProps = {
     name: string;
     register?: UseFormRegister<FieldValues>;
     registerOptions?: RegisterOptions;
+    className?: string;
 };
 
-const Input = ({ errors, type, placeholder, htmlfor, register, name, registerOptions }: InputProps) => {
+const Input = ({ errors, type, placeholder, htmlfor, register, name, registerOptions, className }: InputProps) => {
     return (
-        <div>
+        <div className={className}>
             <label htmlFor={htmlfor}>
                 {register ?
                     <input
