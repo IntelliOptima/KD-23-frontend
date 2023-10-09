@@ -7,8 +7,10 @@ type WeekCalendarProps = {
 
 const WeekCalendar = ({ startTime, endTime }: WeekCalendarProps) => {
     const timeSlots = Array.from({ length: endTime - startTime }, (_, i) => startTime + i);
+
+
     const [days, setDays] = useState<Date[]>(() =>
-        Array.from({ length: 7 }, (_, i) => new Date(Date.now() + i * 24 * 60 * 60 * 1000))
+        Array.from({ length: 7 }, (_, i) => new Date(Date.now() - (new Date().getDay() - 1) + i * 24 * 60 * 60 * 1000))
     );
 
     const goPrevWeek = () => changeWeek(-1);

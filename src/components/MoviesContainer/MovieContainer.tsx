@@ -9,6 +9,7 @@ interface Props {
 
 const MoviesContainer: React.FC<Props> = ({ page }) => {
     const [movieCache, setMovieCache] = useState<Record<number, Movie[]>>({});
+    const [searchQuery, setSearchQuery] = useState<string>("");
 
     useEffect(() => {
         async function fetchMovies(targetPage: number) {
@@ -42,7 +43,7 @@ const MoviesContainer: React.FC<Props> = ({ page }) => {
     const MemoizedMovieCard = React.memo(MovieCard);
 
     return (
-        <div className="movies-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="movies-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {movieCache[page]?.map((movie, index) => (
                 <MemoizedMovieCard key={movie.title} movie={movie} />
             ))}

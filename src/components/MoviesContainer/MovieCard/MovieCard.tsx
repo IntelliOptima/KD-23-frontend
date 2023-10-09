@@ -22,7 +22,7 @@ const MovieCard: React.FC<{ movie: Movie }> = ({ movie }) => {
     const truncatedDescription = description.length > 75 ? description.slice(0, 75) + "..." : description;
 
     return (
-        <Box maxW="xs" maxWidth={300} borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md" transition="0.3s" _hover={{ transform: 'scale(1.01)' }}>
+        <Box maxW="xs" maxWidth={300} borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md" transition="0.3s" _hover={{ transform: 'scale(1.05)' }}>
             <Image src={poster} alt={title} width="100%" maxHeight="700px" objectFit="cover"/>
             
             <Box p="3">

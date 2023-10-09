@@ -2,25 +2,20 @@
 import WeekCalendar from "@/components/CustomCalendar/WeekCalendar"
 import { useState } from 'react';
 import MoviesContainer from "@/components/MoviesContainer/MovieContainer";
+import Input from "@/components/CustomInputs/Input";
+import MovieSection from "./MovieSection";
 
 const MainSection = () => {
-    const [page, setPage] = useState(0);
+    const [showMovies, setShowMovies] = useState<boolean>(false);
 
 
     return (
         <>
-            <div className=" flex justify-between">
-                <button disabled={page == 0} onClick={() => setPage(prev => prev - 1)}>Previous</button>
-                <button onClick={() => setPage(prev => prev + 1)}>Next</button>
-            </div>
-            <MoviesContainer page={page} />
-            <div className=" flex justify-between">
-                <button disabled={page == 0} onClick={() => setPage(prev => prev - 1)}>Previous</button>
-                <button onClick={() => setPage(prev => prev + 1)}>Next</button>
-            </div>
-
-
-            <WeekCalendar startTime={8} endTime={20} />
+        <button className="btn-primary" type="button" onClick={() => setShowMovies(cur => !cur)} >Choose movie</button>
+        <div className="flex">
+        <WeekCalendar startTime={8} endTime={20} />
+        {showMovies && <MovieSection/>}
+        </div>
         </>
     )
 }
