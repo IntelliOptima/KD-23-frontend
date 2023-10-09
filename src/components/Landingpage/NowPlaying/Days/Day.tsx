@@ -10,10 +10,6 @@ const Day: React.FC<DayProps>= ({ date }) => {
     const dayForShowing = new Date(date);
     
     
-    console.log(dayForShowing.toLocaleString('en-UK', { weekday: 'long' }))
-    
-    console.log(today.toISOString());
-    console.log(dayForShowing.toISOString())
 
     return (
         
