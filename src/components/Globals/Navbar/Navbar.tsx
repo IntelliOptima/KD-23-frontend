@@ -1,35 +1,48 @@
+"use client";
+import { useActivePage } from '@/contexts/ActivePageContext';
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
+
 const Navbar = () => {
+    const activePage = useActivePage();
+
+    const showNavbar = [
+        "/",
+        "/set-landingpage",
+    ].includes(activePage);
+
+    
     return (
-        <nav className="border-b border-white">
-            <div className="flex flex-row items-center justify-between py-4 lg:mx-20 md:mx-10 sm:mx-5">
-                <div>
-                    <Link
-                        href="/"
-                    >
-                        <Image
-                            src="/kinoxp-logo-text.png"
-                            height={80}
-                            width={200}
-                            alt="logo"
-                        />
-                    </Link>
-                </div>
-                <div className="flex flex-row items-center space-x-4">
+        showNavbar && (
+            <nav className="border-b border-white">
+                <div className="flex flex-row items-center justify-between py-4 lg:mx-20 md:mx-10 sm:mx-5">
                     <div>
-                        <button className="btn-primary">Sign Up</button>
+                        <Link
+                            href="/"
+                        >
+                            <Image
+                                src="/kinoxp-logo-text.png"
+                                height={80}
+                                width={200}
+                                alt="logo"
+                            />
+                        </Link>
                     </div>
-                    <div>
-                        <a href="/" className="text-white text-xl">Login</a>
+                    <div className="flex flex-row items-center space-x-4">
+                        <div>
+                            <button className="btn-primary">Sign Up</button>
+                        </div>
+                        <div>
+                            <a href="/" className="text-white text-xl">Login</a>
+                        </div>
                     </div>
+
                 </div>
+            </nav>
 
-            </div>
-        </nav>
-
+        )
     )
 }
 

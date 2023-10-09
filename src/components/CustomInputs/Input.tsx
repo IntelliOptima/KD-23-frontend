@@ -6,12 +6,13 @@ type InputProps = {
     type: string;
     placeholder: string;
     name: string;
+    autoComplete?: string;
     register?: UseFormRegister<FieldValues>;
     registerOptions?: RegisterOptions;
     className?: string;
 };
 
-const Input = ({ errors, type, placeholder, htmlfor, register, name, registerOptions, className }: InputProps) => {
+const Input = ({ errors, type, placeholder, htmlfor, register, name, registerOptions, className, autoComplete }: InputProps) => {
     return (
         <div className={className}>
             <label htmlFor={htmlfor}>
@@ -20,6 +21,7 @@ const Input = ({ errors, type, placeholder, htmlfor, register, name, registerOpt
                         className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         type={type}
                         placeholder={placeholder}
+                        autoComplete={autoComplete}
                         {...register(name, {
                             ...registerOptions
                         })
