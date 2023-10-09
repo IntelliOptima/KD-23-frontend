@@ -13,7 +13,7 @@ const Navbar = () => {
         "/set-landingpage",
     ].includes(activePage);
 
-    
+    console.log("activePage", activePage);
     return (
         showNavbar && (
             <nav className="border-b border-white">
@@ -31,11 +31,11 @@ const Navbar = () => {
                         </Link>
                     </div>
                     <div className="flex flex-row items-center space-x-4">
-                        <div>
+                        <a href='/register'>
                             <button className="btn-primary">Sign Up</button>
-                        </div>
+                        </a>
                         <div>
-                            <a href="/" className="text-white text-xl">Login</a>
+                            <a href="/login" className="text-white text-xl">Login</a>
                         </div>
                     </div>
 
