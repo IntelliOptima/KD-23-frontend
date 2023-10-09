@@ -1,4 +1,3 @@
-import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
@@ -17,15 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header>
-          {/* TODO --- Creater navbar for instance */}
-        </header>
         <main>
           {children}
         </main>
-        <footer>
-          {/* TODO --- Create footer section for instance */}
-        </footer>
         </body>
     </html>
   )
