@@ -7,10 +7,9 @@ import { useAdminSidebar } from "@/contexts/AdminSidebarContext";
 import { Show } from "@/components/CustomCalendar/WeekCalendarFunctions";
 
 const MainSection = () => {
-    const {sidebarOpen, setSidebarOpen} = useAdminSidebar();
+    const {setSidebarOpen} = useAdminSidebar();
     const [showMovies, setShowMovies] = useState<boolean>(false);
     const [movie, setMovie] = useState<Movie | null>(null);
-    const [displayDateTimes, setDisplayDateTime] = useState<Date[]>([]);
     const [showTheater, setShowTheater] = useState<string>("");
 
     const shows: Show[] = [

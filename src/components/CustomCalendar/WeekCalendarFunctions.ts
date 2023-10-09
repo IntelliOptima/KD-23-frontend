@@ -1,5 +1,4 @@
-    import { useState } from 'react';
-import { Movie } from '../MoviesContainer/MovieCard/MovieCard';
+import { useState } from 'react';
 
     type TimeSlot = {
         hour: number;
@@ -7,7 +6,7 @@ import { Movie } from '../MoviesContainer/MovieCard/MovieCard';
     }
 
     export type Show = {
-        playTime: Date;   // Change this from string to Date
+        playTime: Date;
         runTime: number;
     }
 
@@ -35,6 +34,7 @@ import { Movie } from '../MoviesContainer/MovieCard/MovieCard';
         }
         return week;
     };
+
 
     const WeekCalendarFunctions = (shows: Show[]) => {
         const [days, setDays] = useState<Date[]>(generateCurrentWeek());
@@ -106,33 +106,6 @@ import { Movie } from '../MoviesContainer/MovieCard/MovieCard';
         };
 
 
-        const canScheduleMovie = (movie: Movie | null): { canPlay: boolean, startingSlot?: number, endingSlot?: number } => {
-            if (!movie) return { canPlay: false };
-            
-            const movieRunTimeInSlots = Math.ceil(movie.runtime / 15); // Assuming the movie runtime is in minutes
-    
-            for (const day of days) {
-                let freeSlots = 0;
-                for (const [index, slot] of timeSlots.entries()) {
-                    const currentSlotTime = slot.hour * 60 + slot.quarter * 15;
-                    const showStartingNow = shows.find(show => isShowStartingAtSlot(show, day, currentSlotTime));
-                    const ongoingShow = shows.find(show => isSlotDuringShow(show, day, currentSlotTime));
-    
-                    if (!showStartingNow && !ongoingShow) {
-                        freeSlots++;
-                        if (freeSlots >= movieRunTimeInSlots) {
-                            return { canPlay: true, startingSlot: index - movieRunTimeInSlots + 1, endingSlot: index }; 
-                        }
-                    } else {
-                        freeSlots = 0; // Reset counter if a show is ongoing or starting
-                    }
-                }
-            }
-    
-            return { canPlay: false }; // No space found for the movie in the entire week
-        };
-
-
         const doesOverlap = (start1: number, end1: number, start2: number, end2: number) => {
             return start1 < end2 && start2 < end1;
         };
@@ -146,8 +119,6 @@ import { Movie } from '../MoviesContainer/MovieCard/MovieCard';
                 return doesOverlap(startTime, endTime, showStartTime, showEndTime);
             });
         };
-        
-        
 
         return {
             timeSlots,
@@ -159,7 +130,6 @@ import { Movie } from '../MoviesContainer/MovieCard/MovieCard';
             formatTimeSlot,
             isShowStartingAtSlot,
             isSlotDuringShow,
-            canScheduleMovie,
             isAnyShowDuringTimeRange,
         };
     };

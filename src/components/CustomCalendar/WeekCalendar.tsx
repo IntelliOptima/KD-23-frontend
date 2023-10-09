@@ -3,7 +3,7 @@ import { Movie } from '@/components/MoviesContainer/MovieCard/MovieCard';
 import WeekCalendarFunctions from './WeekCalendarFunctions';
 
 type Shows = {
-    playTime: Date;   // Change this from string to Date
+    playTime: Date;
     runTime: number;
 }
 
@@ -23,11 +23,8 @@ const WeekCalendar = ({ shows, movie }: WeekCalendarProps) => {
         formatTimeSlot,
         isShowStartingAtSlot,
         isSlotDuringShow,
-        canScheduleMovie,
         isAnyShowDuringTimeRange,
     } = WeekCalendarFunctions(shows);
-
-    const { canPlay, startingSlot, endingSlot } = canScheduleMovie(movie);
 
     return (
         <div className="flex flex-grow flex-col space-y-8 p-8 h-[65vh] overflow-auto mt-12 hide-scrollbar">
