@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
 import MovieCard from "./MovieCard/MovieCard";
 import type { Movie } from "./MovieCard/MovieCard";
-import React from "react";
+import { set } from "react-hook-form";
 
 interface Props {
     page: number;
+    setMovie: Dispatch<SetStateAction<Movie | null>>;
 }
 
-const MoviesContainer: React.FC<Props> = ({ page }) => {
+const MoviesContainer = ({ page, setMovie }: Props) => {
     const [movieCache, setMovieCache] = useState<Record<number, Movie[]>>({});
+    const [searchQuery, setSearchQuery] = useState<string>("");
 
     useEffect(() => {
         async function fetchMovies(targetPage: number) {
@@ -40,11 +42,22 @@ const MoviesContainer: React.FC<Props> = ({ page }) => {
     }, [page, movieCache]);
 
     const MemoizedMovieCard = React.memo(MovieCard);
+    const [isChosen, setIsChosen] = useState<boolean>(false);
+    const [choosenMovieIndex, setChoosenMovieIndex] = useState<number |null>(null);
+
 
     return (
-        <div className="movies-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="movies-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" >
             {movieCache[page]?.map((movie, index) => (
-                <MemoizedMovieCard key={movie.title} movie={movie} />
+                <div key={index} className={`hover:cursor-pointer ${isChosen && index === choosenMovieIndex ? ' border-green-700 border-4' : ''}`}
+
+                    onClick={() => {
+                        setIsChosen(true)
+                        setMovie(movie)
+                        setChoosenMovieIndex(index)
+                    }}>
+                    <MemoizedMovieCard movie={movie} />
+                </div>
             ))}
         </div>
     );

@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
 
+type Shows = {
+    playTime: Date;
+    runtime: 
+}
+
 type WeekCalendarProps = {
     startTime: number;
     endTime: number;
+   shows: Shows[];
 }
 
-const WeekCalendar = ({ startTime, endTime }: WeekCalendarProps) => {
-    const timeSlots = Array.from({ length: endTime - startTime }, (_, i) => startTime + i);
+const WeekCalendar = ({ startTime, endTime, shows }: WeekCalendarProps) => {
+    const timeSlots = Array.from({ length: (endTime - startTime) * 4 }, (_, i) => ({
+        hour: startTime + Math.floor(i / 4),
+        quarter: i % 4
+    }));
+
+
     const [days, setDays] = useState<Date[]>(() =>
-        Array.from({ length: 7 }, (_, i) => new Date(Date.now() + i * 24 * 60 * 60 * 1000))
+        Array.from({ length: 7 }, (_, i) => new Date(Date.now() - (new Date().getDay() - 1) + i * 24 * 60 * 60 * 1000))
     );
 
     const goPrevWeek = () => changeWeek(-1);
@@ -31,8 +42,15 @@ const WeekCalendar = ({ startTime, endTime }: WeekCalendarProps) => {
         return `${firstDay} - ${lastDay}`;
     }
 
+    const formatTimeSlot = (hour: number, quarter: number) => {
+        const formattedHour = String(hour).padStart(2, '0');
+        const minutes = String(quarter * 15).padStart(2, '0');
+        return `${formattedHour}:${minutes}`;
+    }
+
+
     return (
-        <div className="flex flex-col space-y-6 p-8">
+        <div className="flex flex-grow flex-col space-y-6 p-8 max-h-96 overflow-y-auto mt-12">
             <div className="flex justify-between items-center">
                 <a href="#" onClick={goPrevWeek} className="text-xl">&lt;</a>
                 <span className="text-2xl">{getWeekRange()}</span>
@@ -40,20 +58,27 @@ const WeekCalendar = ({ startTime, endTime }: WeekCalendarProps) => {
             </div>
 
             <table className="w-full border-collapse">
-                <thead>
+                <thead className='sticky top-0 bg-white z-10 shadow-md'>
                     <tr>
-                        <th className="border p-2 w-1/8">Tid</th>
+                        <th className="border p-2 w-1/8 z-1"></th>
                         {days && days.map((day, index) => (
                             <th key={index} className="border p-2 w-1/8">{getDayNameAndDate(day)}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {timeSlots.map(slot => (
-                        <tr key={slot}>
-                            <td className="border p-2">{String(slot).padStart(2, '0')}:00</td>
-                            {days && days.map((_, index) => (
-                                <td key={index} className="border p-2"></td>
+                    {timeSlots.map((slot, index) => (
+                        <tr key={index}>
+                            <td className="border p-2">{formatTimeSlot(slot.hour, slot.quarter)}</td>
+                            {days && days.map((day, dayIndex) => (
+                                shows.map((show, index) => {
+                                    if (show.playTime === new Date(day)) {
+                                        <td key={dayIndex} className={`col-span-${Math.ceil(show.runtime / 15)} border p-2 hover:cursor-pointer`}></td>
+                                    }
+                                })
+                                
+
+                                // <td key={dayIndex} className="border p-2 hover:cursor-pointer hover:bg-slate-100"></td>
                             ))}
                         </tr>
                     ))}

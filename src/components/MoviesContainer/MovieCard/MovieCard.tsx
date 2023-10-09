@@ -1,4 +1,5 @@
 import { Image, Box, Text, Flex, Spacer } from "@chakra-ui/react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 
 type Actor = {
     id: number;
@@ -14,7 +15,12 @@ export type Movie = {
     description: string;
 };
 
-const MovieCard: React.FC<{ movie: Movie }> = ({ movie }) => {
+
+interface MovieCardProps {
+    movie: Movie;
+}
+
+const MovieCard = ({ movie }: MovieCardProps) => {
     const { title, poster, actors, runtime, voteRating, description } = movie;
 
     const hours = Math.floor(runtime / 60);
@@ -22,12 +28,15 @@ const MovieCard: React.FC<{ movie: Movie }> = ({ movie }) => {
     const truncatedDescription = description.length > 75 ? description.slice(0, 75) + "..." : description;
 
     return (
-        <Box maxW="xs" maxWidth={300} borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md" transition="0.3s" _hover={{ transform: 'scale(1.01)' }}>
-            <Image src={poster} alt={title} width="100%" maxHeight="700px" objectFit="cover"/>
-            
+        <Box maxW="xs" maxWidth={300} borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md" transition="0.3s" 
+        style={{margin: '3px'}}        
+        _hover={{ transform: 'scale(1.02)'}}
+        >
+            <Image src={poster} alt={title} width="100%" maxHeight="700px" objectFit="cover" />
+
             <Box p="3">
                 <Box className="flex" alignItems="baseline">
-                <Box
+                    <Box
                         color="gray.500"
                         fontWeight="bold"
                         fontSize="xs"
@@ -57,4 +66,4 @@ const MovieCard: React.FC<{ movie: Movie }> = ({ movie }) => {
 
 export default MovieCard;
 
-                       
+

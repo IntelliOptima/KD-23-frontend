@@ -1,26 +1,43 @@
 "use client";
 import WeekCalendar from "@/components/CustomCalendar/WeekCalendar"
-import { useState } from 'react';
-import MoviesContainer from "@/components/MoviesContainer/MovieContainer";
+import { useState, ChangeEvent } from 'react';
+import { Movie } from "@/components/MoviesContainer/MovieCard/MovieCard";
+import MovieSection from "./MovieSection";
 
 const MainSection = () => {
-    const [page, setPage] = useState(0);
+    const [showMovies, setShowMovies] = useState<boolean>(false);
+    const [movie, setMovie] = useState<Movie | null>(null);
+    const [displayDateTimes, setDisplayDateTime] = useState<Date[]>([]);
+    const [showTheater, setShowTheater] = useState<string>("");
 
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const target = event.target as HTMLInputElement;
+        setShowTheater(target.value);
+    }
+    
 
     return (
         <>
-            <div className=" flex justify-between">
-                <button disabled={page == 0} onClick={() => setPage(prev => prev - 1)}>Previous</button>
-                <button onClick={() => setPage(prev => prev + 1)}>Next</button>
+            <div className="flex flex-row justify-center">
+                <div className="flex flex-col items-center flex-grow">
+                    <div>
+                        <label htmlFor="stringSelector">Select a theater</label>
+                        <select className="border-2 border-gray-500 rounded-md p-1 ml-5 hover:cursor-pointer"
+                            onChange={handleChange}
+                            value={showTheater}
+                        >
+                            <option value="Theater 1">Theater 1</option>
+                            <option value="Theater 2">Theater 2</option>
+                        </select>
+                    </div>
+                    <WeekCalendar startTime={12} endTime={23} />
+                    <button className="btn-primary" type="button" onClick={() => setShowMovies(cur => !cur)} >Choose movie</button>
+                </div>
+                <div className={` flex-grow p-4 transition-transform duration-300 ease-in-out transform ${showMovies ? '-translate-x-0' : 'translate-x-full'}`}>
+                    <MovieSection setMovie={setMovie} />
+                </div>
             </div>
-            <MoviesContainer page={page} />
-            <div className=" flex justify-between">
-                <button disabled={page == 0} onClick={() => setPage(prev => prev - 1)}>Previous</button>
-                <button onClick={() => setPage(prev => prev + 1)}>Next</button>
-            </div>
-
-
-            <WeekCalendar startTime={8} endTime={20} />
         </>
     )
 }
