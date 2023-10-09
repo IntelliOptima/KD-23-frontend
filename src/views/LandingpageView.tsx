@@ -1,8 +1,7 @@
 import MainSection from '@/layouts/LandingpageLayout/MainSection'
-import { NextPage } from 'next'
 import React from 'react'
 
-const Landingpage: NextPage = () => {
+const LandingpageView = () => {
   return (
     <div>
         <MainSection />
@@ -10,4 +9,4 @@ const Landingpage: NextPage = () => {
   )
 }
 
-export default Landingpage
+export default LandingpageView;
