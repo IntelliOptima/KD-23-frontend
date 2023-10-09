@@ -10,6 +10,11 @@ const MainSection = () => {
     const [displayDateTimes, setDisplayDateTime] = useState<Date[]>([]);
     const [showTheater, setShowTheater] = useState<string>("");
 
+    const curDate = new Date(2023, 9, 9, 12, 45); 
+    const anotherDate = new Date(2023, 9, 14, 12, 30);    
+    const shows = [{playTime: curDate, runTime: 45}, 
+        {playTime: anotherDate, runTime: 60}, {playTime: new Date(2023, 9, 12, 12.45), runTime: 60}];
+
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const target = event.target as HTMLInputElement;
@@ -31,7 +36,7 @@ const MainSection = () => {
                             <option value="Theater 2">Theater 2</option>
                         </select>
                     </div>
-                    <WeekCalendar startTime={12} endTime={23} />
+                    <WeekCalendar shows={shows} startTime={12} endTime={23} />
                     <button className="btn-primary" type="button" onClick={() => setShowMovies(cur => !cur)} >Choose movie</button>
                 </div>
                 <div className={` flex-grow p-4 transition-transform duration-300 ease-in-out transform ${showMovies ? '-translate-x-0' : 'translate-x-full'}`}>

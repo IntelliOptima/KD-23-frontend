@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
+import { Movie } from '@/components/MoviesContainer/MovieCard/MovieCard';
 
 type Shows = {
     playTime: Date;
-    runtime: 
+    runTime: number;
 }
 
 type WeekCalendarProps = {
     startTime: number;
     endTime: number;
-   shows: Shows[];
+    shows: Shows[];
 }
 
 const WeekCalendar = ({ startTime, endTime, shows }: WeekCalendarProps) => {
@@ -70,19 +71,43 @@ const WeekCalendar = ({ startTime, endTime, shows }: WeekCalendarProps) => {
                     {timeSlots.map((slot, index) => (
                         <tr key={index}>
                             <td className="border p-2">{formatTimeSlot(slot.hour, slot.quarter)}</td>
-                            {days && days.map((day, dayIndex) => (
-                                shows.map((show, index) => {
-                                    if (show.playTime === new Date(day)) {
-                                        <td key={dayIndex} className={`col-span-${Math.ceil(show.runtime / 15)} border p-2 hover:cursor-pointer`}></td>
-                                    }
-                                })
-                                
+                            {days.map((day, dayIndex) => {
+                                const currentSlotTime = slot.hour * 60 + slot.quarter * 15; // in minutes
 
-                                // <td key={dayIndex} className="border p-2 hover:cursor-pointer hover:bg-slate-100"></td>
-                            ))}
+                                const showStartingNow = shows.find(show => {
+                                    const showDate = new Date(show.playTime);
+                                    return day.getDay() === showDate.getDay() &&
+                                        showDate.getHours() * 60 + showDate.getMinutes() === currentSlotTime;
+                                });
+
+                                if (showStartingNow) {
+                                    const runtimeInQuarters = Math.ceil(showStartingNow.runTime / 15);
+                                    return (
+                                        <td key={dayIndex} className="border p-2 hover:cursor-pointer bg-red-400" rowSpan={runtimeInQuarters}></td>
+                                    );
+                                } else {
+                                    // Check if this slot is within a show's duration
+                                    const ongoingShow = shows.find(show => {
+                                        const showDate = new Date(show.playTime);
+                                        const showStartTime = showDate.getHours() * 60 + showDate.getMinutes();
+                                        const showEndTime = showStartTime + show.runTime;
+                                        return day.getDay() === showDate.getDay() &&
+                                            currentSlotTime > showStartTime &&
+                                            currentSlotTime < showEndTime;
+                                    });
+
+                                    // If we're in the duration of a show, skip rendering this slot
+                                    if (ongoingShow) {
+                                        return null;
+                                    }
+
+                                    return <td key={dayIndex} className="border p-2 hover:cursor-pointer hover:bg-slate-100"></td>;
+                                }
+                            })}
                         </tr>
                     ))}
                 </tbody>
+
             </table>
         </div>
     );
