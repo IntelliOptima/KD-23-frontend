@@ -112,7 +112,8 @@ const MainSection = () => {
                     <div className="flex flex-col items-center justify-center">
                     <WeekCalendar movie={chosenMovie} chosenShowsPlayDateTime={chosenShowsPlayDateTime} programeList={programeList}
                     setChosenShowsPlayDateTime={setChosenShowsPlayDateTime} theater={chosenTheater!} showPrice={showPrice} />
-                    <GeneralButton type="button" onClick={() => handleAddToProgram(chosenShowsPlayDateTime, setProgramList, setChosenShowsPlayDateTime)} width="auto" disabled={false} text="Add to program" />
+                    <GeneralButton type="button" width="auto" disabled={false} text="Add to program" color="green"
+                    onClick={() => handleAddToProgram(chosenShowsPlayDateTime, setProgramList, setChosenShowsPlayDateTime)} />
                     </div>
                 </div>
 

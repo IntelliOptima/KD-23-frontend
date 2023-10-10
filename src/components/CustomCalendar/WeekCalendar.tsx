@@ -14,16 +14,11 @@ type WeekCalendarProps = {
 const WeekCalendar = ({ movie, chosenShowsPlayDateTime, setChosenShowsPlayDateTime, theater, showPrice, programeList }: WeekCalendarProps) => {
     const [fetchedShows, setFetchedShows] = React.useState<Show[]>([]);
     const {
-        goNextWeek,
-        goPrevWeek,
-        days,
-        timeSlots,
-        getWeekRange,
-        getDayNameAndDate,
-        formatTimeSlot,
-        isShowStartingAtSlot,
-        isSlotDuringShow,
-        isAnyShowDuringTimeRange,
+        goNextWeek,goPrevWeek,
+        days, timeSlots,
+        getWeekRange, getDayNameAndDate,
+        formatTimeSlot, isShowStartingAtSlot,
+        isSlotDuringShow, isAnyShowDuringTimeRange,
     } = WeekCalendarFunctions(fetchedShows);
 
     const handleClickOnChosenDateTime = (iteratedDateTime: Date) => {
@@ -110,7 +105,9 @@ const WeekCalendar = ({ movie, chosenShowsPlayDateTime, setChosenShowsPlayDateTi
                                 if (showStartingNow) {
                                     const runtimeInQuarters = Math.ceil(showStartingNow.movie.runtime / 15);
                                     return (
-                                        <td key={dayIndex} className="border p-2 hover:cursor-pointer bg-red-400 hover:bg-red-300" rowSpan={runtimeInQuarters}></td>
+                                        <td key={dayIndex} className="border p-2 hover:cursor-pointer bg-red-400 hover:bg-red-300" rowSpan={runtimeInQuarters}>
+                                            {showStartingNow.movie.title}
+                                        </td>
                                     );
                                 }
 
