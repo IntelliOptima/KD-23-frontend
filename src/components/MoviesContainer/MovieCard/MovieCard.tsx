@@ -7,12 +7,12 @@ type Actor = {
 };
 
 export type Movie = {
-    title: string;
-    poster: string;
-    actors: Actor[];
+    title?: string;
+    poster?: string;
+    actors?: Actor[];
     runtime: number; // in minutes
-    voteRating: number;
-    description: string;
+    voteRating?: number;
+    description?: string;
 };
 
 

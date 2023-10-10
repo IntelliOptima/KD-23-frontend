@@ -4,79 +4,89 @@ import { useState, ChangeEvent, useEffect } from 'react';
 import type { Movie } from "@/components/MoviesContainer/MovieCard/MovieCard";
 import MovieSection from "./MovieSection";
 import { useAdminSidebar } from "@/contexts/AdminSidebarContext";
-import type { Show } from "@/components/CustomCalendar/WeekCalendarFunctions";
+import type { Show, Theater } from "@/components/CustomCalendar/WeekCalendarFunctions";
 
 const MainSection = () => {
     const {setSidebarOpen} = useAdminSidebar();
-    const [showMovies, setShowMovies] = useState<boolean>(false);
-    const [movie, setMovie] = useState<Movie | null>(null);
-    const [chosenTheater, setChosenTheater] = useState<string>("Theater 1");
-    const [chosenShowPlayDateTime, setChosenShowPlayDateTime] = useState<Show[]>([]);
+    const [slideInMoviesContainer, setSlideInMoviesContainer] = useState<boolean>(false);
+    const [fetchedTheaters, setFetchedTheaters] = useState<Theater[]>([]);
+        
+    //those variables are for the program admin is creating
+    const [chosenTheater, setChosenTheater] = useState<Theater>();
+    const [chosenMovie, setChosenMovie] = useState<Movie | null>(null);
+    const [chosenShowsPlayDateTime, setChosenShowsPlayDateTime] = useState<Show[]>([]);
+    const [showPrice, setShowPrice] = useState(0);
 
-    const shows: Show[] = [
-        { playTime: new Date(2023, 9, 9, 12, 45), runTime: 45 },
-        { playTime: new Date(2023, 9, 10, 13, 30), runTime: 60 },
-        { playTime: new Date(2023, 9, 11, 14, 15), runTime: 60 },
-        { playTime: new Date(2023, 9, 12, 10, 0), runTime: 45 },
-        { playTime: new Date(2023, 9, 12, 11, 0), runTime: 90 },
-        { playTime: new Date(2023, 9, 12, 15, 30), runTime: 60 },
-        { playTime: new Date(2023, 9, 13, 10, 15), runTime: 30 },
-        { playTime: new Date(2023, 9, 13, 11, 15), runTime: 60 },
-        { playTime: new Date(2023, 9, 13, 16, 45), runTime: 90 },
-        { playTime: new Date(2023, 9, 14, 10, 0), runTime: 30 },
-        { playTime: new Date(2023, 9, 14, 12, 0), runTime: 45 },
-        { playTime: new Date(2023, 9, 14, 14, 15), runTime: 60 },
-        { playTime: new Date(2023, 9, 15, 13, 0), runTime: 45 },
-        { playTime: new Date(2023, 9, 15, 15, 15), runTime: 60 },
-        { playTime: new Date(2023, 9, 16, 11, 30), runTime: 90 },
-        { playTime: new Date(2023, 9, 16, 14, 0), runTime: 45 },
-        { playTime: new Date(2023, 9, 16, 16, 0), runTime: 30 },
-        { playTime: new Date(2023, 9, 17, 10, 45), runTime: 90 },
-        { playTime: new Date(2023, 9, 17, 14, 0), runTime: 45 },
-        { playTime: new Date(2023, 9, 17, 15, 30), runTime: 60 }
-    ];
+    useEffect(() => {
+        async function fetchTheater(cinemaID: number) {
+
+            try {
+                const response = await fetch(`https://kinoxpbackend.azurewebsites.net/theaters/id=/${cinemaID}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setFetchedTheaters(data);
+            } catch (error: any) {
+                console.error("There was a problem with the fetch operation:", error.message);
+            }
+        }
+        fetchTheater(1);
+    }, []);
     
 
+    console.log(chosenTheater?.id)
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const target = event.target as HTMLInputElement;
-        setChosenTheater(target.value);
+        setChosenTheater(fetchedTheaters.find(theater => theater.id === parseInt(target.value))!);
     }
 
     useEffect(()=> {
-        setChosenShowPlayDateTime([]);
-    }, [movie])
+        setChosenShowsPlayDateTime([]);
+    }, [chosenMovie])
 
     useEffect(() => {
-        setSidebarOpen(!showMovies);
-    }, [setSidebarOpen, showMovies])
+        setSidebarOpen(!slideInMoviesContainer);
+    }, [setSidebarOpen, slideInMoviesContainer])
 
 
     return (
         <div className="overflow-x-hidden relative h-screen hide-scrollbar">
             <div className="flex flex-row">
-                <div className={`relative z-10 transition-all duration-300 ease-in-out ${showMovies ? 'w-1/2' : 'w-full'} flex flex-col justify-center items-center`}>
+                <div className={`relative z-10 transition-all duration-300 ease-in-out ${slideInMoviesContainer ? 'w-1/2' : 'w-full'} flex flex-col justify-center items-center`}>
                     <div className="mb-4 flex align-baseline">
                         <label htmlFor="theaterSelector" className="">Select a theater</label>
                         <select className="border-2 border-gray-500 rounded-md ml-5  p-1 hover:cursor-pointer"
                             onChange={handleChange}
-                            value={chosenTheater}
+                            value={chosenTheater?.id || ""}
                         >
-                            <option value="Theater 1">Theater 1</option>
-                            <option value="Theater 2">Theater 2</option>
+                            <option value="" disabled hidden>Select a theater</option>
+                            {fetchedTheaters.map((theater) => (
+                                <option key={theater.id} value={theater.id}>{theater.name}</option>
+                            ))}                      
+                        
                         </select>
                     </div>
                     <div className="flex flex-col items-center justify-center">
-                    <WeekCalendar shows={shows} movie={movie} chosenShowPlayDateTime={chosenShowPlayDateTime} setChosenShowPlayDateTime={setChosenShowPlayDateTime} />
-                    <button className="btn-primary mt-4" type="button" onClick={() => setShowMovies(cur => !cur)}>
+                    <WeekCalendar movie={chosenMovie} chosenShowsPlayDateTime={chosenShowsPlayDateTime} 
+                    setChosenShowsPlayDateTime={setChosenShowsPlayDateTime} theater={chosenTheater!} showPrice={showPrice} />
+                    <button className="btn-primary mt-4" type="button" onClick={() => setSlideInMoviesContainer(cur => !cur)}>
                         Choose movie
                     </button>
                     </div>
                 </div>
 
                 {/* MovieSection container */}
-                <div className={`absolute top-0 right-0 p-4 w-1/2 h-5/6 transition-transform duration-300 ease-in-out ${showMovies ? 'translate-x-0' : 'translate-x-full'} overflow-y-auto mt-12 hide-scrollbar`}>
-                    <MovieSection setMovie={setMovie} />
+                <div className={`absolute top-0 right-0 p-4 w-1/2 h-5/6 transition-transform duration-300 ease-in-out ${slideInMoviesContainer ? 'translate-x-0' : 'translate-x-full'} overflow-y-auto mt-12 hide-scrollbar`}>
+                    <MovieSection setMovie={setChosenMovie} />
                 </div>
 
             </div>
