@@ -6,12 +6,12 @@ const RegisterAuthFormWrapper = () => {
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <FormSection />
       <p className="mt-10 text-center text-white font-thin text-sm">
-        Havent registered yet? {" "}
+        Already have an account? {" "}
         <Link
-          href={`/register`}
+          href={`/login`}
           className="font-semibold leading-6 text-blue-600 hover:text-blue-500"
         >
-          Registre here -&gt;
+          Login here -&gt;
         </Link>
       </p>
     </div>

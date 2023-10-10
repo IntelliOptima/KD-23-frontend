@@ -3,7 +3,7 @@ import Footer from '@/components/Globals/Footer/Footer'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-
+import ActivePageProvider from '@/contexts/ActivePageContext'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -18,13 +18,15 @@ export default function UserLayout({
 }) {
   return (
     <>
-      <header>
-        <Navbar />
-      </header>
-      <main>
-        {children}
-      </main>
-      <Footer />
+      <ActivePageProvider>
+        <header>
+          <Navbar />
+        </header>
+        <main>
+          {children}
+        </main>
+        <Footer />
+      </ActivePageProvider>
     </>
   )
 }
