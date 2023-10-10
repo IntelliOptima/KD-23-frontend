@@ -4,14 +4,18 @@ import { FC } from 'react';
 
 interface MovieProp {
     movieTitle: string;
-    duration: string;
+    duration: number;
     movieImage: string;
-    showTimes: Array<string>;
+    showTimes: string;
 }
 
+/*
+showTimes: Array<string>;
+*/
+
 const Movie: FC<MovieProp> = (props: MovieProp) => {
-    const hour = Math.floor((parseInt(props.duration) / 60))
-    const minutes = (parseInt(props.duration) % 60)
+    const hour = Math.floor(props.duration / 60)
+    const minutes = (props.duration % 60)
 
     return (
         <div className='flex flex-col justify-between container h-[700px] w-[320px] bg-main-landing-color mb-4'>
@@ -30,9 +34,9 @@ const Movie: FC<MovieProp> = (props: MovieProp) => {
                 Duration: {hour} {hour > 1 ? 'hours' : 'hour'} and {minutes} {minutes !== 1 ? 'minutes' : 'minute'}
             </div>
             <div className='relative mt-4 ml-4 font-black text-white mb-2'>
-                {props.showTimes.map((element, index) => (
-                    <span key={index}> {element} | </span>
-                ))}
+               
+                    <span > {props.showTimes.substring(11,16)} | </span>
+            
             </div>
         </div>
     );
@@ -40,15 +44,12 @@ const Movie: FC<MovieProp> = (props: MovieProp) => {
 
 export default Movie;
 
+/*
 
+<div className='relative mt-4 ml-4 font-black text-white mb-2'>
+                {props.showTimes.map((element, index) => (
+                    <span key={index}> {element} | </span>
+                ))}
+            </div>
 
-/* 
-<div><Image 
-        src={props.movieImage}
-        alt='Title'
-        //fill={false}
-        width={320}
-        height={480}
-        />
-        </div>
 */
