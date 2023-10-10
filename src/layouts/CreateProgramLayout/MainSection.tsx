@@ -1,16 +1,17 @@
 "use client";
 import WeekCalendar from "@/components/CustomCalendar/WeekCalendar"
 import { useState, ChangeEvent, useEffect } from 'react';
-import { Movie } from "@/components/MoviesContainer/MovieCard/MovieCard";
+import type { Movie } from "@/components/MoviesContainer/MovieCard/MovieCard";
 import MovieSection from "./MovieSection";
 import { useAdminSidebar } from "@/contexts/AdminSidebarContext";
-import { Show } from "@/components/CustomCalendar/WeekCalendarFunctions";
+import type { Show } from "@/components/CustomCalendar/WeekCalendarFunctions";
 
 const MainSection = () => {
     const {setSidebarOpen} = useAdminSidebar();
     const [showMovies, setShowMovies] = useState<boolean>(false);
     const [movie, setMovie] = useState<Movie | null>(null);
-    const [showTheater, setShowTheater] = useState<string>("");
+    const [chosenTheater, setChosenTheater] = useState<string>("Theater 1");
+    const [chosenShowPlayDateTime, setChosenShowPlayDateTime] = useState<Show[]>([]);
 
     const shows: Show[] = [
         { playTime: new Date(2023, 9, 9, 12, 45), runTime: 45 },
@@ -39,8 +40,12 @@ const MainSection = () => {
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const target = event.target as HTMLInputElement;
-        setShowTheater(target.value);
+        setChosenTheater(target.value);
     }
+
+    useEffect(()=> {
+        setChosenShowPlayDateTime([]);
+    }, [movie])
 
     useEffect(() => {
         setSidebarOpen(!showMovies);
@@ -55,14 +60,14 @@ const MainSection = () => {
                         <label htmlFor="theaterSelector" className="">Select a theater</label>
                         <select className="border-2 border-gray-500 rounded-md ml-5  p-1 hover:cursor-pointer"
                             onChange={handleChange}
-                            value={showTheater}
+                            value={chosenTheater}
                         >
                             <option value="Theater 1">Theater 1</option>
                             <option value="Theater 2">Theater 2</option>
                         </select>
                     </div>
                     <div className="flex flex-col items-center justify-center">
-                    <WeekCalendar shows={shows} movie={movie} />
+                    <WeekCalendar shows={shows} movie={movie} chosenShowPlayDateTime={chosenShowPlayDateTime} setChosenShowPlayDateTime={setChosenShowPlayDateTime} />
                     <button className="btn-primary mt-4" type="button" onClick={() => setShowMovies(cur => !cur)}>
                         Choose movie
                     </button>
