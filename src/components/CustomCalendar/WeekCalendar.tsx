@@ -23,12 +23,16 @@ const WeekCalendar = ({ shows, movie, chosenShowPlayDateTime, setChosenShowPlayD
         getWeekRange,
         getDayNameAndDate,
         formatTimeSlot,
-        isShowStartingAtSlot,
-        isChosenShowStartingAtSlot,
+        isShowStartingAtSlot,        
         isSlotDuringShow,
-        isSlotDuringChosenShow,
         isAnyShowDuringTimeRange,
     } = WeekCalendarFunctions(shows);
+
+    const handleClickOnChoosenDateTime = (iteratedDateTime: Date) => {
+        setChosenShowPlayDateTime((cur) =>
+        cur.filter(show =>                                                     
+            show.playTime.getTime() !== iteratedDateTime.getTime()))
+    }
 
     return (
         <div className="flex flex-grow flex-col space-y-8 p-8 h-[65vh] overflow-auto mt-12 hide-scrollbar">
@@ -66,7 +70,8 @@ const WeekCalendar = ({ shows, movie, chosenShowPlayDateTime, setChosenShowPlayD
                                 } else if (chosenShowStarting && movie != null) {
                                     const runtimeInQuarters = Math.ceil(movie.runtime / 15);
                                     return (
-                                        <td key={dayIndex} className="border p-2 hover:cursor-pointer bg-blue-300 hover:bg-blue-400" rowSpan={runtimeInQuarters}></td>
+                                        <td key={dayIndex} onClick={() => handleClickOnChoosenDateTime(new Date(day.getFullYear(), day.getMonth(), day.getDate(), slot.hour, slot.quarter * 15))} 
+                                        className="border p-2 hover:cursor-pointer bg-blue-300 hover:bg-blue-400" rowSpan={runtimeInQuarters}></td>
                                     );
                                 } else {
                                     const ongoingShow = shows.find(show => isSlotDuringShow(show, day, currentSlotTime));

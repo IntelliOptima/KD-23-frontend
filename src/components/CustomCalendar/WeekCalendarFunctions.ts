@@ -91,15 +91,6 @@ import { useState } from 'react';
                 showDate.getHours() * 60 + showDate.getMinutes() === slotTime
             );
         };
-
-        const isChosenShowStartingAtSlot = (chosenShow: Date, day: Date, slotTime: number): boolean => {            
-            return (
-                day.getDate() === chosenShow.getDate() && 
-                day.getMonth() === chosenShow.getMonth() &&
-                day.getFullYear() === chosenShow.getFullYear() &&
-                chosenShow.getHours() * 60 + chosenShow.getMinutes() === slotTime
-            );
-        };
         
 
         const isSlotDuringShow = (show: Show, day: Date, slotTime: number): boolean => {
@@ -113,18 +104,6 @@ import { useState } from 'react';
                 slotTime > showStartTime && slotTime < showEndTime
             );
         };
-
-        const isSlotDuringChosenShow = (chosenShow: Date, day: Date, slotTime: number, movieRuntime: number): boolean => {            
-            const showStartTime = chosenShow.getHours() * 60 + chosenShow.getMinutes();
-            const showEndTime = showStartTime + movieRuntime;
-            return (
-                day.getDate() === chosenShow.getDate() && 
-                day.getMonth() === chosenShow.getMonth() &&
-                day.getFullYear() === chosenShow.getFullYear() &&
-                slotTime > showStartTime && slotTime < showEndTime
-            );
-        };
-
 
         const doesOverlap = (start1: number, end1: number, start2: number, end2: number) => {
             return start1 < end2 && start2 < end1;
@@ -151,9 +130,7 @@ import { useState } from 'react';
             getWeekRange,
             formatTimeSlot,
             isShowStartingAtSlot,
-            isChosenShowStartingAtSlot,
-            isSlotDuringShow,
-            isSlotDuringChosenShow,
+            isSlotDuringShow,            
             isAnyShowDuringTimeRange,
         };
     };
