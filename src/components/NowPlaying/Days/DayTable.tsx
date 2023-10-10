@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import DayRow from "./DayRow";
 import MoviesPlaying from "../Movies/MoviesPlaying";
 
+
+
 const todaysDate = new Date();
 
 
@@ -14,12 +16,11 @@ const DayTable = () => {
     setSelectedDateIndex(index);
   };
 
-
+  
   const fetchMovieData = async (selectedDate: string | number | Date) => {
 
     const dateObj = new Date(selectedDate);
 
-    
     const yyyyMmDdDate = dateObj.toISOString().split('T')[0];
 
     try {
@@ -37,8 +38,6 @@ const DayTable = () => {
     
     const selectedDate = new Date();
     selectedDate.setDate(todaysDate.getDate() + selectedDateIndex);
-
-    
     fetchMovieData(selectedDate).then((data) => {
       setMovieData(data);
     });

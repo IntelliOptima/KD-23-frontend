@@ -6,7 +6,7 @@ interface MovieProp {
     movieTitle: string;
     duration: number;
     movieImage: string;
-    showTimes: string;
+    showTimes: Date;
 }
 
 /*
@@ -14,10 +14,14 @@ showTimes: Array<string>;
 */
 
 const Movie: FC<MovieProp> = (props: MovieProp) => {
+    const dateString = props.showTimes;
+    const showTimeDate = new Date(dateString);
+
     const hour = Math.floor(props.duration / 60)
     const minutes = (props.duration % 60)
 
     return (
+        
         <div className='flex flex-col justify-between container h-[700px] w-[320px] bg-main-landing-color mb-4'>
             <div>
                 <Image
@@ -35,7 +39,7 @@ const Movie: FC<MovieProp> = (props: MovieProp) => {
             </div>
             <div className='relative mt-4 ml-4 font-black text-white mb-2'>
                
-                    <span > {props.showTimes.substring(11,16)} | </span>
+                    <span > {showTimeDate.getHours()} : {showTimeDate.getMinutes()==0?'00':showTimeDate.getMinutes()} | </span>
             
             </div>
         </div>
