@@ -2,13 +2,14 @@
   import React, {useState} from 'react'
   import AdminNavbar from './AdminNavbar/AdminNavbar'
   import AdminSidebar from './AdminSidebar/AdminSidebar'
+import { useAdminSidebar } from '@/contexts/AdminSidebarContext';
 
   type AdminDashboardProps = {
     children?: React.ReactNode;
   };
 
   const AdminPanel = ({ children }: AdminDashboardProps) => {
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const {sidebarOpen, setSidebarOpen} = useAdminSidebar();
 
   const openSidebar = () => {
     console.log("Sidebar toggle clicked");

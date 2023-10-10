@@ -1,6 +1,7 @@
 import './admin-dashboard.css';
 import type { Metadata } from 'next'
 import AdminPanel from '@/components/AdminDashboard/AdminPanel'
+import AdminSidebarProvider from '@/contexts/AdminSidebarContext';
 
 
 export const metadata: Metadata = {
@@ -14,8 +15,10 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   return (
-    <AdminPanel>
-      {children}
-    </AdminPanel>
+    <AdminSidebarProvider>
+      <AdminPanel>
+        {children}
+      </AdminPanel>
+    </AdminSidebarProvider>
   )
 }
