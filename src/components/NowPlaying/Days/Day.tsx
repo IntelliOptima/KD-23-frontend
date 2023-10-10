@@ -1,32 +1,38 @@
-import React from 'react'
+"use client"
+import React from 'react';
 
 interface DayProps {
-    
-    date: Date;
-  }
+  date: Date;
+  onClick?: () => void;
+  isSelected?: boolean;
+}
 
-const Day: React.FC<DayProps>= ({ date }) => {
-    const today = new Date();
-    const dayForShowing = new Date(date);
-    
-    
+const Day: React.FC<DayProps> = ({ date, onClick, isSelected }) => {
+  const today = new Date();
+  const dayForShowing = new Date(date);
 
-    return (
-        
-        
-        
-        <div className='flex flex-col items-center justify-center container h-14 w-60 p-4 bg-action-color'
-        >
-            <button className='text-white font-inter font-black absolute text-center bg-black w-56 h-12'>
-                <p>
-                 {(dayForShowing.getDate()!==today.getDate()? dayForShowing.toLocaleDateString('en-UK', {weekday: 'long' }) + ' ': "Today ")}
-                       the 
-                    {' ' + dayForShowing.getDate() + ' '} / {' ' + dayForShowing.getMonth()}
-                    {}
-                </p>
-            </button>
-        </div>
-    );
+  return (
+    <div
+      className={`flex flex-col items-center justify-center container h-14 w-60 p-4 ${
+        isSelected ? 'bg-action-color' : 'bg-action-color'
+      }`}
+    >
+      <button
+        className={`text-white font-inter font-black absolute text-center w-56 h-12 ${
+          isSelected ? 'bg-action-color' : 'bg-black'
+        }`}
+        onClick={onClick}
+      >
+        <p>
+          {dayForShowing.getDate() !== today.getDate()
+            ? dayForShowing.toLocaleDateString('en-UK', { weekday: 'long' }) + ' '
+            : 'Today '}
+          the {' ' + dayForShowing.getDate() + ' '} / {' ' + dayForShowing.getMonth()}
+          {}
+        </p>
+      </button>
+    </div>
+  );
 };
 
 export default Day;
