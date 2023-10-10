@@ -36,7 +36,7 @@ const WeekCalendar = ({ movie, chosenShowsPlayDateTime, setChosenShowsPlayDateTi
         async function fetchShows() {
             // Production: 
             try {
-                const response = await fetch(`http://localhost:8080/movie-show/theater=/${theater.id}/startDate=/${days[0].getDate()}/endDate=/${days[days.length - 1].getDate()}/cinema=/${1}`, {
+                const response = await fetch(`http://localhost:8080/movie-show/theater=/${theater.id}/startDate=/${days[0].toISOString()}/endDate=/${days[days.length - 1].toISOString()}/cinema=/${1}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -48,8 +48,8 @@ const WeekCalendar = ({ movie, chosenShowsPlayDateTime, setChosenShowsPlayDateTi
                 }
 
                 const data = await response.json();
+                console.log("REQUESTED FETCHED SHOWDATA IS: ", data)
                 setFetchedShows(data)
-                console.log("Fetchedshows array length = ", fetchedShows.length);
             } catch (error: any) {
                 console.error("There was a problem with the fetch operation:", error.message);
             }
