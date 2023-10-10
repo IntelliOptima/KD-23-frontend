@@ -10,7 +10,7 @@ const MainSection = () => {
     const {setSidebarOpen} = useAdminSidebar();
     const [slideInMoviesContainer, setSlideInMoviesContainer] = useState<boolean>(false);
     const [fetchedTheaters, setFetchedTheaters] = useState<Theater[]>([]);
-        
+
     //those variables are for the program admin is creating
     const [chosenTheater, setChosenTheater] = useState<Theater>();
     const [chosenMovie, setChosenMovie] = useState<Movie | null>(null);
@@ -19,9 +19,10 @@ const MainSection = () => {
 
     useEffect(() => {
         async function fetchTheater(cinemaID: number) {
+            // Production link: https://kinoxpbackend.azurewebsites.net/theater/cinema=/${cinemaID}`
 
             try {
-                const response = await fetch(`https://kinoxpbackend.azurewebsites.net/theaters/id=/${cinemaID}`, {
+                const response = await fetch(`http://localhost:8080/theater/cinema=/${cinemaID}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -33,6 +34,7 @@ const MainSection = () => {
                 }
 
                 const data = await response.json();
+                console.log("REQUESTING DATA INFO: ", data)
                 setFetchedTheaters(data);
             } catch (error: any) {
                 console.error("There was a problem with the fetch operation:", error.message);
@@ -42,7 +44,7 @@ const MainSection = () => {
     }, []);
     
 
-    console.log(chosenTheater?.id)
+    console.log("fetchedTheaters: ", fetchedTheaters)
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const target = event.target as HTMLInputElement;
