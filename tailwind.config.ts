@@ -25,7 +25,27 @@ const config: Config = {
       
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }: any) {
+      const newUtilities = {
+        '.hide-scrollbar::-webkit-scrollbar': {
+          display: 'none',
+        },
+        '.hide-scrollbar': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+        },
+      };
+      addUtilities(newUtilities, ['responsive', 'hover']);
+    },
+  ],
+  variants: {},
+  corePlugins: {
+    transform: true,
+    transitionProperty: true,
+    transitionDuration: true,
+    transitionTimingFunction: true,
+  },
 }
 export default config
 

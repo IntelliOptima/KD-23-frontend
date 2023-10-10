@@ -47,7 +47,7 @@ const MoviesContainer = ({ page, setMovie }: Props) => {
 
 
     return (
-        <div className="movies-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" >
             {movieCache[page]?.map((movie, index) => (
                 <div key={index} className={`hover:cursor-pointer ${isChosen && index === choosenMovieIndex ? ' border-green-700 border-4' : ''}`}
 
