@@ -6,12 +6,14 @@ interface GeneralButtonProps {
   color?: string;
   width?: string;
   onClick?: () => void;
+  disabled: boolean;
 }
 
-const GeneralButton = ({ text, type, color, width, onClick }: GeneralButtonProps) => {
+const GeneralButton = ({ text, type, color, width, onClick, disabled }: GeneralButtonProps) => {
   return (
     <button
       type={type}
+      disabled={disabled}
       className={`block ${width ? `w-${width}` : "w-full"} rounded-md ${
         color ? `bg-${color}-600` : "bg-blue-600"
       } px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm ${

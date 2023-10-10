@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'; // Correct import for useRouter
  * Custom hook for handling user authentication.
  * @returns An object containing a function to handle form submission.
  */
-const useAuth = () => {
+const useAuth = (url:string) => {
     const router = useRouter();
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -16,17 +16,18 @@ const useAuth = () => {
         const password = formData.get('password');
 
         try {
-            const response = await fetch("/api/login", {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials: 'include',
+            
                 body: JSON.stringify({ email, password }), // Send JSON data
             });
 
             console.log("Login request sent");
             console.log("Response status:", response.status, "Response status text:", response.statusText);
+            console.log("email: ", email, "Password: ", password)
 
             if (!response.ok) {
                 console.error("Response was not OK. Status:", response.status);

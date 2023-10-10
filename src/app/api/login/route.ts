@@ -19,19 +19,15 @@ export async function POST(request: Request) {
     const { email, password } = await request.json();
 
     try {
-        console.log("Login request received");
-
         // Forward the request to the microservice
-        const backendResponse = await fetch(`localhost:3000/login`, {
+        const backendResponse = await fetch(`http://localhost:8080/api/v1/auth/authenticate`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             credentials: "include",
-            body: JSON.stringify({ employee_email: email, login_password: password }),
+            body: JSON.stringify({  email, password }),
         });
-
-        console.log("backendResponse responeded with: ", backendResponse);
 
         // Parse the Set-Cookie header
         const parsedCookies = parse(backendResponse.headers.get('Set-Cookie') || '');
