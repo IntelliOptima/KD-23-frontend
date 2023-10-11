@@ -16,12 +16,9 @@ const MainSection = () => {
     const [chosenTheater, setChosenTheater] = useState<Theater>();
     const [chosenMovie, setChosenMovie] = useState<Movie | null>(null);
     const [chosenShowsPlayDateTime, setChosenShowsPlayDateTime] = useState<Show[]>([]);
-    const [programeList, setProgramList] = useState<Show[]>([]); //this is the list of shows that will be sent to the backend to create a program
+    const [programList, setProgramList] = useState<Show[]>([]); //this is the list of shows that will be sent to the backend to create a program
     const [showPrice, setShowPrice] = useState(0);
-
-    console.log("ProgrameList", programeList)
     
-
 
     const handleAddToProgram = (
         chosenShowsPlayDateTime: Show[],
@@ -39,9 +36,6 @@ const MainSection = () => {
     };
     
     
-
-
-
     useEffect(() => {
         async function fetchTheater(cinemaID: number) {
             // Production link: https://kinoxpbackend.azurewebsites.net/theater/cinema=/${cinemaID}`
@@ -52,6 +46,7 @@ const MainSection = () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
+                    credentials: "include",
                 });
 
                 if (!response.ok) {
@@ -61,6 +56,7 @@ const MainSection = () => {
                 const data = await response.json();
                 console.log("REQUESTING DATA INFO: ", data)
                 setFetchedTheaters(data);
+                console.log(data);
             } catch (error: any) {
                 console.error("There was a problem with the fetch operation:", error.message);
             }
@@ -68,6 +64,39 @@ const MainSection = () => {
         fetchTheater(1);
     }, []);
     
+    const handleClickCreateProgram = async () => { 
+        const programStartDate = programList.sort((a, b) => a.startDateTime.getTime() - b.startDateTime.getTime())[0].startDateTime;
+        const programEndDate = programList.sort((a, b) => b.startDateTime.getTime() - a.startDateTime.getTime())[0].startDateTime;
+       
+        const programListWithDatesAsIsoString = programList.map(show => {   
+            console.log(show.startDateTime);         
+            return {...show, startDateTime: show.startDateTime.toISOString()}
+        })
+
+        const program = {
+            startDate: programStartDate.toISOString(), endDate: programEndDate.toISOString(), cinemaId: 1, movieShows: programListWithDatesAsIsoString
+        };
+        console.log("program entity = ", program);
+
+        const objectAsJsonString = JSON.stringify(program);
+    
+        const fetchOptions = {
+            method: "POST",
+            headers: {
+            "content-type": "application/json",
+          },
+          body: objectAsJsonString,
+        };
+    
+        const response = await fetch("http://localhost:8080/program", fetchOptions);
+    
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(errorMessage);
+        } else {
+          console.log("Hurray soimething worked!" + response.body);
+        }
+      };
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const target = event.target as HTMLInputElement;
@@ -110,10 +139,13 @@ const MainSection = () => {
                         </button>
                     </div>
                     <div className="flex flex-col items-center justify-center">
-                    <WeekCalendar movie={chosenMovie} chosenShowsPlayDateTime={chosenShowsPlayDateTime} programeList={programeList}
+                    <WeekCalendar movie={chosenMovie} chosenShowsPlayDateTime={chosenShowsPlayDateTime} programList={programList}
                     setChosenShowsPlayDateTime={setChosenShowsPlayDateTime} theater={chosenTheater!} showPrice={showPrice} />
-                    <GeneralButton type="button" width="auto" disabled={false} text="Add to program" color="green"
+                    <GeneralButton type="button" width="auto" disabled={false} text="Add to program" color="blue"
                     onClick={() => handleAddToProgram(chosenShowsPlayDateTime, setProgramList, setChosenShowsPlayDateTime)} />
+
+                    <GeneralButton type="button" width="auto" disabled={false} text="Create and save new program" color={programList.length === 0 ? "red" : "green"}
+                    onClick={() => handleClickCreateProgram()} />
                     </div>
                 </div>
 

@@ -8,10 +8,10 @@ type WeekCalendarProps = {
     setChosenShowsPlayDateTime: Dispatch<SetStateAction<Show[]>>;
     theater: Theater;
     showPrice: number;
-    programeList: Show[];
+    programList: Show[];
 }
 
-const WeekCalendar = ({ movie, chosenShowsPlayDateTime, setChosenShowsPlayDateTime, theater, showPrice, programeList }: WeekCalendarProps) => {
+const WeekCalendar = ({ movie, chosenShowsPlayDateTime, setChosenShowsPlayDateTime, theater, showPrice, programList }: WeekCalendarProps) => {
     const [fetchedShows, setFetchedShows] = React.useState<Show[]>([]);
     const {
         goNextWeek,goPrevWeek,
@@ -37,6 +37,7 @@ const WeekCalendar = ({ movie, chosenShowsPlayDateTime, setChosenShowsPlayDateTi
                     headers: {
                         "Content-Type": "application/json",
                     },
+                    credentials: "include",
                 });
 
                 if (!response.ok) {
@@ -78,7 +79,7 @@ const WeekCalendar = ({ movie, chosenShowsPlayDateTime, setChosenShowsPlayDateTi
                                 const currentSlotTime = slot.hour * 60 + slot.quarter * 15;
 
                                 // 1. Check if there's a program show starting now.
-                                const programShowStarting = programeList.find(programShow =>
+                                const programShowStarting = programList.find(programShow =>
                                     isShowStartingAtSlot(programShow, day, currentSlotTime));
 
                                 if (programShowStarting) {
@@ -91,7 +92,7 @@ const WeekCalendar = ({ movie, chosenShowsPlayDateTime, setChosenShowsPlayDateTi
                                 }
 
                                 // 2. Check if there's an ongoing program show.
-                                const ongoingProgramShow = programeList.find(programShow =>
+                                const ongoingProgramShow = programList.find(programShow =>
                                     isSlotDuringShow(programShow, day, currentSlotTime));
 
                                 if (ongoingProgramShow) {
@@ -138,7 +139,7 @@ const WeekCalendar = ({ movie, chosenShowsPlayDateTime, setChosenShowsPlayDateTi
                                 const movieDuration = movie?.runtime || 0;
                                 const isPossibleToStartMovie = !isAnyShowDuringTimeRange(day, currentSlotTime, currentSlotTime + movieDuration, fetchedShows);
                                 const isPossibleToStartMovieByChosenDates = !isAnyShowDuringTimeRange(day, currentSlotTime, currentSlotTime + movieDuration, chosenShowsPlayDateTime);
-                                const isPossibleToStartMovieConsideringProgram = !isAnyShowDuringTimeRange(day, currentSlotTime, currentSlotTime + movieDuration, programeList);
+                                const isPossibleToStartMovieConsideringProgram = !isAnyShowDuringTimeRange(day, currentSlotTime, currentSlotTime + movieDuration, programList);
                                 return (
                                     <td
                                         key={dayIndex}

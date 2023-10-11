@@ -15,6 +15,7 @@ const GeneralButton = ({ text, type, color, width, onClick, disabled }: GeneralB
     switch(color) {
         case 'green': return 'bg-green-600 hover:bg-green-500 focus-visible:outline-green-600';
         case 'blue': return 'bg-blue-600 hover:bg-blue-500 focus-visible:outline-blue-600';
+        case 'red' : return 'bg-red-600 focus-visible:outline-red-600'
         default: return 'bg-blue-600 hover:bg-blue-500 focus-visible:outline-blue-600';
     }
   }
