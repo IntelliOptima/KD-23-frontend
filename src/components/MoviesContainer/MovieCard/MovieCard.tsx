@@ -5,10 +5,16 @@ type Actor = {
     name: string;
 };
 
+type Genre = {
+    id: number;
+    name: string;
+};
+
 export type Movie = {
     title?: string;
     poster?: string;
     actors?: Actor[];
+    genre?: Genre[];
     runtime: number; // in minutes
     voteRating?: number;
     description?: string;

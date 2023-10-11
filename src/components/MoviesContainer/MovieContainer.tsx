@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState, useEffect, Fragment } from "react";
+import React, { Dispatch, SetStateAction, useState, useEffect, Fragment, useMemo } from "react";
 import MovieCard from "./MovieCard/MovieCard";
 import Input from "@/components/CustomInputs/Input";
 import { MovieFilterHandler } from "../MovieFilterFactory/FilterHandler";
@@ -13,7 +13,6 @@ const MoviesContainer = ({ setMovie }: Props) => {
     const [page, setPage] = useState(0);
     const [filter, setFilter] = useState<string>("");
     const [movieCache, setMovieCache] = useState<Record<number, Movie[]>>({});
-    const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]); // mangler logik for filtering reaktivt!
     const [searchQuery, setSearchQuery] = useState<string>("");
 
     console.log(searchQuery)
@@ -42,6 +41,30 @@ const MoviesContainer = ({ setMovie }: Props) => {
         }
     
     }, [page, filter, searchQuery, movieCache]);
+
+    const filteredMovies = useMemo(() => {
+        if (!searchQuery || filter == "noFilter") return movieCache[page] || [];
+    
+        return (movieCache[page] || []).filter(movie => {
+            switch (filter) {
+                case 'title':
+                    return movie.title && movie.title.toLowerCase().includes(searchQuery.toLowerCase());
+                case 'actorName':
+                    return movie.actors && movie.actors.some(actor => actor.name.toLowerCase().includes(searchQuery.toLowerCase()));
+                case 'runtime':
+                    return movie.runtime && movie.runtime.toString().includes(searchQuery);
+                case 'genre':
+                    return movie.genre && movie.genre.some(g => g.name.toLowerCase().includes(searchQuery.toLowerCase()));
+                default:
+                    // This case handles the 'all' filter or no filter where we check all fields
+                    return (movie.title && movie.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                        (movie.actors && movie.actors.some(actor => actor.name && actor.name.toLowerCase().includes(searchQuery.toLowerCase()))) ||
+                        (movie.runtime && movie.runtime.toString().includes(searchQuery)) ||
+                        (movie.genre && movie.genre.some(genre => genre.name && genre.name.toLowerCase().includes(searchQuery.toLowerCase())));
+            }
+        });
+    }, [searchQuery, movieCache, page, filter]);
+    
     
     // Reset page to 0 whenever searchQuery changes
     useEffect(() => {
@@ -80,7 +103,7 @@ const MoviesContainer = ({ setMovie }: Props) => {
                 <GeneralButton width="5%" type="button" disabled={false} onClick={() => setPage(prev => prev + 1)} text="Next -&gt;" />
             </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" >
-            {movieCache[page]?.map((movie, index) => (
+            {filteredMovies?.map((movie, index) => (
                 <div key={index} className={`hover:cursor-pointer ${isChosen && index === choosenMovieIndex ? ' border-green-700 border-4' : ''}`}
 
                     onClick={() => {
