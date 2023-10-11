@@ -10,6 +10,7 @@ class MovieNoFilter<T, K> extends MoviesSearchFilter<T, K> implements IMovieFilt
                     headers: {
                         "Content-Type": "application/json",
                     },
+                    credentials: "include",
                 });
 
         if (!response.ok) {

@@ -10,6 +10,7 @@ class MovieRuntimeFilter<T, K> extends MoviesSearchFilter<T, K> implements IMovi
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
         });
         
         if (!response.ok) {
