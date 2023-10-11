@@ -10,6 +10,7 @@ class ActorNameFilter<T, K> extends MoviesSearchFilter<T, K> implements IMovieFi
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
         });
         
         if (!response.ok) {
