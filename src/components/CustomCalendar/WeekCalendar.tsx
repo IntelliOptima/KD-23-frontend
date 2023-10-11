@@ -1,38 +1,58 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { Movie } from '@/components/MoviesContainer/MovieCard/MovieCard';
-import WeekCalendarFunctions from './WeekCalendarFunctions';
-
-type Show = {
-    playTime: Date;
-    runTime: number;
-}
+import WeekCalendarFunctions, { Show, Theater } from './WeekCalendarFunctions';
 
 type WeekCalendarProps = {
-    shows: Show[];
     movie: Movie | null;
-    chosenShowPlayDateTime: Show[];
-    setChosenShowPlayDateTime: Dispatch<SetStateAction<Show[]>>
+    chosenShowsPlayDateTime: Show[];
+    setChosenShowsPlayDateTime: Dispatch<SetStateAction<Show[]>>;
+    theater: Theater;
+    showPrice: number;
+    programList: Show[];
 }
 
-const WeekCalendar = ({ shows, movie, chosenShowPlayDateTime, setChosenShowPlayDateTime }: WeekCalendarProps) => {
+const WeekCalendar = ({ movie, chosenShowsPlayDateTime, setChosenShowsPlayDateTime, theater, showPrice, programList }: WeekCalendarProps) => {
+    const [fetchedShows, setFetchedShows] = React.useState<Show[]>([]);
     const {
-        goNextWeek,
-        goPrevWeek,
-        days,
-        timeSlots,
-        getWeekRange,
-        getDayNameAndDate,
-        formatTimeSlot,
-        isShowStartingAtSlot,        
-        isSlotDuringShow,
-        isAnyShowDuringTimeRange,
-    } = WeekCalendarFunctions(shows);
+        goNextWeek,goPrevWeek,
+        days, timeSlots,
+        getWeekRange, getDayNameAndDate,
+        formatTimeSlot, isShowStartingAtSlot,
+        isSlotDuringShow, isAnyShowDuringTimeRange,
+    } = WeekCalendarFunctions(fetchedShows);
 
-    const handleClickOnChoosenDateTime = (iteratedDateTime: Date) => {
-        setChosenShowPlayDateTime((cur) =>
-        cur.filter(show =>                                                     
-            show.playTime.getTime() !== iteratedDateTime.getTime()))
+    const handleClickOnChosenDateTime = (iteratedDateTime: Date) => {
+        setChosenShowsPlayDateTime((cur) =>
+            cur.filter(show =>
+                show.startDateTime.getTime() !== iteratedDateTime.getTime()))
     }
+
+
+    useEffect(() => {
+        async function fetchShows() {
+            // Production: 
+            try {
+                const response = await fetch(`http://localhost:8080/movie-show/theater=/${theater.id}/startDate=/${days[0].toISOString()}/endDate=/${days[days.length - 1].toISOString()}/cinema=/${1}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log("REQUESTED FETCHED SHOWDATA IS: ", data)
+                setFetchedShows(data)
+            } catch (error: any) {
+                console.error("There was a problem with the fetch operation:", error.message);
+            }
+        };
+        fetchShows();
+    }, [theater, days]);
 
     return (
         <div className="flex flex-grow flex-col space-y-8 p-8 h-[65vh] overflow-auto mt-12 hide-scrollbar">
@@ -56,49 +76,86 @@ const WeekCalendar = ({ shows, movie, chosenShowPlayDateTime, setChosenShowPlayD
                         <tr key={index}>
                             <td className="border p-2">{formatTimeSlot(slot.hour, slot.quarter)}</td>
                             {days.map((day, dayIndex) => {
-                                const currentSlotTime = slot.hour * 60 + slot.quarter * 15; // Convert to minutes
+                                const currentSlotTime = slot.hour * 60 + slot.quarter * 15;
 
-                                const showStartingNow = shows.find(show => isShowStartingAtSlot(show, day, currentSlotTime));
-                                const chosenShowStarting = chosenShowPlayDateTime.find(chosenShow => 
-                                    isShowStartingAtSlot(chosenShow, day, currentSlotTime));
+                                // 1. Check if there's a program show starting now.
+                                const programShowStarting = programList.find(programShow =>
+                                    isShowStartingAtSlot(programShow, day, currentSlotTime));
 
-                                if (showStartingNow) {
-                                    const runtimeInQuarters = Math.ceil(showStartingNow.runTime / 15);
+                                if (programShowStarting) {
+                                    const runtimeInQuarters = Math.ceil(programShowStarting.movie.runtime / 15);
                                     return (
-                                        <td key={dayIndex} className="border p-2 hover:cursor-pointer bg-red-400 hover:bg-red-300" rowSpan={runtimeInQuarters}></td>
-                                    );
-                                } else if (chosenShowStarting && movie != null) {
-                                    const runtimeInQuarters = Math.ceil(movie.runtime / 15);
-                                    return (
-                                        <td key={dayIndex} onClick={() => handleClickOnChoosenDateTime(new Date(day.getFullYear(), day.getMonth(), day.getDate(), slot.hour, slot.quarter * 15))} 
-                                        className="border p-2 hover:cursor-pointer bg-blue-300 hover:bg-blue-400" rowSpan={runtimeInQuarters}></td>
-                                    );
-                                } else {
-                                    const ongoingShow = shows.find(show => isSlotDuringShow(show, day, currentSlotTime));
-                                    
-                                    const onGoingChosenShow = chosenShowPlayDateTime.find(chosenShow => isSlotDuringShow(chosenShow, day, currentSlotTime))
-                                
-                                    if (ongoingShow || onGoingChosenShow) {
-                                        return null; // Skip this slot since a show is ongoing
-                                    }
-
-                                    const movieDuration = movie?.runtime || 0;
-                                    const isPossibleToStartMovie = !isAnyShowDuringTimeRange(day, currentSlotTime, currentSlotTime + movieDuration, shows);   
-                                    const isPossibleToStartMovieByChosenDates = !isAnyShowDuringTimeRange(day, currentSlotTime, currentSlotTime + movieDuration, chosenShowPlayDateTime);                                  
-
-                                    return (
-                                        <td
-                                            key={dayIndex}
-                                            onClick={() => {
-                                                if (movie != null && isPossibleToStartMovie && isPossibleToStartMovieByChosenDates)
-                                                setChosenShowPlayDateTime(cur => [...cur, {playTime: new Date(day.getFullYear(), day.getMonth(), day.getDate(),
-                                                    slot.hour, slot.quarter * 15), runTime: movie.runtime}])
-                                            }}
-                                            className={`border p-2 hover:cursor-pointer 
-                                            ${isPossibleToStartMovie && isPossibleToStartMovieByChosenDates && movie ? 'bg-green-100 hover:bg-green-200' : 'bg-slate-300 hover:bg-slate-400'}`}
-                                        ></td>
+                                        <td key={dayIndex} className="border p-2 hover:cursor-pointer bg-emerald-400 hover:bg-emerald-300" rowSpan={runtimeInQuarters}>
+                                            {programShowStarting.movie.title}
+                                        </td>
                                     );
                                 }
+
+                                // 2. Check if there's an ongoing program show.
+                                const ongoingProgramShow = programList.find(programShow =>
+                                    isSlotDuringShow(programShow, day, currentSlotTime));
+
+                                if (ongoingProgramShow) {
+                                    return null; // Skip this slot since a program show is ongoing
+                                }
+
+                                // 3. Check if there's a fetched show starting now.
+                                const showStartingNow = fetchedShows.find(show =>
+                                    isShowStartingAtSlot(show, day, currentSlotTime));
+
+                                if (showStartingNow) {
+                                    const runtimeInQuarters = Math.ceil(showStartingNow.movie.runtime / 15);
+                                    return (
+                                        <td key={dayIndex} className="border p-2 hover:cursor-pointer bg-red-400 hover:bg-red-300" rowSpan={runtimeInQuarters}>
+                                            {showStartingNow.movie.title}
+                                        </td>
+                                    );
+                                }
+
+                                // 4. Check if there's a chosen show starting now.
+                                const chosenShowStarting = chosenShowsPlayDateTime.find(chosenShow =>
+                                    isShowStartingAtSlot(chosenShow, day, currentSlotTime));
+
+                                if (chosenShowStarting) {
+                                    const runtimeInQuarters = Math.ceil(chosenShowStarting.movie.runtime / 15);
+                                    return (
+                                        <td key={dayIndex} onClick={() => handleClickOnChosenDateTime(chosenShowStarting.startDateTime)}
+                                            className="border p-2 hover:cursor-pointer bg-blue-300 hover:bg-blue-400" rowSpan={runtimeInQuarters}>
+                                            {chosenShowStarting.movie.title}
+                                        </td>
+                                    );
+                                }
+
+                                // 5. Check if there's any ongoing show or chosen show.
+                                const ongoingShow = fetchedShows.find(show => isSlotDuringShow(show, day, currentSlotTime));
+                                const ongoingChosenShow = chosenShowsPlayDateTime.find(chosenShow =>
+                                    isSlotDuringShow(chosenShow, day, currentSlotTime));
+
+                                if (ongoingShow || ongoingChosenShow) {
+                                    return null; // Skip this slot since a show is ongoing
+                                }
+
+                                // 6. If none of the above, render cell based on the possibility to start a movie.
+                                const movieDuration = movie?.runtime || 0;
+                                const isPossibleToStartMovie = !isAnyShowDuringTimeRange(day, currentSlotTime, currentSlotTime + movieDuration, fetchedShows);
+                                const isPossibleToStartMovieByChosenDates = !isAnyShowDuringTimeRange(day, currentSlotTime, currentSlotTime + movieDuration, chosenShowsPlayDateTime);
+                                const isPossibleToStartMovieConsideringProgram = !isAnyShowDuringTimeRange(day, currentSlotTime, currentSlotTime + movieDuration, programList);
+                                return (
+                                    <td
+                                        key={dayIndex}
+                                        onClick={() => {
+                                            if (movie && isPossibleToStartMovie && isPossibleToStartMovieByChosenDates && isPossibleToStartMovieConsideringProgram) {
+                                                setChosenShowsPlayDateTime(cur => [...cur, {
+                                                    startDateTime: new Date(day.getFullYear(), day.getMonth(), day.getDate(), slot.hour, slot.quarter * 15),
+                                                    movie: { ...movie },
+                                                    theater: theater,
+                                                    price: showPrice
+                                                }]);
+                                            }
+                                        }}
+                                        className={`border p-2 hover:cursor-pointer ${isPossibleToStartMovie && isPossibleToStartMovieByChosenDates && isPossibleToStartMovieConsideringProgram && movie ? 'bg-green-100 hover:bg-green-200' : 'bg-slate-300 hover:bg-slate-400'}`}
+                                    ></td>
+                                );
                             })}
                         </tr>
                     ))}
@@ -109,3 +166,4 @@ const WeekCalendar = ({ shows, movie, chosenShowPlayDateTime, setChosenShowPlayD
 }
 
 export default WeekCalendar;
+

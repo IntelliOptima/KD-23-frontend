@@ -1,20 +1,25 @@
 "use client";
-import Link from "next/link";
+
 import GeneralButton from "@/components/Buttons/GeneralButton";
-// import useAuth from "@/hooks/useAuth";
 import useCustomForm from "@/hooks/useForm";
 import Input from "@/components/CustomInputs/Input";
+import { useRouter } from "next/navigation";
 
 
 
 export default function FormSection() {
+  const router = useRouter();
   const { register, getValues, errors, isSubmitting, handleSubmit } = useCustomForm({
-    url: '/api/submitForm',
-    onSuccess: (data) => { console.log('Success:', data); },
-    onError: (error) => { console.error('Error:', error); }
-});
+    url: 'api/login',
+    onError: (error) => { 
+      console.log("Login failed:",  "No error message provided");
+     },
 
-  // const { handleSubmit } = useAuth();
+    onSuccess: (data) => { 
+      console.log("Login successful!");
+      router.push(process.env.NEXT_PUBLIC_BASE_URL?.toString() || '/');
+     },
+});
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit} method="POST">
@@ -24,6 +29,12 @@ export default function FormSection() {
         htmlfor="email"
         placeholder=""
         autoComplete="email"
+        register={register}
+        registerOptions={{
+          required: "Email is required",
+          
+        }}
+        errors={errors}
       />
       <Input
         name="password"
@@ -31,10 +42,15 @@ export default function FormSection() {
         htmlfor="password"
         placeholder="*************"
         autoComplete="current-password"
+        register={register}
+        registerOptions={{
+          required: "Password is required",
+        }}
+        errors={errors}
       />
-
+      
       <div>
-        <GeneralButton text="Login" type="submit" color="blue" />
+        <GeneralButton disabled={isSubmitting} text="Login" type="submit" color="blue" />
       </div>
     </form>
   );

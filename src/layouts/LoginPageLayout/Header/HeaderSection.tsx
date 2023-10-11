@@ -9,7 +9,7 @@ type Props = {
 const HeaderSection = ({actionText} : Props) => {
   return (
     <header className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col">
-      <Link href="/login">
+      <Link href="/">
         <Image
           width={400}
           height={400}
