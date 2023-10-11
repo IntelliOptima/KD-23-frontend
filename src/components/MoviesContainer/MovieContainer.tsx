@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState, useEffect, Fragment, useMemo } from "react";
+import React, { Dispatch, SetStateAction, useState, useEffect, Fragment, useRef } from "react";
 import MovieCard from "./MovieCard/MovieCard";
 import Input from "@/components/CustomInputs/Input";
 import { MovieFilterHandler } from "../MovieFilterFactory/FilterHandler";
@@ -10,70 +10,80 @@ interface Props {
 }
 
 const MoviesContainer = ({ setMovie }: Props) => {
+
+
+    function debounce<T extends (...args: any[]) => any>(fn: T, delay: number): (...funcArgs: Parameters<T>) => void {
+        let timer: NodeJS.Timeout | null;
+
+        return function (...args: Parameters<T>) {
+            if (timer) {
+                clearTimeout(timer);
+            }
+            timer = setTimeout(() => fn(...args), delay);
+        };
+    }
+
+
     const [page, setPage] = useState(0);
     const [filter, setFilter] = useState<string>("");
     const [movieCache, setMovieCache] = useState<Record<number, Movie[]>>({});
+    const [filteredMovies, setFilteredMovies] = useState<Record<number, Movie[]>>({});
     const [searchQuery, setSearchQuery] = useState<string>("");
-
-    console.log(searchQuery)
+    const [moviesToRender, setMoviesToRender] = useState<Record<number, Movie[]>>({});
 
     useEffect(() => {
         async function fetchMoviesWithFilter(targetPage: number) {
-            if (movieCache[targetPage]) return;
-    
+            
             try {
                 let movies: Movie[] = [];
-        
-                movies = await MovieFilterHandler<string | number, number>(searchQuery === "" ? "noFilter" : filter, searchQuery, targetPage);
-        
-                setMovieCache((prev) => ({ ...prev, [targetPage]: movies }));
+
+                movies = await MovieFilterHandler<string | number, number>(searchQuery === "" || filter === "all" ? "noFilter" : filter, searchQuery, targetPage);
+
+                if (filter === "all" || filter === "") {
+                    setMovieCache((prev) => {
+                        const updatedCache = { ...prev, [targetPage]: movies };
+                        setMoviesToRender(updatedCache);
+                        return updatedCache;
+                    });
+
+                } else {
+                    setFilteredMovies((prev) => {
+                        const updatedFilteredMovies = { ...prev, [targetPage]: movies };
+                        setMoviesToRender(updatedFilteredMovies);
+                        return updatedFilteredMovies;
+                    });
+                }
+
+
             } catch (error: any) {
                 console.error("There was a problem with the fetch operation:", error.message);
             }
         }
-    
-        fetchMoviesWithFilter(page);
-    
-        if (searchQuery === "") {
-            for (let i = 1; i <= 3; i++) {
-                fetchMoviesWithFilter(page + i);
-            }
-        }
-    
-    }, [page, filter, searchQuery, movieCache]);
 
-    const filteredMovies = useMemo(() => {
-        if (!searchQuery || filter == "noFilter") return movieCache[page] || [];
-    
-        return (movieCache[page] || []).filter(movie => {
-            switch (filter) {
-                case 'title':
-                    return movie.title && movie.title.toLowerCase().includes(searchQuery.toLowerCase());
-                case 'actorName':
-                    return movie.actors && movie.actors.some(actor => actor.name.toLowerCase().includes(searchQuery.toLowerCase()));
-                case 'runtime':
-                    return movie.runtime && movie.runtime.toString().includes(searchQuery);
-                case 'genre':
-                    return movie.genre && movie.genre.some(g => g.name.toLowerCase().includes(searchQuery.toLowerCase()));
-                default:
-                    // This case handles the 'all' filter or no filter where we check all fields
-                    return (movie.title && movie.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
-                        (movie.actors && movie.actors.some(actor => actor.name && actor.name.toLowerCase().includes(searchQuery.toLowerCase()))) ||
-                        (movie.runtime && movie.runtime.toString().includes(searchQuery)) ||
-                        (movie.genre && movie.genre.some(genre => genre.name && genre.name.toLowerCase().includes(searchQuery.toLowerCase())));
-            }
-        });
-    }, [searchQuery, movieCache, page, filter]);
-    
-    
+        fetchMoviesWithFilter(page);
+
+
+        for (let i = 1; i <= 3; i++) {
+            fetchMoviesWithFilter(page + i);
+        }
+
+
+
+    }, [page, filter, searchQuery]);
+
     // Reset page to 0 whenever searchQuery changes
     useEffect(() => {
         setPage(0);
-    }, [searchQuery]);
+    }, [searchQuery, filter]);
 
     const MemoizedMovieCard = React.memo(MovieCard);
     const [isChosen, setIsChosen] = useState<boolean>(false);
-    const [choosenMovieIndex, setChoosenMovieIndex] = useState<number |null>(null);
+    const [choosenMovieIndex, setChoosenMovieIndex] = useState<number | null>(null);
+    const searchInputRef = useRef('');
+
+    const debouncedSearch = debounce(() => {
+        setSearchQuery(searchInputRef.current);
+    }, 400);
 
 
     return (
@@ -86,7 +96,11 @@ const MoviesContainer = ({ setMovie }: Props) => {
                         placeholder="search title, actors, etc."
                         name="searchBar"
                         type="text"
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        disabled={filter === "" || filter === "all"}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            searchInputRef.current = e.target.value;
+                            debouncedSearch();
+                        }}
                     />
                     <label htmlFor="filter"></label>
                     <select name="filter" className="border-2 border-gray-500 rounded-md ml-5  p-1 hover:cursor-pointer"
@@ -102,20 +116,20 @@ const MoviesContainer = ({ setMovie }: Props) => {
                 </div>
                 <GeneralButton width="5%" type="button" disabled={false} onClick={() => setPage(prev => prev + 1)} text="Next -&gt;" />
             </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" >
-            {filteredMovies?.map((movie, index) => (
-                <div key={index} className={`hover:cursor-pointer ${isChosen && index === choosenMovieIndex ? ' border-green-700 border-4' : ''}`}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" >
+                {moviesToRender[page]?.map((movie, index) => (
+                    <div key={index} className={`hover:cursor-pointer ${isChosen && index === choosenMovieIndex ? ' border-green-700 border-4' : ''}`}
 
-                    onClick={() => {
-                        setIsChosen(true)
-                        setMovie(movie)
-                        setChoosenMovieIndex(index)
-                    }}>
-                    <MemoizedMovieCard movie={movie} />
-                </div>
-            ))}
-        </div>
-        <div className=" flex justify-between">
+                        onClick={() => {
+                            setIsChosen(true)
+                            setMovie(movie)
+                            setChoosenMovieIndex(index)
+                        }}>
+                        <MemoizedMovieCard movie={movie} />
+                    </div>
+                ))}
+            </div>
+            <div className=" flex justify-between">
                 <GeneralButton width="5%" type="button" disabled={page == 0} onClick={() => setPage(prev => prev - 1)} text="&lt;- Previous" />
                 <GeneralButton width="5%" type="button" disabled={false} onClick={() => setPage(prev => prev + 1)} text="Next -&gt;" />
             </div>

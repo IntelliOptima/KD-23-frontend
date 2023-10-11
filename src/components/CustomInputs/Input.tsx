@@ -10,10 +10,11 @@ type InputProps = {
     register?: UseFormRegister<FieldValues>;
     registerOptions?: RegisterOptions;
     className?: string;
+    disabled?: boolean;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Input = ({ errors, type, placeholder, htmlfor, register, name, registerOptions, className, autoComplete, onChange }: InputProps) => {
+const Input = ({ errors, type, placeholder, htmlfor, register, name, registerOptions, className, autoComplete, disabled, onChange }: InputProps) => {
     return (
         <div className={className}>
             <label htmlFor={htmlfor}>
@@ -32,6 +33,7 @@ const Input = ({ errors, type, placeholder, htmlfor, register, name, registerOpt
                         placeholder={placeholder}
                         autoComplete={autoComplete}
                         onChange={onChange}
+                        disabled={disabled}
                     />
                 )}
             </label>
