@@ -4,17 +4,23 @@ import GeneralButton from "@/components/Buttons/GeneralButton";
 import useAuth from "@/hooks/useAuth";
 import useCustomForm from "@/hooks/useForm";
 import Input from "@/components/CustomInputs/Input";
+import { useRouter } from "next/navigation";
 
 
 
 export default function FormSection() {
-  const { register, getValues, errors, isSubmitting } = useCustomForm({
-    url: '/api/login',
-    onSuccess: (data) => { console.log('Success:', data); },
-    onError: (error) => { console.error('Error:', error); }
-});
+  const router = useRouter();
+  const { register, getValues, errors, isSubmitting, handleSubmit } = useCustomForm({
+    url: 'api/login',
+    onError: (error) => { 
+      console.log("Login failed:",  "No error message provided");
+     },
 
-   const { handleSubmit } = useAuth("/api/login");
+    onSuccess: (data) => { 
+      console.log("Login successful!");
+      router.push(process.env.NEXT_PUBLIC_BASE_URL?.toString() || '/');
+     },
+});
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit} method="POST">
