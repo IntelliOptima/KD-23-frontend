@@ -12,8 +12,9 @@ const MovieDetails = ( movieId: number) => {
         title: "",
         poster: "",
         actors: [],
-        genre: [],
+        genres: [],
         trailer: "",
+        releaseDate: "",
         runtime: 0,
         voteRating: 0.0,
         description: "",
@@ -27,7 +28,7 @@ const MovieDetails = ( movieId: number) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const movieDataResponse = await fetch('http://localhost:8080/movie/id=/2', {
+            const movieDataResponse = await fetch(`http://localhost:8080/movie/id=/${movieId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
