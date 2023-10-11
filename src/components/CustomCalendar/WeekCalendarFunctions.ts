@@ -8,7 +8,8 @@ import { Movie } from '../MoviesContainer/MovieCard/MovieCard';
 
     export type Theater = {
         id: number;
-        name: string
+        name: string;
+        type: string;
     }
 
     export type Show = {
