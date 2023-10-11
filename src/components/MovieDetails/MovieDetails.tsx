@@ -1,15 +1,53 @@
-import React from 'react'
-import MovieData from './MovieDetailsData.json';
+"use client";
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
-const MovieDetails = () => {
 
-    const movieData = MovieData.movie;
+
+const MovieDetails = ( movieId: number) => {
+
+    
+
+    const [movieData, setMovieData] = useState({
+        title: "",
+        poster: "",
+        actors: [],
+        genres: [],
+        trailer: "",
+        releaseDate: "",
+        runtime: 0,
+        voteRating: 0.0,
+        description: "",
+    });
+    
     const hours = Math.floor(movieData.runtime / 60);
     const minutes = Math.floor(movieData.runtime % 60);
     const movieTrailerId = movieData.trailer.split('v=')[1];
     const currentDate = new Date();
     const weekDates = [];
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const movieDataResponse = await fetch(`http://localhost:8080/movie/id=/${movieId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+            const data = await movieDataResponse.json();
+            if (movieDataResponse.ok) {
+                setMovieData(data);
+                
+            } else {
+                console.log('error');
+            }
+        };
+        fetchData();
+    }, []);
+
+
+    console.log(movieData);
 
     for (let i = 0; i < 7; i++) {
         let nextDay = new Date(currentDate);
@@ -17,10 +55,13 @@ const MovieDetails = () => {
         weekDates.push(nextDay.toDateString());
     }
 
+
+    
     return (
+        
         <div className="flex flex-col items-center">
             <div className="py-10">
-                <h1 className="text-[80px] font-extrabold text-white tracking-wider">{movieData.title.toUpperCase()}</h1>
+                <h1 className="text-[80px] font-extrabold text-white tracking-wider">{movieData.title}</h1>
             </div>
 
             <div className="flex my-10 gap-4 pb-10">
@@ -36,15 +77,15 @@ const MovieDetails = () => {
                                 <td className="flex flex-col text-center p-2 bg-gray-600 gap-4">
                                     <a href="/" className="flex justify-center text-[#F1A94B] text-[18px] font-bold hover:scale-105">
                                         12:00
-                                        <Image src="/ticket.png" width={30} height={30} alt="ticket icon" className="ml-2"/>
+                                        <Image src="/ticket.png" width={30} height={30} alt="ticket icon" className="ml-2" />
                                     </a>
                                     <a href="/" className="flex justify-center text-[#F1A94B] text-[18px] font-bold hover:scale-105">
                                         14:00
-                                        <Image src="/ticket.png" width={30} height={30} alt="ticket icon" className="ml-2"/>
+                                        <Image src="/ticket.png" width={30} height={30} alt="ticket icon" className="ml-2" />
                                     </a>
                                     <a href="/" className="flex justify-center text-[#F1A94B] text-[18px] font-bold hover:scale-105">
                                         16:00
-                                        <Image src="/ticket.png" width={30} height={30} alt="ticket icon" className="ml-2"/>
+                                        <Image src="/ticket.png" width={30} height={30} alt="ticket icon" className="ml-2" />
                                     </a>
                                 </td>
                             </tr>
@@ -75,7 +116,7 @@ const MovieDetails = () => {
 
                         <div className="text-center">
                             <h3 className="text-[18px] font-semibold leading-loose">Movie Runtime: </h3>
-                            <p>{hours} Hours {minutes} Minutes</p>
+                             <p>{hours} Hours {minutes} Minutes</p>
                         </div>
 
                         <div className="text-center">
@@ -88,22 +129,23 @@ const MovieDetails = () => {
                         <div className="flex col-span-3 justify-between">
                             <div className="col-span-1">
                                 <h3 className="text-[18px] font-semibold leading-loose">Genre: </h3>
-                                <p>Family, Animation</p>
+                                <p>{movieData.genres.map(genre => genre.name).join(', ')}</p>
                             </div>
                             <div className="col-span-3">
                                 <h3 className="text-[18px] font-semibold leading-loose">Actors: </h3>
-                                <p>Tom Hanks, Tom Cruise, Will Smith</p>
+                                <p>{movieData.actors.map(actor => actor.name).join(', ')}</p>
                             </div>
                         </div>
                     </div>
 
                     <div className="my-20">
-                        <iframe className="shadow-2xl shadow-black" src={`https://www.youtube.com/embed/${movieTrailerId}`} height={300} width={550}></iframe>
+                        <iframe className="shadow-2xl shadow-black" src={`https://www.youtube.com/embed/${movieTrailerId}}`} height={300} width={550}></iframe>
                     </div>
                 </div>
             </div>
         </div>
     )
+    
 }
 
 export default MovieDetails
