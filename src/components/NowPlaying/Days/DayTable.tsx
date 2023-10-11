@@ -41,14 +41,15 @@ const DayTable = () => {
       const existingMovie = dataArray.find((newMovieShow) => newMovieShow.movieID === movieShow.movie.id);
   
       if (existingMovie) {
-        existingMovie.movieStartDateTimeList.push(movieShow.startDateTime);
+        existingMovie.movieStartDateTimeList.push([movieShow.startDateTime, movieShow.theater.id]);
       } else {
         dataArray.push({
           movieID: movieShow.movie.id,
           movieTitle: movieShow.movie.title,
           movieDuration: movieShow.movie.runtime,
           movieImage: movieShow.movie.poster,
-          movieStartDateTimeList: [movieShow.startDateTime]
+          movieStartDateTimeList: [[movieShow.startDateTime, movieShow.theater.id]],
+          movieTrailer: movieShow.movie.trailer
         });
       }
     });

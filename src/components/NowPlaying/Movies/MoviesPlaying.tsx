@@ -23,6 +23,7 @@ const MoviesPlaying = ({ movieData}) => {
               duration={movie.movieDuration}
               movieImage={movie.movieImage}
               showTimeList={movie.movieStartDateTimeList}   
+              movieTrailer={movie.movieTrailer}
             />
           </div>
         ))}

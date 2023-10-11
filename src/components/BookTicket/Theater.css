@@ -1,10 +1,8 @@
-/* Global styles */
 body {
-  margin: 60px;
+  margin: 0px;
   background: #111;
 }
 
-/* Theater container */
 .theatre {
   display: flex;
   position: absolute;
@@ -13,46 +11,29 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* Cinema seats container */
 .cinema-seats {
   display: flex;
+  flex-wrap: wrap; /* Added to wrap seats to the next row */
+  justify-content: center; /* Center align the grid horizontally */
+  
 }
 
-
-/* Individual seat styles */
 .seat {
-  cursor: pointer;
   width: 35px;
   height: 50px;
   border-radius: 7px;
-  background: linear-gradient(to top, #761818, #761818, #761818, #761818, #761818, #B54041, #F3686A);
-  margin-bottom: 10px;
+  background: linear-gradient(
+    to top,
+    #761818,
+    #761818,
+    #761818,
+    #761818,
+    #761818,
+    #B54041,
+    #F3686A
+  );
+  margin: 5px; /* Added margin to separate seats */
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  position: relative;
+  transform: skew(20deg);
   margin-top: -32px;
-  transition: transform 0.2s, background 0.2s;
 }
-
-/* Skewing for left seats */
-.left .cinema-row {
-  transform: skewX(-15deg);
-  margin: 0 6px;
-}
-
-.left .seat {
-  transform: skewX(20deg);
-}
-
-/* Add skewing styles for other rows as needed */
-
-/* Skewing for right seats */
-.right .cinema-row {
-  transform: skewX(7deg);
-  margin: 0 6px;
-}
-
-.right .seat {
-  transform: skewX(-8deg);
-}
-
-/* Add skewing styles for other rows as needed */

@@ -1,13 +1,13 @@
-import BookTicket from '@/components/BookTicket/BookTicket';
+import MainSection from '@/layouts/BookTicketLayout/MainSection'
 import { NextPage } from 'next'
 import React from 'react'
 
-const Landingpage: NextPage = () => {
+const BookTicket: NextPage = () => {
   return (
     <div>
-        <BookTicket />
+        <MainSection />
     </div>
   )
 }
 
-export default Landingpage
+export default BookTicket

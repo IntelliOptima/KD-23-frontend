@@ -1,48 +1,70 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Seat from './Seat';
 
+interface BuyTicketProp {
+  movieID: number;
+  movieTitle: string;
+  duration: number;
+  movieImage: string;
+  showTime: Date;
+  theaterID: number;
+}
 
-const BoockTicket = () => {
-  // Initialize a 2D array to represent the seat selection state
-  const [selectedSeats, setSelectedSeats] = useState(() => {
-    const numRows = 10;
-    const numSeatsPerRow = 10;
-    const initialSelection = Array.from({ length: numRows }, () =>
-      Array(numSeatsPerRow).fill(false)
-    );
-    return initialSelection;
-  });
+const BookTicket = () => {
+  const [ticketData, setTicketData] = useState<BuyTicketProp | null>(null);
 
-  const handleSeatClick = (rowIndex, seatIndex) => {
-    setSelectedSeats((prevSelectedSeats) => {
-      // Create a new copy of the selected seats state
-      const newSelectedSeats = [...prevSelectedSeats];
-      // Toggle the selected state of the clicked seat
-      newSelectedSeats[rowIndex][seatIndex] = !newSelectedSeats[rowIndex][seatIndex];
-      return newSelectedSeats;
-    });
-  };
+  useEffect(() => {
+    // Ensure the code is running on the client side
+    if (typeof window !== 'undefined') {
+      // Extract query parameters directly from the URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const movieID = Number(urlParams.get('movieID'));
+      const movieTitle = urlParams.get('movieTitle');
+      const duration = Number(urlParams.get('duration'));
+      const movieImage = urlParams.get('movieImage');
+      const showTime = new Date(urlParams.get('showTime'));
+      const theaterID = Number(urlParams.get('theaterID'));
 
-  // Generate the rows and seats based on the selected state
-  const rows = selectedSeats.map((row, rowIndex) => (
-    <div className={`flex items-center space-x-4`} key={rowIndex}>
-      {row.map((isSelected, seatIndex) => (
-        <Seat
-          key={seatIndex}
-          active={isSelected}
-          onClick={() => handleSeatClick(rowIndex, seatIndex)}
-        />
-      ))}
-    </div>
-  ));
+      // Create the ticketData object
+      const data: BuyTicketProp = {
+        movieID,
+        movieTitle,
+        duration,
+        movieImage,
+        showTime,
+        theaterID,
+      };
+
+      setTicketData(data);
+    }
+  }, []);
+
+  if (!ticketData) {
+    return <div>Loading...</div>;
+  }
+
+  const formattedDate = ticketData.showTime.toISOString().split('T')[0];
+  const formattedTime = ticketData.showTime.toISOString().split('T')[1].substring(0,8);
+
+
+  function generateSeats() {
+    const seats = [];
+
+    for (let row = 1; row <= 20; row++) {
+      for (let seat = 1; seat <= 20; seat++) {
+        seats.push(<Seat key={`seat-${row}-${seat}`} />);
+      }
+    }
+
+    return seats;
+  }
 
   return (
-    <div className="theatre flex justify-center items-center space-x-4">
-      <div className="cinema-seats flex flex-col">{rows}</div>
-      {/* Add the right side cinema seats here */}
+    <div className="theatre">
+      <div className="cinema-seats">{generateSeats()}</div>
     </div>
   );
 };
 
-export default BoockTicket;
+export default BookTicket;

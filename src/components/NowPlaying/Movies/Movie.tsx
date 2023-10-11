@@ -1,28 +1,34 @@
 import Image from 'next/image';
 import React from 'react';
 import { FC } from 'react';
+import Link from 'next/link';
+import BoockTicket from '@/components/BookTicket/BookTicket';
 
 interface MovieProp {
     movieID: number;
     movieTitle: string;
     duration: number;
     movieImage: string;
-    showTimeList: Date[];
+    showTimeList: any[];
+    movieTrailer: string;
 }
 
-/*
-showTimes: Array<string>;
-*/
+
 
 const Movie: FC<MovieProp> = (props: MovieProp) => {
-    //const dateString = props.showTimes;
-    //const showTimeDate = new Date(dateString);
+    
 
     const hour = Math.floor(props.duration / 60);
     const minutes = (props.duration % 60);
-
-   
-
+    console.log(props.showTimeList)
+  /* 
+    const ticketData = {
+        movieID: props.movieID,
+        movieTitle: props.movieTitle,
+        duration: props.duration,
+        movieImage: props.movieImage
+      };
+*/
 
     return (
         
@@ -41,11 +47,32 @@ const Movie: FC<MovieProp> = (props: MovieProp) => {
             <div className='relative ml-4 text-white mb-10'>
                 Duration: {hour} {hour > 1 ? 'hours' : 'hour'} and {minutes} {minutes !== 1 ? 'minutes' : 'minute'}
             </div>
+            
             <div className='relative mt-4 ml-4 font-black text-white mb-2'>
                 {props.showTimeList.map((element, index) => (
-                    <span key={index}> {(new Date(element)).getHours()} : {(new Date(element)).getMinutes()==0?'00': new Date(element).getMinutes()} | </span>
+                    <> 
+                    <Link
+                        key={index}
+                        href={{
+                            pathname: '/book-ticket',
+                            query: {
+                                movieID: props.movieID,
+                                movieTitle: props.movieTitle,
+                                movieImage: props.movieImage,
+                                duration: props.duration,
+                                showTime: element[0],
+                                theaterID: element[1]
+                            },
+                        }}
+                    ><span key={index}>
+                        { (new Date(element[0])).getHours()} : {(new Date(element[0])).getMinutes() == 0 ? '00' : new Date(element[0]).getMinutes()} |
+                    </span>
+                    </Link>
+                    </>
+            
                 ))}
             </div>
+            
         </div>
     );
 };
@@ -53,7 +80,3 @@ const Movie: FC<MovieProp> = (props: MovieProp) => {
 export default Movie;
 
 
-/*
-
-<span key={index}> {new Date(element).getHours()} : {new Date(element).getMinutes()==0?'00': new Date(element).getMinutes()} | </span>
-*/
