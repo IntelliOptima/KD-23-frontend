@@ -1,7 +1,6 @@
 "use client";
 
 import GeneralButton from "@/components/Buttons/GeneralButton";
-import useAuth from "@/hooks/useAuth";
 import useCustomForm from "@/hooks/useForm";
 import Input from "@/components/CustomInputs/Input";
 import { useRouter } from "next/navigation";
