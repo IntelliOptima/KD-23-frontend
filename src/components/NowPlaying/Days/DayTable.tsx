@@ -26,13 +26,37 @@ const DayTable = () => {
     try {
       const response = await fetch(`http://localhost:8080/movie-show/find-all-by-date/${yyyyMmDdDate}`);
       const data = await response.json();
-      return data;
+      return formatFetchedData(data);
     } catch (error) {
       console.error("Error fetching movie data:", error);
       
       return [];
-    }
+    };
   };
+
+  function formatFetchedData(data) {
+    let dataArray = [];
+  
+    data.forEach((movieShow) => {
+      const existingMovie = dataArray.find((newMovieShow) => newMovieShow.movieID === movieShow.movie.id);
+  
+      if (existingMovie) {
+        existingMovie.movieStartDateTimeList.push(movieShow.startDateTime);
+      } else {
+        dataArray.push({
+          movieID: movieShow.movie.id,
+          movieTitle: movieShow.movie.title,
+          movieDuration: movieShow.movie.runtime,
+          movieImage: movieShow.movie.poster,
+          movieStartDateTimeList: [movieShow.startDateTime]
+        });
+      }
+    });
+  
+    return dataArray;
+  }
+  
+
 
   useEffect(() => {
     
