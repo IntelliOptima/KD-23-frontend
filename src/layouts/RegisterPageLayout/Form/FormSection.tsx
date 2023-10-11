@@ -44,6 +44,7 @@ export default function FormSection() {
         }}
         errors={errors}
       />
+
       <Input
         htmlfor="confirmPassword"
         name="confirmPassword"
@@ -57,6 +58,7 @@ export default function FormSection() {
         }}
         errors={errors}
       />
+      
       <div>
         <GeneralButton disabled={isSubmitting} text="Register" type="submit" color="blue" />
       </div>
