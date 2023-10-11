@@ -37,6 +37,7 @@ const WeekCalendar = ({ movie, chosenShowsPlayDateTime, setChosenShowsPlayDateTi
                     headers: {
                         "Content-Type": "application/json",
                     },
+                    credentials: "include",
                 });
 
                 if (!response.ok) {
