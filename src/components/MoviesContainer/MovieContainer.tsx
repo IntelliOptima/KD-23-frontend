@@ -1,45 +1,52 @@
-import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useState, useEffect, Fragment } from "react";
 import MovieCard from "./MovieCard/MovieCard";
+import Input from "@/components/CustomInputs/Input";
+import { MovieFilterHandler } from "../MovieFilterFactory/FilterHandler";
 import type { Movie } from "./MovieCard/MovieCard";
-import { set } from "react-hook-form";
+import GeneralButton from "@/components/Buttons/GeneralButton";
 
 interface Props {
-    page: number;
     setMovie: Dispatch<SetStateAction<Movie | null>>;
 }
 
-const MoviesContainer = ({ page, setMovie }: Props) => {
+const MoviesContainer = ({ setMovie }: Props) => {
+    const [page, setPage] = useState(0);
+    const [filter, setFilter] = useState<string>("");
     const [movieCache, setMovieCache] = useState<Record<number, Movie[]>>({});
+    const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]); // mangler logik for filtering reaktivt!
     const [searchQuery, setSearchQuery] = useState<string>("");
 
+    console.log(searchQuery)
+
     useEffect(() => {
-        async function fetchMovies(targetPage: number) {
+        async function fetchMoviesWithFilter(targetPage: number) {
             if (movieCache[targetPage]) return;
-
+    
             try {
-                const response = await fetch(`https://kinoxpbackend.azurewebsites.net/movie/page=/${targetPage}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                setMovieCache((prev) => ({ ...prev, [targetPage]: data }));
+                let movies: Movie[] = [];
+        
+                movies = await MovieFilterHandler<string | number, number>(searchQuery === "" ? "noFilter" : filter, searchQuery, targetPage);
+        
+                setMovieCache((prev) => ({ ...prev, [targetPage]: movies }));
             } catch (error: any) {
                 console.error("There was a problem with the fetch operation:", error.message);
             }
         }
-
-        // Fetch current page and next 3 pages
-        for (let i = 0; i <= 3; i++) {
-            fetchMovies(page + i);
+    
+        fetchMoviesWithFilter(page);
+    
+        if (searchQuery === "") {
+            for (let i = 1; i <= 3; i++) {
+                fetchMoviesWithFilter(page + i);
+            }
         }
-    }, [page, movieCache]);
+    
+    }, [page, filter, searchQuery, movieCache]);
+    
+    // Reset page to 0 whenever searchQuery changes
+    useEffect(() => {
+        setPage(0);
+    }, [searchQuery]);
 
     const MemoizedMovieCard = React.memo(MovieCard);
     const [isChosen, setIsChosen] = useState<boolean>(false);
@@ -47,6 +54,31 @@ const MoviesContainer = ({ page, setMovie }: Props) => {
 
 
     return (
+        <Fragment>
+            <div className=" flex justify-between items-baseline mb-5">
+                <GeneralButton width="5%" type="button" disabled={page == 0} onClick={() => setPage(prev => prev - 1)} text="&lt;- Previous" />
+                <div className="flex">
+                    <Input
+                        htmlfor="searchBar"
+                        placeholder="search title, actors, etc."
+                        name="searchBar"
+                        type="text"
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <label htmlFor="filter"></label>
+                    <select name="filter" className="border-2 border-gray-500 rounded-md ml-5  p-1 hover:cursor-pointer"
+                        onChange={(e) => setFilter(e.target.value)}
+                        value={filter || ""}>
+                        <option value="" disabled hidden>Filter by</option>
+                        <option value="all">All</option>
+                        <option value="title">Title</option>
+                        <option value="actorName">Actors</option>
+                        <option value="runtime">Runtime</option>
+                        <option value="genre">Genre</option>
+                    </select>
+                </div>
+                <GeneralButton width="5%" type="button" disabled={false} onClick={() => setPage(prev => prev + 1)} text="Next -&gt;" />
+            </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" >
             {movieCache[page]?.map((movie, index) => (
                 <div key={index} className={`hover:cursor-pointer ${isChosen && index === choosenMovieIndex ? ' border-green-700 border-4' : ''}`}
@@ -60,6 +92,11 @@ const MoviesContainer = ({ page, setMovie }: Props) => {
                 </div>
             ))}
         </div>
+        <div className=" flex justify-between">
+                <GeneralButton width="5%" type="button" disabled={page == 0} onClick={() => setPage(prev => prev - 1)} text="&lt;- Previous" />
+                <GeneralButton width="5%" type="button" disabled={false} onClick={() => setPage(prev => prev + 1)} text="Next -&gt;" />
+            </div>
+        </Fragment>
     );
 };
 

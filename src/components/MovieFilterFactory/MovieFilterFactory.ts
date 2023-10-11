@@ -4,7 +4,7 @@ import { FilterClass } from "./FilterClasses";
 
 class MovieFilterFactory {
 
-    public static createFilter<T> (type: string): MoviesSearchFilter<T> {
+    public static createFilter<T, K> (type: string): MoviesSearchFilter<T, K> {
         const filterInstance = FilterClass.getFilterType(type);
 
         if (!filterInstance) {
@@ -15,7 +15,7 @@ class MovieFilterFactory {
         return filterInstance.createFilter();
     }
 
-    public static getFilterTypes(): Record<string, FilterClass> {
+    public static getFilterTypes(): Record<string, FilterClass<any, any>> {
         return FilterClass.getAllFilterTypes();
     }
 }

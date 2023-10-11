@@ -1,5 +1,4 @@
 import { Image, Box, Text, Flex, Spacer } from "@chakra-ui/react";
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
 
 type Actor = {
     id: number;
@@ -25,7 +24,7 @@ const MovieCard = ({ movie }: MovieCardProps) => {
 
     const hours = Math.floor(runtime / 60);
     const minutes = runtime % 60;
-    const truncatedDescription = description.length > 75 ? description.slice(0, 75) + "..." : description;
+    const truncatedDescription = description && description.length > 75 ? description.slice(0, 75) + "..." : description;
 
     return (
         <Box maxW="xs" maxWidth={300} borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md" transition="0.3s" 
@@ -42,7 +41,7 @@ const MovieCard = ({ movie }: MovieCardProps) => {
                         fontSize="xs"
                         textTransform="uppercase"
                     >
-                        {actors.map(actor => actor.name).join(', ')}
+                        {actors?.map(actor => actor.name).join(', ')}
                     </Box>
                 </Box>
 
