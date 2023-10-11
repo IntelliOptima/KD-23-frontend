@@ -1,13 +1,21 @@
 import { useState } from 'react';
+import { Movie } from '../MoviesContainer/MovieCard/MovieCard';
 
     type TimeSlot = {
         hour: number;
         quarter: number;
     }
 
+    export type Theater = {
+        id: number;
+        name: string
+    }
+
     export type Show = {
-        playTime: Date;
-        runTime: number;
+        startDateTime: Date;
+        movie: Movie;
+        price: number;
+        theater: Theater;
     }
 
     const generateTimeSlots = (start: number, end: number): TimeSlot[] => {
@@ -83,7 +91,7 @@ import { useState } from 'react';
         };
 
         const isShowStartingAtSlot = (show: Show, day: Date, slotTime: number): boolean => {
-            const showDate = new Date(show.playTime);
+            const showDate = new Date(show.startDateTime);
             return (
                 day.getDate() === showDate.getDate() && 
                 day.getMonth() === showDate.getMonth() &&
@@ -94,9 +102,9 @@ import { useState } from 'react';
         
 
         const isSlotDuringShow = (show: Show, day: Date, slotTime: number): boolean => {
-            const showDate = new Date(show.playTime);
+            const showDate = new Date(show.startDateTime);
             const showStartTime = showDate.getHours() * 60 + showDate.getMinutes();
-            const showEndTime = showStartTime + show.runTime;
+            const showEndTime = showStartTime + show.movie.runtime;
             return (
                 day.getDate() === showDate.getDate() && 
                 day.getMonth() === showDate.getMonth() &&
@@ -105,19 +113,20 @@ import { useState } from 'react';
             );
         };
 
-
         const doesOverlap = (start1: number, end1: number, start2: number, end2: number) => {
             return start1 < end2 && start2 < end1;
         };
 
         const isAnyShowDuringTimeRange = (day: Date, startTime: number, endTime: number, shows: Show[]): boolean => {
-            const showsOnDay = shows.filter(show => (new Date(show.playTime)).toDateString() === day.toDateString());
-        
+            const showsOnDay = shows.filter(show => (new Date(show.startDateTime)).toDateString() === day.toDateString());
+                                       
             return showsOnDay.some(show => {
-                const showStartTime = new Date(show.playTime).getHours() * 60 + new Date(show.playTime).getMinutes();
-                const showEndTime = showStartTime + show.runTime;
+                const showStartTime = new Date(show.startDateTime).getHours() * 60 + new Date(show.startDateTime).getMinutes();
+                const showEndTime = showStartTime + show.movie.runtime;
                 return doesOverlap(startTime, endTime, showStartTime, showEndTime);
             });
+
+
         };
 
         return {
@@ -129,7 +138,7 @@ import { useState } from 'react';
             getWeekRange,
             formatTimeSlot,
             isShowStartingAtSlot,
-            isSlotDuringShow,
+            isSlotDuringShow,            
             isAnyShowDuringTimeRange,
         };
     };
