@@ -23,6 +23,7 @@ const useCustomForm = ({url, onSuccess, onError}: UseCustomFormProps) => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
       });
   
       if (response.ok) {
