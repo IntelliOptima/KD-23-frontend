@@ -15,9 +15,9 @@ export default function FormSection() {
       console.log("Login failed:",  "No error message provided");
      },
 
-    onSuccess: (data) => { 
-      console.log("Login successful!");
-      router.push(process.env.NEXT_PUBLIC_BASE_URL?.toString() || '/');
+     onSuccess: (data) => {
+      console.log(`Log from correct place ${data.Role}`);
+      router.push( '/');
       localStorage.setItem('isLoggedIn', 'true');
      },
 });

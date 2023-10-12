@@ -12,7 +12,8 @@
  */
 
 import { NextResponse } from 'next/server';
-import {serialize, parse  } from "cookie"
+import { serialize, parse } from "cookie"
+import jwt from 'jsonwebtoken';
 
 export async function POST(request: Request) {
     const isProduction = process.env.NODE_ENV === 'production';
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
                 'Content-Type': 'application/json',
             },
             credentials: "include",
-            body: JSON.stringify({  email, password }),
+            body: JSON.stringify({ email, password }),
         });
 
         // Parse the Set-Cookie header
@@ -39,8 +40,18 @@ export async function POST(request: Request) {
             return NextResponse.json({ success: false, message: 'Authentication failed' }, { status: 401 });
         }
 
-        const userID = await backendResponse.json().then(data => data.id);
-        
+        const decodedToken = jwt.decode(token);
+
+        console.log(`Decoded token: ${JSON.stringify(decodedToken)}`);
+
+        if (!decodedToken) {
+            console.error('Failed to decode the token');
+            return NextResponse.json({ success: false, message: 'Authentication failed' }, { status: 401 });
+        }
+
+        // Extract the role from the decoded token
+        const role = decodedToken.Role[0].authority;
+
         // Serialize the cookies
         const tokenString = serialize('token', token, {
             httpOnly: true,
@@ -49,7 +60,7 @@ export async function POST(request: Request) {
             secure: isProduction,
         });
 
-        return NextResponse.json({ success: true, data: userID }, { status: 200, headers: { 'Set-Cookie': tokenString } });
+        return NextResponse.json({ success: true, data: role }, { status: 200, headers: { 'Set-Cookie': tokenString } });
 
     } catch (error) {
         console.error('Error:', error);
