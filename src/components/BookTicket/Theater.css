@@ -13,6 +13,7 @@ body {
 
 .cinema-seats {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap; /* Added to wrap seats to the next row */
   justify-content: center; /* Center align the grid horizontally */
   

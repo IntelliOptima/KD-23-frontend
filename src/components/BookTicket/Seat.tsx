@@ -1,22 +1,16 @@
 import React , {useState}from 'react';
-import './TheaterOriginalCSS.css';
+import style from './BookTicketCss.module.css';
 
-const Seat = () => {
-  
-
+const Seat = ({ active, onClick }) => {
   return (
-    <div className={`seat`}></div>
+    <div
+      className={`group w-35 h-50 rounded-7 cursor-pointer bg-gradient-to-top from-#761818 via-#B54041 to-#F3686A mb-10 mt--32 shadow-5 hover:bg-red-400 ${
+        active ? 'bg-green-500' : ''
+      }`}
+      onClick={onClick}
+    ></div>
   );
 };
 
 export default Seat;
 
-
-/*
-const Seat = ({ active, onClick }) => {
-
-
-  if (active) {
-    seatStyle.backgroundColor = 'green';
-  }
-*/

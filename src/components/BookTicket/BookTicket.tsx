@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Seat from './Seat';
-import './TheaterOriginalCSS.css';
+import style from './BookTicketCss.module.css';
 
 interface BuyTicketProp {
   movieID: number;
@@ -17,6 +17,25 @@ interface BuyTicketProp {
 const BookTicket = () => {
   const [ticketData, setTicketData] = useState<BuyTicketProp | null>(null);
   const [theaterData, setTheaterData] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+
+  function convertToTwoDimensionalArray(oneDimensionalArray, rows, seatsPerRow) {
+    const twoDimensionalArray = [];
+  
+    for (let row = 0; row < rows; row++) {
+      const rowArray = [];
+      for (let seat = 0; seat < seatsPerRow; seat++) {
+        
+        const index = row * seatsPerRow + seat;
+        
+        rowArray.push(oneDimensionalArray[index]);
+      }
+      
+      twoDimensionalArray.push(rowArray);
+    }
+  
+    return twoDimensionalArray;
+  }
 
   useEffect (() => {
     
@@ -67,17 +86,35 @@ const BookTicket = () => {
   const seatsPerRow = theaterData.seatsPerRow;
   const seats = theaterData.seats;
 
-  console.log(seatsPerRow)
-  console.log(rows)
+  const seatArray = convertToTwoDimensionalArray(seats, rows, seatsPerRow);
+
+
+  function handleSeatClick(row, seat) {
+    // Check if the seat is already selected
+    const isSeatSelected = selectedSeats.some((selectedSeat) => selectedSeat.row === row && selectedSeat.seat === seat);
+
+    if (isSeatSelected) {
+      // If the seat is already selected, deselect it
+      setSelectedSeats((prevSelectedSeats) =>
+        prevSelectedSeats.filter((selectedSeat) => selectedSeat.row !== row || selectedSeat.seat !== seat)
+      );
+    } else {
+      // If the seat is not selected, select it
+      setSelectedSeats((prevSelectedSeats) => [...prevSelectedSeats, { row, seat }]);
+    }
+  }
   
+
   function generateSeats() {
     const seats = [];
   
     for (let row = 1; row <= rows; row++) {
       for (let seat = 1; seat <= seatsPerRow; seat++) {
-        // Create seat elements with appropriate classes
-        seats.push(
-          <div key={`seat-${row}-${seat}`} className={`seat`}></div>
+        seats.push(<Seat
+          key={`seat-${row}-${seat}`}
+          active={selectedSeats.some((selectedSeat) => selectedSeat.row === row && selectedSeat.seat === seat)}
+          onClick={() => handleSeatClick(row, seat)}
+        />
         );
       }
     }
@@ -90,14 +127,13 @@ const BookTicket = () => {
 
 
   return (
-    
-    <div className="theatre">
-      <div className="cinema-seats">{generateSeats()}</div>
+   <div className={"theatre"}>
+    <div className="grid grid-cols-10 grid-cols-gap-10">
+      {generateSeats()}
     </div>
-    
+   </div>
   );
 };
-
 
 
 export default BookTicket;
