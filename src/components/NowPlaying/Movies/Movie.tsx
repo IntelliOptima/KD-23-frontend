@@ -1,21 +1,16 @@
 import Image from 'next/image';
 import React from 'react';
-import { FC } from 'react';
 import Link from 'next/link';
+import { Movie, Show } from '@/Types/Types';
 import BoockTicket from '@/components/BookTicket/BookTicket';
 
-interface MovieProp {
-    movieID: number;
-    movieTitle: string;
-    duration: number;
-    movieImage: string;
-    showTimeList: any[];
-    movieTrailer: string;
+type MovieProps = {
+    movie: Movie;
+    startingDateTimes: Date[];
 }
 
 
-
-const Movie = ({ movieID, movieTitle, duration, movieImage, showTimeList, movieTrailer }: MovieProp) => {
+const Movie = ({ movie, startingDateTimes }: MovieProps ) => {
 
     const hour = Math.floor(duration / 60);
     const minutes = (duration % 60);

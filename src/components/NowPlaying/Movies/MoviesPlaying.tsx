@@ -1,34 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import Movie from './Movie';
-import MovieDetails from '@/components/MovieDetails/MovieDetails';
+import { Show } from '@/Types/Types';
 
-const MoviesPlaying = ({ movieData}) => {
-   
-    const [movieShow, setMovies] = useState([]);
+
+const MoviesPlaying = (movieShows: Show[]) => {    
+  const [uniqueMovies, setUniqueMovies] = useState<Movie[]>([]);
+
   
-    
-    useEffect(() => {
-      setMovies(movieData);
-    }, [movieData]);
-           
+  useEffect(() => {
+    const movies = movieShows.map((show) => show.movie);
+    const uniqueMovies = movies.filter((movie, index, self) => 
+      index === self.findIndex((m) => (
+        m.id === movie.id
+      ))
+    );
+    setUniqueMovies(uniqueMovies);
+  }, [movieShows]);
+
+
+  const getStartingTimesForMovie = (id: number) => {
+    const startingTimes = movieShows.filter((show) => show.movie.id === id);
+    const startingTimesForMovie = startingTimes.map((show) => show.startDateTime);
+    return startingTimesForMovie;
+  }
 
   return (
-    
     <div className='mt-20 flex justify-center'>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6'>
-        {movieData.map((movie, index) => (
+        {uniqueMovies.map((movie, index) => 
+        movie.id &&
           <div key={index} className='flex justify-center'>
             <Movie 
-              movieID={movie.movieID}
-              movieTitle={movie.movieTitle}
-              duration={movie.movieDuration}
-              movieImage={movie.movieImage}
-              showTimeList={movie.movieStartDateTimeList}   
-              movieTrailer={movie.movieTrailer}
+              movie={movie}
+              startingDateTimes={getStartingTimesForMovie(movie.id)}
             />
-            
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

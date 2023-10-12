@@ -23,8 +23,11 @@ export type Genre = {
 };
 
 export type Movie = {
+    id?: number;
     title?: string;
     poster?: string;
+    trailer?: string;
+    releaseDate?: Date;
     actors?: Actor[];
     genre?: Genre[];
     runtime: number; // in minutes

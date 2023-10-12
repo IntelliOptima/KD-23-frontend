@@ -1,16 +1,17 @@
 "use client"
 import React from 'react';
 
-interface DayProps {
+type DayProps = {
   date: Date;
   setSelectedSeat?: (index: number) => void;
   isSelected?: boolean;
 }
 
-const Day: React.FC<DayProps> = ({ date, onClick, isSelected }) => {
+const Day = ({ date, onClick, isSelected }: DayProps) => {
   const today = new Date();
   const dayForShowing = new Date(date);
 
+  
   return (
     <div
       className={`flex flex-col items-center justify-center container h-14 w-60 p-4 ${
@@ -24,9 +25,7 @@ const Day: React.FC<DayProps> = ({ date, onClick, isSelected }) => {
         onClick={onClick}
       >
         <p>
-          {dayForShowing.getDate() !== today.getDate()
-            ? dayForShowing.toLocaleDateString('en-UK', { weekday: 'long' }) + ' '
-            : 'Today '}
+          {dayForShowing.getDate() !== today.getDate() ? dayForShowing.toLocaleDateString('en-UK', { weekday: 'long' }) + ' ' : 'Today '}
           the {' ' + dayForShowing.getDate() + ' '} / {' ' + dayForShowing.getMonth()}
           {}
         </p>
