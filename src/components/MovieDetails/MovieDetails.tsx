@@ -9,8 +9,6 @@ type MovieDetailsProp = {
 
 const MovieDetails = ( {movieId}: MovieDetailsProp ) => {
 
-    
-
     const [movieData, setMovieData] = useState({
         title: "",
         poster: "",

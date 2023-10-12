@@ -6,6 +6,7 @@ import React from 'react'
 
 
 const Navbar = () => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     const activePage = useActivePage();
 
     const showNavbar = [
@@ -35,7 +36,7 @@ const Navbar = () => {
                             <button className="btn-primary">Sign Up</button>
                         </a>
                         <div>
-                            <a href="/login" className="text-white text-xl">Login</a>
+                            <a href={isLoggedIn ? '/api/logout' : '/login'} className="text-white text-xl">{isLoggedIn ? 'Logout' : 'Login'}</a>
                         </div>
                     </div>
 

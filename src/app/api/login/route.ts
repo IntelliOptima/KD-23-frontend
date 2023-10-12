@@ -39,8 +39,8 @@ export async function POST(request: Request) {
             return NextResponse.json({ success: false, message: 'Authentication failed' }, { status: 401 });
         }
 
-        const userID = await backendResponse.json().then(data => data.user_id);
-
+        const userID = await backendResponse.json().then(data => data.id);
+        
         // Serialize the cookies
         const tokenString = serialize('token', token, {
             httpOnly: true,

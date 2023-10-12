@@ -18,6 +18,7 @@ export default function FormSection() {
     onSuccess: (data) => { 
       console.log("Login successful!");
       router.push(process.env.NEXT_PUBLIC_BASE_URL?.toString() || '/');
+      localStorage.setItem('isLoggedIn', 'true');
      },
 });
 
