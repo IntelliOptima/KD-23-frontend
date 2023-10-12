@@ -6,6 +6,9 @@ import MovieSection from "./MovieSection";
 import { useAdminSidebar } from "@/contexts/AdminSidebarContext";
 import type { Show, Theater } from "@/components/CustomCalendar/WeekCalendarFunctions";
 import GeneralButton from "@/components/Buttons/GeneralButton";
+import Swal from 'sweetalert2';
+import { MissingTheaterOrPriceAlert, MissingTheaterPriceAlert } from "@/components/SweetAlert2/CreateProgramAlerts/MissingTheaterPriceAlert";
+import { CreateProgramGoneWrongAlert, CreateProgramSuccess } from "@/components/SweetAlert2/CreateProgramAlerts/CreateProgramCRUDAlerts";
 
 const MainSection = () => {
     const {setSidebarOpen} = useAdminSidebar();
@@ -61,7 +64,7 @@ const MainSection = () => {
                 console.error("There was a problem with the fetch operation:", error.message);
             }
         }
-        fetchTheater(1);
+        fetchTheater(1); //magicnumber: 1 is the cinema ID - only one cinema for this task
     }, []);
     
     const handleClickCreateProgram = async () => { 
@@ -74,34 +77,50 @@ const MainSection = () => {
         })
 
         const program = {
-            startDate: programStartDate.toISOString(), endDate: programEndDate.toISOString(), cinemaId: 1, movieShows: programListWithDatesAsIsoString
+            startDate: programStartDate.toISOString(), endDate: programEndDate.toISOString(), 
+            cinemaId: 1, movieShows: programListWithDatesAsIsoString
         };
         console.log("program entity = ", program);
 
         const objectAsJsonString = JSON.stringify(program);
     
-        const response = await fetch("http://localhost:8080/program", {
-            method: "POST",
-            headers: {
-            "content-type": "application/json",
-          },          
-          body: objectAsJsonString,
-          credentials: "include",
-        });
-    
-        if (!response.ok) {
-          const errorMessage = await response.text();
-          console.log("error message = ", errorMessage)
-          throw new Error(errorMessage);
-        } else {
-            setToggleRefetch(cur => !cur);
-          console.log("Hurray soimething worked!" + response.body);
+        try {
+            const response = await fetch("http://localhost:8080/program", {
+                method: "POST",
+                headers: {
+                "content-type": "application/json",
+              },          
+              body: objectAsJsonString,
+              credentials: "include",
+            });
+        
+            if (!response.ok) {
+              const errorMessage = await response.text();
+              console.log("error message = ", errorMessage)
+              CreateProgramGoneWrongAlert();
+              throw new Error(errorMessage);
+            } else {
+                setToggleRefetch(cur => !cur);
+                CreateProgramSuccess();
+            }
+        } catch {
+            CreateProgramGoneWrongAlert();
         }
       };
+
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const target = event.target as HTMLInputElement;
         setChosenTheater(fetchedTheaters.find(theater => theater.id === parseInt(target.value))!);
+    }
+
+
+    const clickChooseMovie = () => {
+        if (chosenTheater === undefined && showPrice === 0) {  
+           MissingTheaterPriceAlert();
+        } else if (chosenTheater === undefined || showPrice === 0) {
+            MissingTheaterOrPriceAlert(chosenTheater)
+        } else setSlideInMoviesContainer(cur => !cur)
     }
 
     useEffect(() => {
@@ -135,7 +154,7 @@ const MainSection = () => {
                                 <option key={price} value={price}>{price}</option>
                             ))}
                         </select>
-                        <button className="btn-primary ml-24" type="button" onClick={() => setSlideInMoviesContainer(cur => !cur)}>
+                        <button className="btn-primary ml-24" type="button" onClick={() => clickChooseMovie()}>
                             Choose movie
                         </button>
                     </div>
