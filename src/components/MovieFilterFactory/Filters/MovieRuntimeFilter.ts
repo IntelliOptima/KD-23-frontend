@@ -5,7 +5,7 @@ import { IMovieFilter } from "../interfaces/IMovieFilter";
 class MovieRuntimeFilter<T, K> extends MoviesSearchFilter<T, K> implements IMovieFilter<T, K> {
 
     public async filter(T: T, Page: K): Promise<Movie[]> {
-        const response = await fetch(`http://localhost:8080/movie/runtime-less-than/${T}/page=/${Page}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIE_API}/runtime-less-than/${T}/page=/${Page}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

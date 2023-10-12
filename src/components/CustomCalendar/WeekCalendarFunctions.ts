@@ -1,23 +1,9 @@
+import { Show } from '@/Types/Types';
 import { useState } from 'react';
-import { Movie } from '../MoviesContainer/MovieCard/MovieCard';
 
     type TimeSlot = {
         hour: number;
         quarter: number;
-    }
-
-    export type Theater = {
-        id: number;
-        name: string;
-        type: string;
-    }
-
-    export type Show = {
-        id?: number;
-        startDateTime: Date;
-        movie: Movie;
-        price: number;
-        theater: Theater;
     }
 
     const generateTimeSlots = (start: number, end: number): TimeSlot[] => {

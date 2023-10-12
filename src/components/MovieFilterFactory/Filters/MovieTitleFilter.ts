@@ -5,7 +5,7 @@ import { IMovieFilter } from "../interfaces/IMovieFilter";
 class MovieTitleFilter<T, K> extends MoviesSearchFilter<T, K> implements IMovieFilter<T, K> {
 
     public async filter(T: T, Page: K): Promise<Movie[]> {
-        const response = await fetch(`http://localhost:8080/movie/where-movie-title-contains=/${T}/page=/${Page}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIE_API}/where-movie-title-contains=/${T}/page=/${Page}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
