@@ -1,8 +1,10 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Seat from './Seat';
+import Link from 'next/link';
 
 interface BuyTicketProp {
+  price: number;
   movieID: number;
   movieTitle: string;
   duration: number;
@@ -17,6 +19,7 @@ const BookTicket = () => {
   const [ticketData, setTicketData] = useState<BuyTicketProp | null>(null);
   const [theaterData, setTheaterData] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
+  
   
   
 
@@ -43,6 +46,7 @@ const BookTicket = () => {
     if (typeof window !== 'undefined') {
       
       const urlParams = new URLSearchParams(window.location.search);
+      const price = Number(urlParams.get('price'));
       const movieID = Number(urlParams.get('movieID'));
       const movieTitle = urlParams.get('movieTitle');
       const duration = Number(urlParams.get('duration'));
@@ -52,6 +56,7 @@ const BookTicket = () => {
 
       
       const data: BuyTicketProp = {
+        price,
         movieID,
         movieTitle,
         duration,
@@ -61,7 +66,6 @@ const BookTicket = () => {
       };
 
       setTicketData(data);
-      
 
       fetch(`http://localhost:8080/theater/${theaterID}`).then((response) => {
         if (!response.ok) {
@@ -85,6 +89,7 @@ const BookTicket = () => {
   const formattedTime = ticketData.showTime.toISOString().split('T')[1].substring(0,8);
 
   const theaterName = theaterData.name;
+  const showPrice = theaterData.price;
   const rows = theaterData.totalRows;
   const seatsPerRow = theaterData.seatsPerRow;
   const seats = theaterData.seats;
@@ -98,7 +103,11 @@ const BookTicket = () => {
     } else {
       setSelectedSeats([...selectedSeats, seatId]);
     }
+    console.log("Rendered with selectedSeats:", selectedSeats);
+    
   };;
+
+  
 
   function generateSeats() {
     const seatElements = [];
@@ -106,35 +115,61 @@ const BookTicket = () => {
       for (let x = 0; x < seatArray[y].length; x++) {
         seatElements.push(
           <Seat
-            key={seatArray[y][x].id}
-            id={seatArray[y][x].id}
-            priceWeight={seatArray[y][x].priceWeight}
-            row={seatArray[y][x].row}
-            numberInRow={seatArray[y][x].numberInRow}
-            isSelected={selectedSeats.includes(seatArray[y][x].id)}
-            onClick={() => toggleSeatSelection(seatArray[y][x].id)}
+            key={seatArray[x][y].id}
+            id={seatArray[x][y].id}
+            priceWeight={seatArray[x][y].priceWeight}
+            row={seatArray[x][y].row}
+            numberInRow={seatArray[x][y].numberInRow}
+            isSelected={selectedSeats.includes(seatArray[x][y].id)}
+            onClick={() => toggleSeatSelection(seatArray[x][y].id)}
           />
+
         );
       }
     }
     return seatElements;
   }
 
+  function generateTotalPrice(selectedSeats){
+    let totalPrice = 0;
+    selectedSeats.forEach(element => {
+      totalPrice += (searchSeat(element).priceWeight * showPrice)
+    });
+  }
   
 
-
+  function searchSeat(seatId: number) {
+    const foundSeat = seatArray.flat().find(seat => seat.id === seatId);
+    return foundSeat;
+  }
 
 
   return (
-    <div>
+    <div className='flex flex-col'>
+      <div className="selected-seats flex flex-row">
+      <h1 className="text-white w-20 h-50 mt-20">Valgte sæder</h1>
+      <div className='flex flex-row space-x-2'>
+        {selectedSeats.map((seat,index) => (
+          <>
+          <div className='flex flex-col bg-blue-500 p-2'>
+          <p>ID:{seat}</p>
+          <span>Række: {searchSeat(seat).row}</span>
+          <span>Sæde: {searchSeat(seat).numberInRow}</span>
+        
+          <span>Pris: {ticketData.price}</span>
+          </div>
+          </>
+        ))}
+      </div>
+      </div>
+      <div className='text-white mt-16'>
+        <span>Total pris:</span>
+        <span>    
+          <Link ></Link>
+        </span>
+      </div>
       <div className="theatre flex flex-row items-center justify-center h-screen">
         <div className="w-[20%] grid grid-cols-10">{generateSeats()}</div>
-      </div>
-      <h1 className="text-white w-20 h-50 mt-20">Valgte sæder</h1>
-      <div className="selected-seats">
-        {selectedSeats.map((seat, index) => (
-          <span key={index}>{seat}</span>
-        ))}
       </div>
     </div>
   );

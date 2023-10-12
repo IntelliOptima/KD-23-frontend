@@ -11,6 +11,7 @@ const todaysDate = new Date();
 const DayTable = () => {
   const [selectedDateIndex, setSelectedDateIndex] = useState<number>(0);
   const [movieData, setMovieData] = useState([]);
+  const numberOfDays = 8;
 
   const handleDateClick = (index: number) => {
     setSelectedDateIndex(index);
@@ -34,8 +35,9 @@ const DayTable = () => {
     };
   };
 
+  
   function formatFetchedData(data: any[]) {
-    let dataArray: { movieID: any; movieTitle: any; movieDuration: any; movieImage: any; movieStartDateTimeList: any[][]; movieTrailer: any; }[] = [];
+    let dataArray: {price: any; movieID: any; movieTitle: any; movieDuration: any; movieImage: any; movieStartDateTimeList: any[][]; movieTrailer: any; }[] = [];
   
     data.forEach((movieShow) => {
       const existingMovie = dataArray.find((newMovieShow) => newMovieShow.movieID === movieShow.movie.id);
@@ -44,6 +46,7 @@ const DayTable = () => {
         existingMovie.movieStartDateTimeList.push([movieShow.startDateTime, movieShow.theater.id]);
       } else {
         dataArray.push({
+          price: movieShow.price,
           movieID: movieShow.movie.id,
           movieTitle: movieShow.movie.title,
           movieDuration: movieShow.movie.runtime,
@@ -57,6 +60,21 @@ const DayTable = () => {
     return dataArray;
   }
   
+  /*
+
+  const fetchMovieData = async (startDate: Date, endDate: Date) => {
+    const start = startDate.toISOString().split('T')[0];
+    const end = endDate.toISOString().split('T')[0];
+  
+    try {
+      const response = await fetch(`http://localhost:8080/movie-show/find-all-by-date-range/${start}/${end}`);
+      const data = await response.json();
+      return formatFetchedData(data);
+    } catch (error) {
+      console.error("Error fetching movie data:", error);
+      return [];
+    };
+  }; */
 
 
   useEffect(() => {
@@ -68,7 +86,20 @@ const DayTable = () => {
     });
   }, [selectedDateIndex]);
 
+/*
 
+useEffect(() => {
+  const initialStartDate = new Date(todaysDate);
+  initialStartDate.setDate(todaysDate.getDate() + selectedDateIndex);
+  const initialEndDate = new Date(initialStartDate);
+  initialEndDate.setDate(initialStartDate.getDate() + numberOfDays - 1);
+
+  fetchMovieData(initialStartDate, initialEndDate).then((data) => {
+    setMovieData(data);
+  });
+}, [selectedDateIndex]);
+
+*/
 
   return (
     <>

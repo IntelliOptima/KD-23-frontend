@@ -2,9 +2,10 @@ import Image from 'next/image';
 import React from 'react';
 import { FC } from 'react';
 import Link from 'next/link';
-import BoockTicket from '@/components/BookTicket/BookTicket';
+
 
 interface MovieProp {
+    price: number;
     movieID: number;
     movieTitle: string;
     duration: number;
@@ -15,7 +16,7 @@ interface MovieProp {
 
 
 
-const Movie = ({ movieID, movieTitle, duration, movieImage, showTimeList, movieTrailer }: MovieProp) => {
+const Movie = ({price, movieID, movieTitle, duration, movieImage, showTimeList, movieTrailer }: MovieProp) => {
 
     const hour = Math.floor(duration / 60);
     const minutes = (duration % 60);
@@ -62,6 +63,7 @@ const Movie = ({ movieID, movieTitle, duration, movieImage, showTimeList, movieT
                                 href={{
                                     pathname: '/book-ticket',
                                     query: {
+                                        price: price,
                                         movieID: movieID,
                                         movieTitle: movieTitle,
                                         movieImage: movieImage,
@@ -84,5 +86,3 @@ const Movie = ({ movieID, movieTitle, duration, movieImage, showTimeList, movieT
 };
 
 export default Movie;
-
-

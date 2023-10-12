@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useEffect, useState} from 'react';
 import { FC } from 'react';
 
 
@@ -17,13 +17,17 @@ const Seat: FC<SeatProp> = ({id, priceWeight, row, numberInRow, onClick, isSelec
     isSelected ? 'bg-blue-500' : 'bg-orange-500'
   }`;
 
+  useEffect(() => {
+    
+  }, [isSelected]);
+
   return (
     <div 
     id={id}
-    priceWeight={priceWeight}
     row={row}
-    numberInRow={numberInRow}
-    className={classList}></div>
+    className={classList}
+    onClick={onClick}>
+    </div>
   )
 };
 

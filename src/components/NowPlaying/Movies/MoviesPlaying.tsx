@@ -19,6 +19,7 @@ const MoviesPlaying = ({ movieData}) => {
         {movieData.map((movie, index) => (
           <div key={index} className='flex justify-center'>
             <Movie 
+              price={movie.price}
               movieID={movie.movieID}
               movieTitle={movie.movieTitle}
               duration={movie.movieDuration}
