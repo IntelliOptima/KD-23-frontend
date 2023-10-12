@@ -1,9 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
-import { Movie } from '@/components/MoviesContainer/MovieCard/MovieCard';
-import WeekCalendarFunctions, { Show, Theater } from './WeekCalendarFunctions';
-import Swal from 'sweetalert2';
-
-
+import WeekCalendarFunctions from './WeekCalendarFunctions';
+import  { Movie, Show, Theater } from '../../Types/Types'
+import { DeleteShowConfirmAlert, DeleteShowSuccessAlert } from '../SweetAlert2/CreateProgramAlerts/CreateProgramCRUDAlerts';
 
 // Se nu bare her! 
 
@@ -34,13 +32,14 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
     }
 
 
+    //Fetching all created shows from backend for given week
     useEffect(() => {
         setFetchedShows([]);
 
         async function fetchShows() {
             // Production: 
             try {
-                const response = await fetch(`http://localhost:8080/movie-show/theater=/${theater.id}/startDate=/${days[0].toISOString()}/endDate=/${days[days.length - 1].toISOString()}/cinema=/${1}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}/theater=/${theater.id}/startDate=/${days[0].toISOString()}/endDate=/${days[days.length - 1].toISOString()}/cinema=/${1}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -52,8 +51,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                const data = await response.json();
-                console.log("REQUESTED FETCHED SHOWDATA IS: ", data)
+                const data = await response.json();                
                 setFetchedShows(data)
             } catch (error: any) {
                 console.error("There was a problem with the fetch operation:", error.message);
@@ -62,27 +60,21 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
         fetchShows();
 
     }, [theater, days, toggleRefetch]);
+    
 
     useEffect(() => {
         setChosenShowsPlayDateTime([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [theater]);
+    
 
-    const handleClickDeleteMovieShow = async (showStarting: Show) => {
-        Swal.fire({
-            title: 'Are you sure you want to delete this show?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-          }).then( async (result) => {
-            const id = showStarting.id;
-            console.log("id = ", id)
+    const handleClickDeleteMovieShow = async (showToDelete: Show) => {
+        DeleteShowConfirmAlert().then( async (result) => {
+            const id = showToDelete.id;
+            
             if (result.isConfirmed) {
-
                         try {
-                            const response = await fetch(`http://localhost:8080/movie-show/${id}`, {
+                            const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}/${id}`, {
                                 method: "DELETE",
                                 headers: {
                                     "Content-Type": "application/json",
@@ -93,19 +85,14 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
                             if (!response.ok) {
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                             }
-            
-                            console.log("DELETE FETCH DID GO WELL");                                  
+                                                                         
                         } catch (error: any) {
                             console.error("There was a problem with the fetch operation:", error.message);
                         }
         
                         setFetchedShows(cur => cur.filter(show => show.id !== id));
-                    };
-              Swal.fire(
-                'Deleted!',
-                'Show has been deleted.',
-                'success'
-              )
+                        DeleteShowSuccessAlert()
+                    };            
           })
     }
 
@@ -141,7 +128,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
                                 if (programShowStarting) {
                                     const runtimeInQuarters = Math.ceil(programShowStarting.movie.runtime / 15);
                                     return (
-                                        <td key={dayIndex} className="border p-2 hover:cursor-pointer bg-emerald-400 hover:bg-emerald-300" rowSpan={runtimeInQuarters}>
+                                        <td key={dayIndex} className="max-w-0 border p-2 hover:cursor-pointer bg-emerald-400 hover:bg-emerald-300" rowSpan={runtimeInQuarters}>
                                             {programShowStarting.movie.title}
                                         </td>
                                     );
@@ -163,7 +150,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
                                     const runtimeInQuarters = Math.ceil(showStartingNow.movie.runtime / 15);
                                     return (
                                         <td key={dayIndex} onClick={() => handleClickDeleteMovieShow(showStartingNow)} 
-                                        className="border p-2 hover:cursor-pointer bg-red-400 hover:bg-red-300" rowSpan={runtimeInQuarters}>
+                                        className="max-w-0 border p-2 hover:cursor-pointer bg-red-400 hover:bg-red-300" rowSpan={runtimeInQuarters}>
                                             {showStartingNow.movie.title}
                                         </td>
                                     );
@@ -177,7 +164,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
                                     const runtimeInQuarters = Math.ceil(chosenShowStarting.movie.runtime / 15);
                                     return (
                                         <td key={dayIndex} onClick={() => handleClickOnChosenDateTime(chosenShowStarting.startDateTime)}
-                                            className="border p-2 hover:cursor-pointer bg-blue-300 hover:bg-blue-400" rowSpan={runtimeInQuarters}>
+                                            className="max-w-0 border p-2 hover:cursor-pointer bg-blue-300 hover:bg-blue-400" rowSpan={runtimeInQuarters}>
                                             {chosenShowStarting.movie.title}
                                         </td>
                                     );

@@ -1,11 +1,13 @@
 "use client";
 import WeekCalendar from "@/components/CustomCalendar/WeekCalendar"
 import { useState, ChangeEvent, useEffect, Dispatch, SetStateAction } from 'react';
-import type { Movie } from "@/components/MoviesContainer/MovieCard/MovieCard";
+import type { Movie } from "@/Types/Types";
 import MovieSection from "./MovieSection";
 import { useAdminSidebar } from "@/contexts/AdminSidebarContext";
-import type { Show, Theater } from "@/components/CustomCalendar/WeekCalendarFunctions";
+import type { Show, Theater } from "@/Types/Types";
 import GeneralButton from "@/components/Buttons/GeneralButton";
+import { MissingTheaterOrPriceAlert, MissingTheaterPriceAlert } from "@/components/SweetAlert2/CreateProgramAlerts/MissingTheaterPriceAlert";
+import { CreateProgramGoneWrongAlert, CreateProgramSuccess } from "@/components/SweetAlert2/CreateProgramAlerts/CreateProgramCRUDAlerts";
 
 const MainSection = () => {
     const {setSidebarOpen} = useAdminSidebar();
@@ -38,10 +40,9 @@ const MainSection = () => {
     
     useEffect(() => {
         async function fetchTheater(cinemaID: number) {
-            // Production link: https://kinoxpbackend.azurewebsites.net/theater/cinema=/${cinemaID}`
 
-            try {
-                const response = await fetch(`http://localhost:8080/theater/cinema=/${cinemaID}`, {
+            try {                
+                const response = await fetch(`${process.env.NEXT_PUBLIC_THEATER_API}/cinema=/${cinemaID}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -53,55 +54,68 @@ const MainSection = () => {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                const data = await response.json();
-                console.log("REQUESTING DATA INFO: ", data)
-                setFetchedTheaters(data);
-                console.log(data);
+                const data = await response.json();                
+                setFetchedTheaters(data);                
             } catch (error: any) {
                 console.error("There was a problem with the fetch operation:", error.message);
             }
         }
-        fetchTheater(1);
+        fetchTheater(1); //magicnumber: 1 is the cinema ID - only one cinema for this task
     }, []);
     
     const handleClickCreateProgram = async () => { 
         const programStartDate = programList.sort((a, b) => a.startDateTime.getTime() - b.startDateTime.getTime())[0].startDateTime;
         const programEndDate = programList.sort((a, b) => b.startDateTime.getTime() - a.startDateTime.getTime())[0].startDateTime;
        
-        const programListWithDatesAsIsoString = programList.map(show => {   
-            console.log(show.startDateTime);         
+        const programListWithDatesAsIsoString = programList.map(show => {           
             return {...show, startDateTime: show.startDateTime.toISOString()}
         })
 
         const program = {
-            startDate: programStartDate.toISOString(), endDate: programEndDate.toISOString(), cinemaId: 1, movieShows: programListWithDatesAsIsoString
-        };
-        console.log("program entity = ", program);
+            startDate: programStartDate.toISOString(), endDate: programEndDate.toISOString(), 
+            cinemaId: 1, movieShows: programListWithDatesAsIsoString
+        };        
 
         const objectAsJsonString = JSON.stringify(program);
     
-        const response = await fetch("http://localhost:8080/program", {
-            method: "POST",
-            headers: {
-            "content-type": "application/json",
-          },          
-          body: objectAsJsonString,
-          credentials: "include",
-        });
-    
-        if (!response.ok) {
-          const errorMessage = await response.text();
-          console.log("error message = ", errorMessage)
-          throw new Error(errorMessage);
-        } else {
-            setToggleRefetch(cur => !cur);
-          console.log("Hurray soimething worked!" + response.body);
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_PROGRAM_API}`, {
+                method: "POST",
+                headers: {
+                "content-type": "application/json",
+              },          
+              body: objectAsJsonString,
+              credentials: "include",
+            });
+        
+            if (!response.ok) {
+              const errorMessage = await response.text();              
+              CreateProgramGoneWrongAlert();
+              throw new Error(errorMessage);
+            } else {
+                CreateProgramSuccess();
+                setChosenShowsPlayDateTime([]);
+                setProgramList([]);
+                setToggleRefetch(cur => !cur);                
+            }
+        } catch (error: any) {
+            CreateProgramGoneWrongAlert();
         }
       };
+
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const target = event.target as HTMLInputElement;
         setChosenTheater(fetchedTheaters.find(theater => theater.id === parseInt(target.value))!);
+    }
+
+
+    const clickChooseMovie = () => {
+        if (chosenTheater === undefined && showPrice === 0) {  
+           MissingTheaterPriceAlert();
+        } else if (chosenTheater === undefined || showPrice === 0) {
+            MissingTheaterOrPriceAlert(chosenTheater)
+        } else setSlideInMoviesContainer(cur => !cur)
     }
 
     useEffect(() => {
@@ -128,14 +142,14 @@ const MainSection = () => {
                         <label htmlFor="movieShowPrice" className="ml-10 flex self-end">Select a price</label>
                         <select className="border-2 border-gray-500 rounded-md ml-5  p-1 hover:cursor-pointer"
                             onChange={(e) => setShowPrice(parseInt(e.target.value))}
-                            value={showPrice || ""}
+                            value={showPrice || 0}
                         >   
-                            <option value="" disabled hidden>Select a price</option>
+                            <option value={0} disabled hidden>Select a price</option>
                             {[89, 100, 125, 150, 170, 199, 240].map((price) => (
                                 <option key={price} value={price}>{price}</option>
                             ))}
                         </select>
-                        <button className="btn-primary ml-24" type="button" onClick={() => setSlideInMoviesContainer(cur => !cur)}>
+                        <button className="btn-primary ml-24" type="button" onClick={() => clickChooseMovie()}>
                             Choose movie
                         </button>
                     </div>
