@@ -41,8 +41,10 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
         async function fetchShows() {
             // Production: 
             try {      
-                setIsLoading(true);          
-                const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}/theater=/${theater.id}/startDate=/${days[0].toISOString()}/endDate=/${days[days.length - 1].toISOString()}/cinema=/${1}`, {
+                setIsLoading(true);             
+                const fixedDate = new Date(days[0].getFullYear(), days[0].getMonth(), days[0].getDate(), 8, 0);           
+                console.log(fixedDate);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}/theater=/${theater.id}/startDate=/${fixedDate.toISOString()}/endDate=/${days[days.length - 1].toISOString()}/cinema=/${1}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

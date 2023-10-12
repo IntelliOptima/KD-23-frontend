@@ -98,10 +98,10 @@ const MainSection = () => {
                 throw new Error(errorMessage);
             } else {
                 setIsLoading(false);
-                CreateProgramSuccess();
+                CreateProgramSuccess();                
                 setChosenShowsPlayDateTime([]);
                 setProgramList([]);
-                setToggleRefetch(cur => !cur);                
+                setToggleRefetch(cur => !cur);                            
             }
         } catch (error: any) {
             setIsLoading(false);
