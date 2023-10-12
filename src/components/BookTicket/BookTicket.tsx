@@ -16,7 +16,7 @@ interface BuyTicketProp {
 const BookTicket = () => {
   const [ticketData, setTicketData] = useState<BuyTicketProp | null>(null);
   const [theaterData, setTheaterData] = useState([]);
-  const [selectedSeat, setSelectedSeat] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
   
   
 
@@ -88,39 +88,55 @@ const BookTicket = () => {
   const rows = theaterData.totalRows;
   const seatsPerRow = theaterData.seatsPerRow;
   const seats = theaterData.seats;
-  console.log(seats)
   const seatArray = convertToTwoDimensionalArray(seats, rows, seatsPerRow);
 
-  console.log(seats)
+
+
+  const toggleSeatSelection = (seatId: number) => {
+    if (selectedSeats.includes(seatId)) {
+      setSelectedSeats(selectedSeats.filter((selectedSeat) => selectedSeat !== seatId));
+    } else {
+      setSelectedSeats([...selectedSeats, seatId]);
+    }
+  };;
 
   function generateSeats() {
     const seatElements = [];
     for (let y = 0; y < seatArray.length; y++) {
-      for (let x = 0; x < seatArray.length; x++) {
-        seatElements.push(<Seat
-        key={seatArray[y][x].id} 
-        id={seatArray[x][y].id}
-        priceWeight={seatArray[x][y].priceWeight}
-        row={seatArray[x][y].row}
-        numberInRow={seatArray[x][y].numberInRow}
-        />)
+      for (let x = 0; x < seatArray[y].length; x++) {
+        seatElements.push(
+          <Seat
+            key={seatArray[y][x].id}
+            id={seatArray[y][x].id}
+            priceWeight={seatArray[y][x].priceWeight}
+            row={seatArray[y][x].row}
+            numberInRow={seatArray[y][x].numberInRow}
+            isSelected={selectedSeats.includes(seatArray[y][x].id)}
+            onClick={() => toggleSeatSelection(seatArray[y][x].id)}
+          />
+        );
       }
-      
     }
-  
     return seatElements;
   }
+
   
 
 
 
 
   return (
-   <div className={"theatre flex flex-row items-center justify-center h-screen"}>
-    <div className={`w-[20%] grid grid-cols-10`}>
-      {generateSeats()}
+    <div>
+      <div className="theatre flex flex-row items-center justify-center h-screen">
+        <div className="w-[20%] grid grid-cols-10">{generateSeats()}</div>
+      </div>
+      <h1 className="text-white w-20 h-50 mt-20">Valgte sæder</h1>
+      <div className="selected-seats">
+        {selectedSeats.map((seat, index) => (
+          <span key={index}>{seat}</span>
+        ))}
+      </div>
     </div>
-   </div>
   );
 };
 
