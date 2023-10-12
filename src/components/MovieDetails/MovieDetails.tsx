@@ -2,9 +2,12 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
+type MovieDetailsProp = {
+    movieId: number;
+}
 
 
-const MovieDetails = ( movieId: number) => {
+const MovieDetails = ( {movieId}: MovieDetailsProp ) => {
 
     
 
@@ -19,6 +22,7 @@ const MovieDetails = ( movieId: number) => {
         voteRating: 0.0,
         description: "",
     });
+    console.log("Fetch url" + 'http://localhost:8080/movie/id=/'+ movieId)
     
     const hours = Math.floor(movieData.runtime / 60);
     const minutes = Math.floor(movieData.runtime % 60);
@@ -28,7 +32,7 @@ const MovieDetails = ( movieId: number) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const movieDataResponse = await fetch(`http://localhost:8080/movie/id=/${movieId}`, {
+            const movieDataResponse = await fetch('http://localhost:8080/movie/id=/'+ movieId, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,7 +48,7 @@ const MovieDetails = ( movieId: number) => {
             }
         };
         fetchData();
-    }, []);
+    }, [movieId]);
 
 
     console.log(movieData);
