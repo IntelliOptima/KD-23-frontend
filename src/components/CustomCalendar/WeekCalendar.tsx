@@ -38,7 +38,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
         async function fetchShows() {
             // Production: 
             try {
-                const response = await fetch(`http://localhost:8080/movie-show/theater=/${theater.id}/startDate=/${days[0].toISOString()}/endDate=/${days[days.length - 1].toISOString()}/cinema=/${1}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}theater=/${theater.id}/startDate=/${days[0].toISOString()}/endDate=/${days[days.length - 1].toISOString()}/cinema=/${1}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -63,6 +63,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
 
     useEffect(() => {
         setChosenShowsPlayDateTime([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [theater]);
 
     const handleClickDeleteMovieShow = async (showStarting: Show) => {
@@ -80,7 +81,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
             if (result.isConfirmed) {
 
                         try {
-                            const response = await fetch(`http://localhost:8080/movie-show/${id}`, {
+                            const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}${id}`, {
                                 method: "DELETE",
                                 headers: {
                                     "Content-Type": "application/json",
@@ -91,8 +92,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
                             if (!response.ok) {
                                 throw new Error(`HTTP error! Status: ${response.status}`);
                             }
-            
-                            console.log("DELETE FETCH DID GO WELL");                                  
+                             
                         } catch (error: any) {
                             console.error("There was a problem with the fetch operation:", error.message);
                         }

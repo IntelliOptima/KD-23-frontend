@@ -128,9 +128,9 @@ const MainSection = () => {
                         <label htmlFor="movieShowPrice" className="ml-10 flex self-end">Select a price</label>
                         <select className="border-2 border-gray-500 rounded-md ml-5  p-1 hover:cursor-pointer"
                             onChange={(e) => setShowPrice(parseInt(e.target.value))}
-                            value={showPrice || ""}
+                            value={showPrice || 0}
                         >   
-                            <option value="" disabled hidden>Select a price</option>
+                            <option value={0} disabled hidden>Select a price</option>
                             {[89, 100, 125, 150, 170, 199, 240].map((price) => (
                                 <option key={price} value={price}>{price}</option>
                             ))}
