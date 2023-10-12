@@ -1,6 +1,9 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { Movie } from '@/components/MoviesContainer/MovieCard/MovieCard';
 import WeekCalendarFunctions, { Show, Theater } from './WeekCalendarFunctions';
+import Swal from 'sweetalert2';
+
+
 
 // Se nu bare her! 
 
@@ -64,37 +67,46 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
         setChosenShowsPlayDateTime([]);
     }, [theater]);
 
-    const handleClickDeleteMovieShow = async (movieShowDateTime: Date) => {
-        console.log("MOVIE SHOW DATE TIME IS: ", movieShowDateTime)
+    const handleClickDeleteMovieShow = async (showStarting: Show) => {
+        Swal.fire({
+            title: 'Are you sure you want to delete this show?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then( async (result) => {
+            const id = showStarting.id;
+            console.log("id = ", id)
+            if (result.isConfirmed) {
 
-        const movieShowToDelete = fetchedShows.find(show => 
-            new Date(show.startDateTime).toISOString() === movieShowDateTime.toISOString()
-        );
-
-        console.log(movieShowToDelete);
-        if (!movieShowToDelete) {
-            return;
-        } else {
-                try {
-                    const response = await fetch(`http://localhost:8080/movie-show/${movieShowToDelete?.id}`, {
-                        method: "DELETE",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        credentials: "include",
-                    });
-    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-    
-                    console.log("DELETE FETCH DID GO WELL");                                  
-                } catch (error: any) {
-                    console.error("There was a problem with the fetch operation:", error.message);
-                }
-
-                setFetchedShows(cur => cur.filter(show => show.id !== movieShowToDelete.id));
-            };
+                        try {
+                            const response = await fetch(`http://localhost:8080/movie-show/${id}`, {
+                                method: "DELETE",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                credentials: "include",
+                            });
+            
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+            
+                            console.log("DELETE FETCH DID GO WELL");                                  
+                        } catch (error: any) {
+                            console.error("There was a problem with the fetch operation:", error.message);
+                        }
+        
+                        setFetchedShows(cur => cur.filter(show => show.id !== id));
+                    };
+              Swal.fire(
+                'Deleted!',
+                'Show has been deleted.',
+                'success'
+              )
+          })
     }
 
     return (
@@ -150,7 +162,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
                                 if (showStartingNow) {
                                     const runtimeInQuarters = Math.ceil(showStartingNow.movie.runtime / 15);
                                     return (
-                                        <td key={dayIndex} onClick={() => handleClickDeleteMovieShow(iteratedDateTime)} 
+                                        <td key={dayIndex} onClick={() => handleClickDeleteMovieShow(showStartingNow)} 
                                         className="border p-2 hover:cursor-pointer bg-red-400 hover:bg-red-300" rowSpan={runtimeInQuarters}>
                                             {showStartingNow.movie.title}
                                         </td>
