@@ -1,12 +1,11 @@
 "use client";
 import WeekCalendar from "@/components/CustomCalendar/WeekCalendar"
 import { useState, ChangeEvent, useEffect, Dispatch, SetStateAction } from 'react';
-import type { Movie } from "@/components/MoviesContainer/MovieCard/MovieCard";
+import type { Movie } from "@/Types/Types";
 import MovieSection from "./MovieSection";
 import { useAdminSidebar } from "@/contexts/AdminSidebarContext";
-import type { Show, Theater } from "@/components/CustomCalendar/WeekCalendarFunctions";
+import type { Show, Theater } from "@/Types/Types";
 import GeneralButton from "@/components/Buttons/GeneralButton";
-import Swal from 'sweetalert2';
 import { MissingTheaterOrPriceAlert, MissingTheaterPriceAlert } from "@/components/SweetAlert2/CreateProgramAlerts/MissingTheaterPriceAlert";
 import { CreateProgramGoneWrongAlert, CreateProgramSuccess } from "@/components/SweetAlert2/CreateProgramAlerts/CreateProgramCRUDAlerts";
 
@@ -41,10 +40,9 @@ const MainSection = () => {
     
     useEffect(() => {
         async function fetchTheater(cinemaID: number) {
-            // Production link: https://kinoxpbackend.azurewebsites.net/theater/cinema=/${cinemaID}`
 
-            try {
-                const response = await fetch(`http://localhost:8080/theater/cinema=/${cinemaID}`, {
+            try {                
+                const response = await fetch(`${process.env.NEXT_PUBLIC_THEATER_API}/cinema=/${cinemaID}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -56,10 +54,8 @@ const MainSection = () => {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                const data = await response.json();
-                console.log("REQUESTING DATA INFO: ", data)
-                setFetchedTheaters(data);
-                console.log(data);
+                const data = await response.json();                
+                setFetchedTheaters(data);                
             } catch (error: any) {
                 console.error("There was a problem with the fetch operation:", error.message);
             }
@@ -71,21 +67,19 @@ const MainSection = () => {
         const programStartDate = programList.sort((a, b) => a.startDateTime.getTime() - b.startDateTime.getTime())[0].startDateTime;
         const programEndDate = programList.sort((a, b) => b.startDateTime.getTime() - a.startDateTime.getTime())[0].startDateTime;
        
-        const programListWithDatesAsIsoString = programList.map(show => {   
-            console.log(show.startDateTime);         
+        const programListWithDatesAsIsoString = programList.map(show => {           
             return {...show, startDateTime: show.startDateTime.toISOString()}
         })
 
         const program = {
             startDate: programStartDate.toISOString(), endDate: programEndDate.toISOString(), 
             cinemaId: 1, movieShows: programListWithDatesAsIsoString
-        };
-        console.log("program entity = ", program);
+        };        
 
         const objectAsJsonString = JSON.stringify(program);
     
         try {
-            const response = await fetch("http://localhost:8080/program", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_PROGRAM_API}`, {
                 method: "POST",
                 headers: {
                 "content-type": "application/json",
@@ -95,15 +89,16 @@ const MainSection = () => {
             });
         
             if (!response.ok) {
-              const errorMessage = await response.text();
-              console.log("error message = ", errorMessage)
+              const errorMessage = await response.text();              
               CreateProgramGoneWrongAlert();
               throw new Error(errorMessage);
             } else {
-                setToggleRefetch(cur => !cur);
                 CreateProgramSuccess();
+                setChosenShowsPlayDateTime([]);
+                setProgramList([]);
+                setToggleRefetch(cur => !cur);                
             }
-        } catch {
+        } catch (error: any) {
             CreateProgramGoneWrongAlert();
         }
       };

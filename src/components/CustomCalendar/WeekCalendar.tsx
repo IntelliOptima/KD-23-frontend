@@ -1,10 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
-import { Movie } from '@/components/MoviesContainer/MovieCard/MovieCard';
-import WeekCalendarFunctions, { Show, Theater } from './WeekCalendarFunctions';
-import Swal from 'sweetalert2';
-import { DeleteShowSuccessAlert } from '../SweetAlert2/CreateProgramAlerts/CreateProgramCRUDAlerts';
-
-
+import WeekCalendarFunctions from './WeekCalendarFunctions';
+import  { Movie, Show, Theater } from '../../Types/Types'
+import { DeleteShowConfirmAlert, DeleteShowSuccessAlert } from '../SweetAlert2/CreateProgramAlerts/CreateProgramCRUDAlerts';
 
 type WeekCalendarProps = {
     toggleRefetch: boolean;
@@ -40,7 +37,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
         async function fetchShows() {
             // Production: 
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}theater=/${theater.id}/startDate=/${days[0].toISOString()}/endDate=/${days[days.length - 1].toISOString()}/cinema=/${1}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}/theater=/${theater.id}/startDate=/${days[0].toISOString()}/endDate=/${days[days.length - 1].toISOString()}/cinema=/${1}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -52,8 +49,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                const data = await response.json();
-                console.log("REQUESTED FETCHED SHOWDATA IS: ", data)
+                const data = await response.json();                
                 setFetchedShows(data)
             } catch (error: any) {
                 console.error("There was a problem with the fetch operation:", error.message);
@@ -70,21 +66,13 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
     }, [theater]);
     
 
-    const handleClickDeleteMovieShow = async (showStarting: Show) => {
-        Swal.fire({
-            title: 'Are you sure you want to delete this show?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-          }).then( async (result) => {
-            const id = showStarting.id;
+    const handleClickDeleteMovieShow = async (showToDelete: Show) => {
+        DeleteShowConfirmAlert().then( async (result) => {
+            const id = showToDelete.id;
             
-            if (result.isConfirmed) {                
+            if (result.isConfirmed) {
                         try {
-                            const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}${id}`, {
+                            const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}/${id}`, {
                                 method: "DELETE",
                                 headers: {
                                     "Content-Type": "application/json",
