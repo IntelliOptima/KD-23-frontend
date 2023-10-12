@@ -3,6 +3,8 @@ import WeekCalendarFunctions from './WeekCalendarFunctions';
 import  { Movie, Show, Theater } from '../../Types/Types'
 import { DeleteShowConfirmAlert, DeleteShowSuccessAlert } from '../SweetAlert2/CreateProgramAlerts/CreateProgramCRUDAlerts';
 
+// Se nu bare her! 
+
 type WeekCalendarProps = {
     toggleRefetch: boolean;
     movie: Movie | null;
