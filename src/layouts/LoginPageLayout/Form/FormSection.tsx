@@ -16,7 +16,7 @@ export default function FormSection() {
      },
 
      onSuccess: (data) => {
-      console.log(`Log from correct place ${data.Role}`);
+      console.log(`Log from correct place ${data}`);
       router.push( '/');
       localStorage.setItem('isLoggedIn', 'true');
      },

@@ -2,7 +2,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 
 type UseCustomFormProps = {
     url: string;
-    onSuccess:(data: any) => void;
+    onSuccess:(data: string) => void;
     onError:(error: string) => void;
 }
 

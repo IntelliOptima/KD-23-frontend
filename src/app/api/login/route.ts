@@ -50,7 +50,7 @@ export async function POST(request: Request) {
         }
 
         // Extract the role from the decoded token
-        const role = decodedToken.Role[0].authority;
+        const role: string = decodedToken.Role[0].authority;
 
         // Serialize the cookies
         const tokenString = serialize('token', token, {
