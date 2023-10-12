@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Seat from './Seat';
-import style from './BookTicketCss.module.css';
 
 interface BuyTicketProp {
   movieID: number;
@@ -17,7 +16,10 @@ interface BuyTicketProp {
 const BookTicket = () => {
   const [ticketData, setTicketData] = useState<BuyTicketProp | null>(null);
   const [theaterData, setTheaterData] = useState([]);
+  
+  /*
   const [selectedSeats, setSelectedSeats] = useState([]);
+*/
 
   function convertToTwoDimensionalArray(oneDimensionalArray, rows, seatsPerRow) {
     const twoDimensionalArray = [];
@@ -88,47 +90,44 @@ const BookTicket = () => {
 
   const seatArray = convertToTwoDimensionalArray(seats, rows, seatsPerRow);
 
-
+/*
   function handleSeatClick(row, seat) {
-    // Check if the seat is already selected
+    
     const isSeatSelected = selectedSeats.some((selectedSeat) => selectedSeat.row === row && selectedSeat.seat === seat);
 
     if (isSeatSelected) {
-      // If the seat is already selected, deselect it
+      
       setSelectedSeats((prevSelectedSeats) =>
         prevSelectedSeats.filter((selectedSeat) => selectedSeat.row !== row || selectedSeat.seat !== seat)
       );
     } else {
-      // If the seat is not selected, select it
+      
       setSelectedSeats((prevSelectedSeats) => [...prevSelectedSeats, { row, seat }]);
     }
   }
-  
+  */
 
   function generateSeats() {
-    const seats = [];
-  
-    for (let row = 1; row <= rows; row++) {
-      for (let seat = 1; seat <= seatsPerRow; seat++) {
-        seats.push(<Seat
-          key={`seat-${row}-${seat}`}
-          active={selectedSeats.some((selectedSeat) => selectedSeat.row === row && selectedSeat.seat === seat)}
-          onClick={() => handleSeatClick(row, seat)}
-        />
-        );
+    const seatElements = [];
+    for (let y = 0; y < seatArray.length; y++) {
+      for (let x = 0; x < seatArray.length; x++) {
+        seatElements.push(<Seat
+        key={seatArray[y][x].id} 
+        id={seatArray[x][y].id}
+        priceWeight={seatArray[x][y].priceWeight}
+        />)
       }
+      
     }
   
-    return seats;
+    return seatElements;
   }
   
 
 
-
-
   return (
-   <div className={"theatre"}>
-    <div className="grid grid-cols-10 grid-cols-gap-10">
+   <div className={"theatre flex flex-row items-center justify-center h-screen"}>
+    <div className={`w-[35%] grid grid-cols-${seatArray.length} grid-cols-gap-1`}>
       {generateSeats()}
     </div>
    </div>

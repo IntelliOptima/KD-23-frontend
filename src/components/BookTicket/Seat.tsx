@@ -1,15 +1,15 @@
-import React , {useState}from 'react';
-import style from './BookTicketCss.module.css';
+import React , {useState} from 'react';
+import { FC } from 'react';
 
-const Seat = ({ active, onClick }) => {
+interface SeatProp {
+  id: number;
+  priceWeight: number;
+}
+
+const Seat: FC<SeatProp> = (props: SeatProp) => {
   return (
-    <div
-      className={`group w-35 h-50 rounded-7 cursor-pointer bg-gradient-to-top from-#761818 via-#B54041 to-#F3686A mb-10 mt--32 shadow-5 hover:bg-red-400 ${
-        active ? 'bg-green-500' : ''
-      }`}
-      onClick={onClick}
-    ></div>
-  );
+    <div className='mb-2 w-6 h-8 rounded-t-lg bg-orange-500 hover:bg-orange-300 hover:cursor-pointer'></div>
+  )
 };
 
 export default Seat;
