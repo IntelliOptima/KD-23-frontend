@@ -5,7 +5,7 @@ import React from 'react'
 const MainSection = () => {
   return (
     <div className="py-10">
-        <MovieDetails />
+        {/* <MovieDetails /> */}
     </div>
   )
 }

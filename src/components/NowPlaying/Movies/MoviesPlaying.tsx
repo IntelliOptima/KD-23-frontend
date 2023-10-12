@@ -1,28 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import Movie from './Movie';
-import { Show } from '@/Types/Types';
+import { Show, StartTimeWithTheater } from '@/Types/Types';
 
+type MoviesPlayingProps = {
+  movieShows: Show[];
+};
 
-const MoviesPlaying = (movieShows: Show[]) => {    
+const MoviesPlaying = ({movieShows}: MoviesPlayingProps) => {    
   const [uniqueMovies, setUniqueMovies] = useState<Movie[]>([]);
 
   
   useEffect(() => {
-    const movies = movieShows.map((show) => show.movie);
-    const uniqueMovies = movies.filter((movie, index, self) => 
-      index === self.findIndex((m) => (
-        m.id === movie.id
-      ))
-    );
-    setUniqueMovies(uniqueMovies);
+    if (Array.isArray(movieShows)) {
+      const movies = movieShows.map((show) => show.movie);
+      const uniqueMovies = movies.filter((movie, index, self) => 
+        index === self.findIndex((m) => (
+          m.id === movie.id
+        ))
+      );
+      setUniqueMovies(uniqueMovies);
+    }
   }, [movieShows]);
 
 
-  const getStartingTimesForMovie = (id: number) => {
+  const getStartingTimesWithTheaterForMovie = (id: number): StartTimeWithTheater[] => {
     const startingTimes = movieShows.filter((show) => show.movie.id === id);
-    const startingTimesForMovie = startingTimes.map((show) => show.startDateTime);
-    return startingTimesForMovie;
-  }
+    const startingTimesWithTheatersForMovie = startingTimes.map((show) => ({
+        startTime: show.startDateTime,
+        theater: show.theater,
+    }));
+    return startingTimesWithTheatersForMovie;
+};
 
   return (
     <div className='mt-20 flex justify-center'>
@@ -32,7 +40,7 @@ const MoviesPlaying = (movieShows: Show[]) => {
           <div key={index} className='flex justify-center'>
             <Movie 
               movie={movie}
-              startingDateTimes={getStartingTimesForMovie(movie.id)}
+              startTimesWithTheaters={getStartingTimesWithTheaterForMovie(movie.id)}
             />
           </div>
         )}

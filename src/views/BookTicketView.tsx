@@ -1,10 +1,10 @@
-import MainSection from '@/layouts/LandingpageLayout/MainSection'
+// import MainSection from '@/layouts/LandingpageLayout/MainSection'
 import React from 'react'
 
 const LandingpageView = () => {
   return (
     <div>
-        <MainSection />
+        {/* <MainSection /> */}
     </div>
   )
 }

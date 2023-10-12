@@ -1,4 +1,4 @@
-import { Movie } from "../MoviesContainer/MovieCard/MovieCard";
+import { Movie } from "@/Types/Types";
 import { MovieFilterFactory } from "./MovieFilterFactory";
 
 export const MovieFilterHandler = async <T, K> ( type: string, T: T, Page: K ): Promise<Movie[]> => {

@@ -65,6 +65,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
         };
         fetchShows();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [theater, days, toggleRefetch]);
     
 

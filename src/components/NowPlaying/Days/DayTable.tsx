@@ -1,27 +1,30 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import DayRow from "./DayRow";
 import MoviesPlaying from "../Movies/MoviesPlaying";
 import { Show } from "@/Types/Types";
 
 
+
 const DayTable = () => {
-  const todaysDate = new Date();
+  const todaysDate = useMemo(() => new Date(), []);
   
   const [shows, setShows] = useState<Show[]>([]);
   const [selectedDateIndex, setSelectedDateIndex] = useState<number>(0);
+  console.log("DateIndex is changing", selectedDateIndex)
 
-  const handleDateClick = (index: number) => {
-    setSelectedDateIndex(index);
-    fetchMovieData(new Date(todaysDate.getDate() + selectedDateIndex));
-  };
+  useEffect(() => {
+    const newDate = new Date(todaysDate);  
+    newDate.setDate(newDate.getDate() + selectedDateIndex);  
+    fetchMovieData(newDate);  
+  }, [selectedDateIndex, todaysDate]);
   
   const fetchMovieData = async (selectedDate: Date) => {
     const dateObj = new Date(selectedDate);
     const formattedDate = dateObj.toISOString().split('T')[0];
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}/movie-show/find-all-by-date/${formattedDate}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}/find-all-by-date/${formattedDate}`);
       const data = await response.json();
       setShows(data);
 
@@ -39,7 +42,7 @@ const DayTable = () => {
           date={todaysDate}
           numberOfDays={4}
           selectedDateIndex={selectedDateIndex}
-          setSelectedDateIndex={handleDateClick}
+          setSelectedDateIndex={setSelectedDateIndex}
         />
         <DayRow
           startDay={4}
@@ -47,7 +50,7 @@ const DayTable = () => {
           date={todaysDate}
           numberOfDays={4}
           selectedDateIndex={selectedDateIndex}
-          setSelectedDateIndex={handleDateClick}
+          setSelectedDateIndex={setSelectedDateIndex}
         />
       </div>
       <MoviesPlaying movieShows={shows}/>

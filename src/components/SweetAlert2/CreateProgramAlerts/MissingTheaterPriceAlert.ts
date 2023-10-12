@@ -1,4 +1,4 @@
-import { Theater } from "@/components/CustomCalendar/WeekCalendarFunctions"
+import { Theater } from "@/Types/Types"
 import Swal from "sweetalert2"
 
 export const MissingTheaterPriceAlert = () => {

@@ -34,3 +34,8 @@ export type Movie = {
     voteRating?: number;
     description?: string;
 };
+
+export type StartTimeWithTheater = {
+    startTime: Date;
+    theater: Theater;
+}
