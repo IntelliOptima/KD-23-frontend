@@ -8,6 +8,7 @@ import type { Show, Theater } from "@/Types/Types";
 import GeneralButton from "@/components/Buttons/GeneralButton";
 import { MissingTheaterOrPriceAlert, MissingTheaterPriceAlert } from "@/components/SweetAlert2/CreateProgramAlerts/MissingTheaterPriceAlert";
 import { CreateProgramGoneWrongAlert, CreateProgramSuccess } from "@/components/SweetAlert2/CreateProgramAlerts/CreateProgramCRUDAlerts";
+import { CirclesWithBar } from "react-loader-spinner";
 
 const MainSection = () => {
     const {setSidebarOpen} = useAdminSidebar();
@@ -21,6 +22,7 @@ const MainSection = () => {
     const [programList, setProgramList] = useState<Show[]>([]); //this is the list of shows that will be sent to the backend to create a program
     const [showPrice, setShowPrice] = useState(0);
     const [toggleRefetch, setToggleRefetch] = useState<boolean>(false);
+    const [IsLoading, setIsLoading] = useState(false);
 
     const handleAddToProgram = (
         chosenShowsPlayDateTime: Show[],
@@ -79,6 +81,7 @@ const MainSection = () => {
         const objectAsJsonString = JSON.stringify(program);
     
         try {
+            setIsLoading(true);
             const response = await fetch(`${process.env.NEXT_PUBLIC_PROGRAM_API}`, {
                 method: "POST",
                 headers: {
@@ -89,16 +92,19 @@ const MainSection = () => {
             });
         
             if (!response.ok) {
-              const errorMessage = await response.text();              
-              CreateProgramGoneWrongAlert();
-              throw new Error(errorMessage);
+                setIsLoading(false);
+                const errorMessage = await response.text();              
+                CreateProgramGoneWrongAlert();
+                throw new Error(errorMessage);
             } else {
+                setIsLoading(false);
                 CreateProgramSuccess();
                 setChosenShowsPlayDateTime([]);
                 setProgramList([]);
                 setToggleRefetch(cur => !cur);                
             }
         } catch (error: any) {
+            setIsLoading(false);
             CreateProgramGoneWrongAlert();
         }
       };
@@ -124,7 +130,28 @@ const MainSection = () => {
 
 
     return (
-        <div className="overflow-x-hidden relative h-screen hide-scrollbar">
+        <div>
+            
+            {IsLoading && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                <div className="flex justify-center">
+                    <CirclesWithBar
+                        height="100"
+                        width="100"
+                        color="#fff"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={IsLoading}
+                        outerCircleColor="orange"
+                        innerCircleColor="red"
+                        barColor=""
+                        ariaLabel="circles-with-bar-loading"
+                    />
+                </div>
+            </div>
+        )}
+
+             <div className="overflow-x-hidden relative h-screen hide-scrollbar">
             <div className="flex flex-row">
                 <div className={`relative z-10 transition-all duration-300 ease-in-out ${slideInMoviesContainer ? 'w-1/2' : 'w-full'} flex flex-col justify-center items-center`}>
                     <div className="mb-4 flex align-baseline mt-3">
@@ -156,7 +183,7 @@ const MainSection = () => {
                     <div className="flex flex-col items-center justify-center">
                     <WeekCalendar movie={chosenMovie} chosenShowsPlayDateTime={chosenShowsPlayDateTime} programList={programList}
                     setChosenShowsPlayDateTime={setChosenShowsPlayDateTime} theater={chosenTheater!} showPrice={showPrice}
-                    toggleRefetch={toggleRefetch} />
+                    toggleRefetch={toggleRefetch} setIsLoading={setIsLoading} />
                     <GeneralButton type="button" width="auto" disabled={false} text="Add to program" color="blue"
                     onClick={() => handleAddToProgram(chosenShowsPlayDateTime, setProgramList, setChosenShowsPlayDateTime)} />
 
@@ -171,6 +198,7 @@ const MainSection = () => {
                 </div>
 
             </div>
+        </div>
         </div>
     )
 
