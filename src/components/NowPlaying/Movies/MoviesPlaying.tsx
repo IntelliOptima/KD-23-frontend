@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Movie from './Movie';
+import MovieDetails from '@/components/MovieDetails/MovieDetails';
 
 const MoviesPlaying = ({ movieData}) => {
     // Use state to store the movie data
@@ -25,6 +26,7 @@ const MoviesPlaying = ({ movieData}) => {
               showTimeList={movie.movieStartDateTimeList}   
               movieTrailer={movie.movieTrailer}
             />
+            
           </div>
         ))}
       </div>
