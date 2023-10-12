@@ -34,8 +34,8 @@ const DayTable = () => {
     };
   };
 
-  function formatFetchedData(data) {
-    let dataArray = [];
+  function formatFetchedData(data: any[]) {
+    let dataArray: { movieID: any; movieTitle: any; movieDuration: any; movieImage: any; movieStartDateTimeList: any[][]; movieTrailer: any; }[] = [];
   
     data.forEach((movieShow) => {
       const existingMovie = dataArray.find((newMovieShow) => newMovieShow.movieID === movieShow.movie.id);

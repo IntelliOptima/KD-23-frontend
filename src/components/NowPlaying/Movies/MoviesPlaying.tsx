@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Movie from './Movie';
 
 const MoviesPlaying = ({ movieData}) => {
-    // Use state to store the movie data
+   
     const [movieShow, setMovies] = useState([]);
   
-    // Update the state when movieData prop changes
+    
     useEffect(() => {
       setMovies(movieData);
     }, [movieData]);

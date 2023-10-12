@@ -16,10 +16,9 @@ interface BuyTicketProp {
 const BookTicket = () => {
   const [ticketData, setTicketData] = useState<BuyTicketProp | null>(null);
   const [theaterData, setTheaterData] = useState([]);
+  const [selectedSeat, setSelectedSeat] = useState([]);
   
-  /*
-  const [selectedSeats, setSelectedSeats] = useState([]);
-*/
+  
 
   function convertToTwoDimensionalArray(oneDimensionalArray, rows, seatsPerRow) {
     const twoDimensionalArray = [];
@@ -28,7 +27,7 @@ const BookTicket = () => {
       const rowArray = [];
       for (let seat = 0; seat < seatsPerRow; seat++) {
         
-        const index = row * seatsPerRow + seat;
+        const index = seat * seatsPerRow + row;
         
         rowArray.push(oneDimensionalArray[index]);
       }
@@ -79,7 +78,9 @@ const BookTicket = () => {
   if (!ticketData) {
     return <div>Loading...</div>;
   }
-    
+
+  
+
   const formattedDate = ticketData.showTime.toISOString().split('T')[0];
   const formattedTime = ticketData.showTime.toISOString().split('T')[1].substring(0,8);
 
@@ -87,25 +88,10 @@ const BookTicket = () => {
   const rows = theaterData.totalRows;
   const seatsPerRow = theaterData.seatsPerRow;
   const seats = theaterData.seats;
-
+  console.log(seats)
   const seatArray = convertToTwoDimensionalArray(seats, rows, seatsPerRow);
 
-/*
-  function handleSeatClick(row, seat) {
-    
-    const isSeatSelected = selectedSeats.some((selectedSeat) => selectedSeat.row === row && selectedSeat.seat === seat);
-
-    if (isSeatSelected) {
-      
-      setSelectedSeats((prevSelectedSeats) =>
-        prevSelectedSeats.filter((selectedSeat) => selectedSeat.row !== row || selectedSeat.seat !== seat)
-      );
-    } else {
-      
-      setSelectedSeats((prevSelectedSeats) => [...prevSelectedSeats, { row, seat }]);
-    }
-  }
-  */
+  console.log(seats)
 
   function generateSeats() {
     const seatElements = [];
@@ -115,6 +101,8 @@ const BookTicket = () => {
         key={seatArray[y][x].id} 
         id={seatArray[x][y].id}
         priceWeight={seatArray[x][y].priceWeight}
+        row={seatArray[x][y].row}
+        numberInRow={seatArray[x][y].numberInRow}
         />)
       }
       
@@ -125,9 +113,11 @@ const BookTicket = () => {
   
 
 
+
+
   return (
    <div className={"theatre flex flex-row items-center justify-center h-screen"}>
-    <div className={`w-[35%] grid grid-cols-${seatArray.length} grid-cols-gap-1`}>
+    <div className={`w-[20%] grid grid-cols-10`}>
       {generateSeats()}
     </div>
    </div>
