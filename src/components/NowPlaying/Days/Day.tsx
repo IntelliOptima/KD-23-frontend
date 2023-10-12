@@ -3,7 +3,7 @@ import React from 'react';
 
 interface DayProps {
   date: Date;
-  onClick?: () => void;
+  setSelectedSeat?: (index: number) => void;
   isSelected?: boolean;
 }
 
