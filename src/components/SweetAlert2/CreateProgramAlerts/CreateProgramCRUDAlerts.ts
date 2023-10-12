@@ -26,7 +26,7 @@ export const DeleteShowSuccessAlert = () => {
 
 export const CreateProgramSuccess = () => {
   Swal.fire({
-    position: 'top-end',
+    position: 'center',
     icon: 'success',
     title: 'New Program Created',
     showConfirmButton: false,
