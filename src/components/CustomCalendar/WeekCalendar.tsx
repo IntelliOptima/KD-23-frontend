@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import WeekCalendarFunctions from './WeekCalendarFunctions';
 import  { Movie, Show, Theater } from '../../Types/Types'
 import { DeleteShowConfirmAlert, DeleteShowSuccessAlert } from '../SweetAlert2/CreateProgramAlerts/CreateProgramCRUDAlerts';
@@ -13,10 +13,12 @@ type WeekCalendarProps = {
     theater: Theater;
     showPrice: number;
     programList: Show[];
+    setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosenShowsPlayDateTime, theater, showPrice, programList }: WeekCalendarProps) => {
-    const [fetchedShows, setFetchedShows] = React.useState<Show[]>([]);
+const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosenShowsPlayDateTime, theater, showPrice, programList, setIsLoading }: WeekCalendarProps) => {
+    const [fetchedShows, setFetchedShows] = React.useState<Show[]>([]);   
+
     const {
         goNextWeek,goPrevWeek,
         days, timeSlots,
@@ -38,7 +40,8 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
 
         async function fetchShows() {
             // Production: 
-            try {
+            try {      
+                setIsLoading(true);          
                 const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}/theater=/${theater.id}/startDate=/${days[0].toISOString()}/endDate=/${days[days.length - 1].toISOString()}/cinema=/${1}`, {
                     method: "GET",
                     headers: {
@@ -48,12 +51,15 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
                 });
 
                 if (!response.ok) {
+                    setIsLoading(false);
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                const data = await response.json();                
+                const data = await response.json();  
+                setIsLoading(false);              
                 setFetchedShows(data)
             } catch (error: any) {
+                setIsLoading(false);
                 console.error("There was a problem with the fetch operation:", error.message);
             }
         };
@@ -73,13 +79,14 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
             const id = showToDelete.id;
             
             if (result.isConfirmed) {
-                        try {
+                        try {         
+                            setIsLoading(true);                   
                             const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}/${id}`, {
                                 method: "DELETE",
                                 headers: {
                                     "Content-Type": "application/json",
                                 },
-                                credentials: "include",
+                                credentials: "include",                                                                
                             });
             
                             if (!response.ok) {
@@ -88,15 +95,15 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
                                                                          
                         } catch (error: any) {
                             console.error("There was a problem with the fetch operation:", error.message);
-                        }
-        
+                        }                        
                         setFetchedShows(cur => cur.filter(show => show.id !== id));
+                        setIsLoading(false);
                         DeleteShowSuccessAlert()
                     };            
           })
     }
 
-    return (
+    return (     
         <div className="flex flex-grow flex-col space-y-8 p-8 h-[65vh] overflow-auto mt-12 hide-scrollbar">
             <div className="flex justify-between items-center">
                 <button onClick={goPrevWeek} className="text-xl">&lt;</button>
