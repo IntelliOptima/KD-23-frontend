@@ -1,25 +1,5 @@
 import { Image, Box, Text, Flex, Spacer } from "@chakra-ui/react";
-
-type Actor = {
-    id: number;
-    name: string;
-};
-
-type Genre = {
-    id: number;
-    name: string;
-};
-
-export type Movie = {
-    title?: string;
-    poster?: string;
-    actors?: Actor[];
-    genre?: Genre[];
-    runtime: number; // in minutes
-    voteRating?: number;
-    description?: string;
-};
-
+import { Movie } from "@/Types/Types";
 
 interface MovieCardProps {
     movie: Movie;
