@@ -13,6 +13,7 @@ import { Movie } from '../MoviesContainer/MovieCard/MovieCard';
     }
 
     export type Show = {
+        id?: number;
         startDateTime: Date;
         movie: Movie;
         price: number;

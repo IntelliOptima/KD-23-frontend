@@ -17,6 +17,7 @@
     "@headlessui/tailwindcss": "^0.2.0",
     "@heroicons/react": "^2.0.18",
     "@material-tailwind/react": "^2.1.1",
+    "@types/sweetalert": "^2.0.4",
     "cookie": "^0.5.0",
     "next": "latest",
     "react": "latest",
@@ -24,7 +25,9 @@
     "react-hook-form": "^7.46.2",
     "selenium-webdriver": "^4.13.0",
     "swiper": "^10.3.1",
-    "swr": "^2.2.4"
+    "swr": "^2.2.4",
+    "sweetalert2": "^11.7.32",
+    "swiper": "^10.3.1"
   },
   "devDependencies": {
     "@types/cookie": "^0.5.2",

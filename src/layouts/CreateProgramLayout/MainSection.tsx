@@ -12,13 +12,13 @@ const MainSection = () => {
     const [slideInMoviesContainer, setSlideInMoviesContainer] = useState<boolean>(false);
     const [fetchedTheaters, setFetchedTheaters] = useState<Theater[]>([]);
 
-    //those variables are for the program admin is creating
+    //those variables are for the new program admin is creating
     const [chosenTheater, setChosenTheater] = useState<Theater>();
     const [chosenMovie, setChosenMovie] = useState<Movie | null>(null);
     const [chosenShowsPlayDateTime, setChosenShowsPlayDateTime] = useState<Show[]>([]);
     const [programList, setProgramList] = useState<Show[]>([]); //this is the list of shows that will be sent to the backend to create a program
     const [showPrice, setShowPrice] = useState(0);
-    
+    const [toggleRefetch, setToggleRefetch] = useState<boolean>(false);
 
     const handleAddToProgram = (
         chosenShowsPlayDateTime: Show[],
@@ -80,20 +80,21 @@ const MainSection = () => {
 
         const objectAsJsonString = JSON.stringify(program);
     
-        const fetchOptions = {
+        const response = await fetch("http://localhost:8080/program", {
             method: "POST",
             headers: {
             "content-type": "application/json",
-          },
+          },          
           body: objectAsJsonString,
-        };
-    
-        const response = await fetch("http://localhost:8080/program", fetchOptions);
+          credentials: "include",
+        });
     
         if (!response.ok) {
           const errorMessage = await response.text();
+          console.log("error message = ", errorMessage)
           throw new Error(errorMessage);
         } else {
+            setToggleRefetch(cur => !cur);
           console.log("Hurray soimething worked!" + response.body);
         }
       };
@@ -140,7 +141,8 @@ const MainSection = () => {
                     </div>
                     <div className="flex flex-col items-center justify-center">
                     <WeekCalendar movie={chosenMovie} chosenShowsPlayDateTime={chosenShowsPlayDateTime} programList={programList}
-                    setChosenShowsPlayDateTime={setChosenShowsPlayDateTime} theater={chosenTheater!} showPrice={showPrice} />
+                    setChosenShowsPlayDateTime={setChosenShowsPlayDateTime} theater={chosenTheater!} showPrice={showPrice}
+                    toggleRefetch={toggleRefetch} />
                     <GeneralButton type="button" width="auto" disabled={false} text="Add to program" color="blue"
                     onClick={() => handleAddToProgram(chosenShowsPlayDateTime, setProgramList, setChosenShowsPlayDateTime)} />
 
