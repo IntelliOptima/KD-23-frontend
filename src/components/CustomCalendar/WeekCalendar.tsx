@@ -2,6 +2,8 @@ import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { Movie } from '@/components/MoviesContainer/MovieCard/MovieCard';
 import WeekCalendarFunctions, { Show, Theater } from './WeekCalendarFunctions';
 
+// Se nu bare her! 
+
 type WeekCalendarProps = {
     toggleRefetch: boolean;
     movie: Movie | null;
