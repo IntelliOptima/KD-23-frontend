@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 import Seat from './Seat';
 import Link from 'next/link';
 import useCustomForm from '@/hooks/useForm';
+import { Booking } from '@/Types/Types';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
 
 interface BuyTicketProp {
   showID: number;
@@ -21,23 +24,8 @@ const BookTicket = () => {
   const [ticketData, setTicketData] = useState<BuyTicketProp | null>(null);
   const [theaterData, setTheaterData] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
-  const [bookings, setBookings] = useState([]);
-  /*
-  const { register, errors, isSubmitting, getValues, handleSubmit } = useCustomForm({
-    url: 'http://localhost:8080/booking/', 
-    onSuccess: (responseData) => {
-
-      console.log('Booking success:', responseData);
-    },
-    onError: (errorText) => {
-      console.error('Booking error:', errorText);
-    },
-  });
-  */
-
-  
-  
-
+  const [bookings, setBookings] = useState([]);  
+  const router = useRouter();
   
 
   function convertToTwoDimensionalArray(oneDimensionalArray: any[], rows: number, seatsPerRow: number) {
@@ -81,8 +69,7 @@ const BookTicket = () => {
         movieImage,
         showTime,
         theaterID,
-      };
-      console.log(showID)
+      };      
       setTicketData(data);
 
       fetch(`http://localhost:8080/booking/find-all-by-movie-show/${showID}`).then((response) => {
@@ -92,10 +79,11 @@ const BookTicket = () => {
         return response.json();
       }).then((bookingData) =>{
         setBookings(bookingData)
+        console.log(bookingData)
       })
 
 
-      fetch(`http://localhost:8080/theater/${theaterID}`).then((response) => {
+      fetch(`http://localhost:8080/theater/id=/${theaterID}`).then((response) => {
         if (!response.ok) {
           throw new Error("Theater couldn't be fetched")
         }
@@ -103,16 +91,16 @@ const BookTicket = () => {
       }).then((theaterData) => {
 
         setTheaterData(theaterData)
+        console.log(theaterData)
       })
            
     }
   }, []);
 
-  if (!ticketData) {
+  if (!ticketData || !theaterData) {
     return <div>Loading...</div>;
   }
 
-  
 
   const formattedDate = ticketData.showTime.toISOString().split('T')[0];
   const formattedTime = ticketData.showTime.toISOString().split('T')[1].substring(0,8);
@@ -125,6 +113,43 @@ const BookTicket = () => {
   const seatArray = convertToTwoDimensionalArray(seats, rows, seatsPerRow);
 
 
+  const createBookingFetch  = async (email: string) => {
+    const bookingsArrayForSubmit: Booking[] = [];
+    selectedSeats.forEach(seat => {
+      console.log(seat)
+      const bookingForSubmit: Booking = {
+        email: email,
+        moviewShowId: ticketData.showID,
+        seatId: seat,
+      };
+      console.log(bookingForSubmit)
+      bookingsArrayForSubmit.push(bookingForSubmit);
+    });    
+     
+    const objectAsJsonString = JSON.stringify(bookingsArrayForSubmit);
+    console.log(objectAsJsonString)
+    try {          
+          const response = await fetch(`http://localhost:8080/booking`, {
+            method: "POST",
+            headers: {
+            "content-type": "application/json"
+          },          
+            body: objectAsJsonString,
+            credentials: "include",
+          });
+          if (!response.ok) {              
+               const errorMessage = await response.text();
+               console.log("Response is not OK");
+              throw new Error(errorMessage);
+          } else {                           
+            console.log("OKAY POST DID GO WELL")                                        
+            }
+          } catch (error: any) {            
+            console.log("The fetch resulted in an error", error);
+        }                    
+  
+  };
+
 
   const toggleSeatSelection = (seatId: number) => {
     if (selectedSeats.includes(seatId)) {
@@ -134,13 +159,11 @@ const BookTicket = () => {
     }
     
     generateTotalPrice(selectedSeats);
-    console.log(bookings);
-    console.log(selectedSeats);
-    console.log(theaterData);
+    
   };;
 
  
-  function isSeatBooked(seatID){
+  function isSeatBooked(seatID: any){
     return bookings.some(booking => booking.seat.id == seatID)
   }
   
@@ -176,16 +199,13 @@ const BookTicket = () => {
     return seatElements;
   }
 
-  function generateTotalPrice(selectedSeats){
+  function generateTotalPrice(selectedSeats: any[]){
     let totalPrice = 0;
-    selectedSeats.forEach(element => {
-      console.log(searchSeat(element).priceWeight)
-      console.log("Of type: ", typeof searchSeat(element).priceWeight)
-      console.log(showPrice)
-      console.log("Of type: ", showPrice)
+    selectedSeats.forEach((element: number) => {
+      
       totalPrice += (searchSeat(element).priceWeight * ticketData.price)
     });
-    console.log(selectedSeats)
+    
     return totalPrice;
   }
   
@@ -194,6 +214,23 @@ const BookTicket = () => {
     const foundSeat = seatArray.flat().find(seat => seat.id === seatId);
     return foundSeat;
   }
+
+  
+  const handleEmailInputSwal = async () => {    
+    const { value: email } = await Swal.fire({
+      title: 'Input email address for your booking',
+      input: 'email',
+      inputLabel: 'Your email address',
+      inputPlaceholder: 'Enter your email address',
+    });
+  
+      if (email) {
+        Swal.fire(`Entered email: ${email}`)
+             
+        createBookingFetch(email);
+        router.push('/')
+      }
+    }
 
 
   return (
@@ -216,7 +253,9 @@ const BookTicket = () => {
       </div>
       <div className='text-white mt-16'>
         <span>Total pris:  {generateTotalPrice(selectedSeats)}</span>
+        
         <button 
+        onClick={() => handleEmailInputSwal()}
         className='btn-primary ml-4' 
         >
           Book selected seats</button>
@@ -227,6 +266,5 @@ const BookTicket = () => {
     </div>
   );
 };
-
 
 export default BookTicket;

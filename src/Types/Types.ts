@@ -31,3 +31,9 @@ export type Movie = {
     voteRating?: number;
     description?: string;
 };
+
+export type Booking = {
+    email: string;
+    moviewShowId: number;
+    seatId: number;
+}
