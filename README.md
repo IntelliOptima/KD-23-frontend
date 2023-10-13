@@ -6,6 +6,53 @@ KinoXP is a Cinema business, and this Next.js application, is just the frontend 
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
+Clone the Frontend Repository: https://github.com/IntelliOptima/KD-23-frontend.git
+
+Clone the backend Repository: https://github.com/IntelliOptima/KD-23-backend.git
+
+Update application.properties in the Backend to the following:
+
+
+spring.datasource.url=jdbc:mysql://kinoxpdb.mysql.database.azure.com/kinoxpdb
+
+spring.datasource.username=azureUser
+
+spring.datasource.password=KeaDat22!
+
+
+Run the Backend!
+
+The program should be run in the develop branch
+
+Run the Frontend!
+
+The program should be run in the develop branch
+
+And enjoy ;)
+
+
+
+
+## Logins and Roles
+
+The admin is the owner of the cinema, he can create a program from his dashboard, so when a user with the role ADMIN logs in they are redirected directly to the dashboard, and if a USER tries to go to the /admin/dashboard they cannot access.
+
+The user is a client to the Cinema, they get a list of the movie shows that are set in the program by the Admin. They dont need to be logged in to be able to book a ticket to a show, but they need to send an email with the booking.
+
+We wanted to make a profile page for the User so that they could see their bookings, but didn't have enough time, so the login feature for the User is not actually very functional
+
+ADMIN - 
+
+        email: admin@test.dk
+        
+        password: admintest1234
+
+USER -  
+
+        email: user@test.dk
+        
+        password: usertest1234
+
 ### Prerequisites
 
 - Node.js (>=12.x)
