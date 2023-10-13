@@ -15,9 +15,12 @@ export default function FormSection() {
       console.log("Login failed:",  "No error message provided");
      },
 
-    onSuccess: (data) => { 
-      console.log("Login successful!");
-      router.push(process.env.NEXT_PUBLIC_BASE_URL?.toString() || '/');
+     onSuccess: (data) => {
+      //@ts-ignore
+      router.push(data.data === "ADMIN"? '/admin/create-program' : "/");
+      localStorage.setItem('isLoggedIn', 'true');
+      //@ts-ignore
+      localStorage.setItem('role', data.data);
      },
 });
 
