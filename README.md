@@ -12,6 +12,7 @@ Clone the backend Repository: https://github.com/IntelliOptima/KD-23-backend.git
 
 Update application.properties in the Backend to the following:
 
+
 spring.datasource.url=jdbc:mysql://kinoxpdb.mysql.database.azure.com/kinoxpdb
 
 spring.datasource.username=azureUser
