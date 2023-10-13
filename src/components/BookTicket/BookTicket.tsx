@@ -37,9 +37,6 @@ const BookTicket = ({ showId, showPrice , movieId, startTime, theaterId }: BookT
   const router = useRouter();
 
 
-
-
-
   function convertToTwoDimensionalArray(oneDimensionalArray: SeatType[], rows: number, seatsPerRow: number) {
     const twoDimensionalArray: SeatType[][] = [];
 

@@ -2,15 +2,15 @@
 import BookTicket from '@/components/BookTicket/BookTicket';
 
 
-const BookTicketPage = (showId: number, showPrice: number , movieId: number, startTime: number, theaterId: number) => {
+const BookTicketPage = ({params} : {params: {showId: number, showPrice: number , movieId: number, startTime: number, theaterId: number}}) => {
     return (
         <div>
             <BookTicket 
-            showId={showId}
-            showPrice={showPrice} 
-            movieId={movieId} 
-            startTime={startTime} 
-            theaterId={theaterId} />
+            showId={params.showId}
+            showPrice={params.showPrice} 
+            movieId={params.movieId} 
+            startTime={params.startTime} 
+            theaterId={params.theaterId} />
         </div>
     );
 };
