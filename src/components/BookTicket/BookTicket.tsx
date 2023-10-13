@@ -34,36 +34,11 @@ const BookTicket = () => {
     },
   });
   */
-  const submitSelectedSeats = async () => {
-    for (const seatId of selectedSeats) {
-      const formData = {
-        email: 'Realkoder@gmail.com',  
-        movieShow: { id: ticketData.showID }, 
-        seat: { id: seatId }       
-      };
+
   
-      try {
-        const response = await fetch('http://localhost:8080/booking', {
-          method: 'POST',
-          body: JSON.stringify(formData),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
   
-        if (response.ok) {
-          const responseData = await response.json();
-          console.log('Booking success:', responseData);
-        } else {
-          const errorText = await response.text();
-          console.error('Booking error:', errorText);
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    }
-  };
+
+  
 
   function convertToTwoDimensionalArray(oneDimensionalArray: any[], rows: number, seatsPerRow: number) {
     const twoDimensionalArray = [];
@@ -243,7 +218,7 @@ const BookTicket = () => {
         <span>Total pris:  {generateTotalPrice(selectedSeats)}</span>
         <button 
         className='btn-primary ml-4' 
-        onClick={submitSelectedSeats}>
+        >
           Book selected seats</button>
       </div>
       <div className="theatre flex flex-row items-center justify-center h-screen">
