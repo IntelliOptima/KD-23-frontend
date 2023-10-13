@@ -16,8 +16,9 @@ export default function FormSection() {
      },
 
      onSuccess: (data) => {
-      console.log(`Log from correct place ${data}`);
+      console.log(`Parsed Cookies: ${data.data}`);
       router.push(data.data === "ADMIN"? '/admin/dashboard' : "/");
+      localStorage.setItem('isLoggedIn', 'true');
      },
 });
 

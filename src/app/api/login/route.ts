@@ -29,19 +29,20 @@ export async function POST(request: Request) {
             body: JSON.stringify({ email, password }),
         });
 
+        console.log(`Backend Response: ${backendResponse}`);
 
         // Parse the Set-Cookie header
         const parsedCookies = parse(backendResponse.headers.get('Set-Cookie') || '');
 
-        const { token } = parsedCookies;
+        const { token, Role } = parsedCookies;
+        console.log(`Tokens cookiesdks: ${token}`);
+        console.log(`Role cookiesdks: ${Role}`);
+
 
         if (!token) {
             console.error('Token not found in cookie');
             return NextResponse.json({ success: false, message: 'Authentication failed' }, { status: 401 });
         }
-
-        localStorage.setItem('token', token);
-        
 
         // Serialize the cookies
         const tokenString = serialize('token', token, {
@@ -51,7 +52,8 @@ export async function POST(request: Request) {
             secure: isProduction,
         });
 
-        return NextResponse.json({ success: true }, { status: 200, headers: { 'Set-Cookie': tokenString } });
+
+        return NextResponse.json({ success: true, data: parsedCookies }, { status: 200, headers: { 'Set-Cookie': tokenString } });
 
     } catch (error) {
         console.error('Error:', error);
