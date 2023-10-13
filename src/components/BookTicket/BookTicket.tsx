@@ -4,6 +4,7 @@ import Seat from './Seat';
 import Link from 'next/link';
 
 interface BuyTicketProp {
+  showID: number;
   price: number;
   movieID: number;
   movieTitle: string;
@@ -19,11 +20,11 @@ const BookTicket = () => {
   const [ticketData, setTicketData] = useState<BuyTicketProp | null>(null);
   const [theaterData, setTheaterData] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
-  
+  const [bookings, setBookings] = useState([]);
   
   
 
-  function convertToTwoDimensionalArray(oneDimensionalArray, rows, seatsPerRow) {
+  function convertToTwoDimensionalArray(oneDimensionalArray: any[], rows: number, seatsPerRow: number) {
     const twoDimensionalArray = [];
   
     for (let row = 0; row < rows; row++) {
@@ -46,6 +47,7 @@ const BookTicket = () => {
     if (typeof window !== 'undefined') {
       
       const urlParams = new URLSearchParams(window.location.search);
+      const showID = Number(urlParams.get('showID'))
       const price = Number(urlParams.get('price'));
       const movieID = Number(urlParams.get('movieID'));
       const movieTitle = urlParams.get('movieTitle');
@@ -54,8 +56,8 @@ const BookTicket = () => {
       const showTime = new Date(urlParams.get('showTime'));
       const theaterID = Number(urlParams.get('theaterID'));
 
-      
       const data: BuyTicketProp = {
+        showID,
         price,
         movieID,
         movieTitle,
@@ -64,8 +66,18 @@ const BookTicket = () => {
         showTime,
         theaterID,
       };
-
+      console.log(showID)
       setTicketData(data);
+
+      fetch(`http://localhost:8080/booking/find-all-by-movie-show/${showID}`).then((response) => {
+        if (!response.ok){
+          throw new Error("Bookings couldn't be fetched")
+        }
+        return response.json();
+      }).then((bookingData) =>{
+        setBookings(bookingData)
+      })
+
 
       fetch(`http://localhost:8080/theater/${theaterID}`).then((response) => {
         if (!response.ok) {
@@ -75,7 +87,8 @@ const BookTicket = () => {
       }).then((theaterData) => {
 
         setTheaterData(theaterData)
-      })     
+      })
+           
     }
   }, []);
 
@@ -103,10 +116,17 @@ const BookTicket = () => {
     } else {
       setSelectedSeats([...selectedSeats, seatId]);
     }
-    console.log("Rendered with selectedSeats:", selectedSeats);
     
+    generateTotalPrice(selectedSeats);
+    console.log(bookings);
+    console.log(selectedSeats);
+    console.log(theaterData);
   };;
 
+ 
+  function isSeatBooked(seatID){
+    return bookings.some(booking => booking.seat.id == seatID)
+  }
   
 
   function generateSeats() {
@@ -114,6 +134,7 @@ const BookTicket = () => {
     for (let y = 0; y < seatArray.length; y++) {
       for (let x = 0; x < seatArray[y].length; x++) {
         seatElements.push(
+          (!isSeatBooked(seatArray[x][y].id)) ?
           <Seat
             key={seatArray[x][y].id}
             id={seatArray[x][y].id}
@@ -122,6 +143,15 @@ const BookTicket = () => {
             numberInRow={seatArray[x][y].numberInRow}
             isSelected={selectedSeats.includes(seatArray[x][y].id)}
             onClick={() => toggleSeatSelection(seatArray[x][y].id)}
+            isBooked={false}
+          /> :
+          <Seat
+            key={seatArray[x][y].id}
+            id={seatArray[x][y].id}
+            priceWeight={seatArray[x][y].priceWeight}
+            row={seatArray[x][y].row}
+            numberInRow={seatArray[x][y].numberInRow}
+            isBooked={true}
           />
 
         );
@@ -155,7 +185,7 @@ const BookTicket = () => {
           <p>ID:{seat}</p>
           <span>Række: {searchSeat(seat).row}</span>
           <span>Sæde: {searchSeat(seat).numberInRow}</span>
-        
+          <span></span>
           <span>Pris: {ticketData.price}</span>
           </div>
           </>
@@ -165,7 +195,7 @@ const BookTicket = () => {
       <div className='text-white mt-16'>
         <span>Total pris:</span>
         <span>    
-          <Link ></Link>
+          
         </span>
       </div>
       <div className="theatre flex flex-row items-center justify-center h-screen">

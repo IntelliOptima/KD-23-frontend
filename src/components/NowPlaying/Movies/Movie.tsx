@@ -63,6 +63,7 @@ const Movie = ({price, movieID, movieTitle, duration, movieImage, showTimeList, 
                                 href={{
                                     pathname: '/book-ticket',
                                     query: {
+                                        showID: element[2],
                                         price: price,
                                         movieID: movieID,
                                         movieTitle: movieTitle,

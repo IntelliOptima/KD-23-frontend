@@ -9,13 +9,16 @@ interface SeatProp {
   numberInRow: number;
   onClick?: (id: number) => void;
   isSelected?: boolean;
+  isBooked?: boolean;
 }
 /* props: SeatProp */
 /* const const Seat = ({id, priceWeight, onClick}) => { */
-const Seat: FC<SeatProp> = ({id, priceWeight, row, numberInRow, onClick, isSelected}) => {
-  const classList = `mb-2 w-6 h-8 rounded-t-lg hover:bg-orange-300 hover:cursor-pointer ${
-    isSelected ? 'bg-blue-500' : 'bg-orange-500'
+const Seat: FC<SeatProp> = ({id, priceWeight, row, numberInRow, onClick, isSelected, isBooked}) => {
+  const notBooked = `mb-2 w-6 h-8 rounded-t-lg hover:bg-orange-300 hover:cursor-pointer ${
+    isSelected ? 'bg-blue-500' : 'bg-green-500'
   }`;
+
+  const booked = `mb-2 w-6 h-8 rounded-t-lg hover:bg-orange-300 hover:cursor-pointer bg-red-500`;
 
   useEffect(() => {
     
@@ -25,7 +28,7 @@ const Seat: FC<SeatProp> = ({id, priceWeight, row, numberInRow, onClick, isSelec
     <div 
     id={id}
     row={row}
-    className={classList}
+    className={isBooked? booked: notBooked}
     onClick={onClick}>
     </div>
   )
