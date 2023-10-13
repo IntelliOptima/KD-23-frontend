@@ -5,6 +5,7 @@ KinoXP is a Cinema business, and this Next.js application, is just the frontend 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
 Clone the Frontend Repository: https://github.com/IntelliOptima/KD-23-frontend.git
 
 Clone the backend Repository: https://github.com/IntelliOptima/KD-23-backend.git
