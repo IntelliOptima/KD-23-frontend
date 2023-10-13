@@ -29,7 +29,6 @@ export async function POST(request: Request) {
             body: JSON.stringify({ email, password }),
         });
 
-        console.log(`Backend Response: ${backendResponse}`);
 
         // Parse the Set-Cookie header
         const  parsedCookies = parse(backendResponse.headers.get('Set-Cookie') || '');7
@@ -45,9 +44,6 @@ export async function POST(request: Request) {
 
         const roleString =  cookies[1].split("=")[1];
 
-        const cookieString = `${token}, ${roleString}`
-
-        console.log(`Cookie String: ${cookieString}`)
 
 
         return NextResponse.json({ success: true, data: roleString }, { status: 200, headers: { 'Set-Cookie': token } });
