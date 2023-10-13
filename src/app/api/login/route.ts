@@ -32,28 +32,25 @@ export async function POST(request: Request) {
         console.log(`Backend Response: ${backendResponse}`);
 
         // Parse the Set-Cookie header
-        const parsedCookies = parse(backendResponse.headers.get('Set-Cookie') || '');
+        const  parsedCookies = parse(backendResponse.headers.get('Set-Cookie') || '');7
 
-        const { token, Role } = parsedCookies;
-        console.log(`Tokens cookiesdks: ${token}`);
-        console.log(`Role cookiesdks: ${Role}`);
+        const cookies:string[] = parsedCookies.token.toString().split(",");
 
-
-        if (!token) {
-            console.error('Token not found in cookie');
-            return NextResponse.json({ success: false, message: 'Authentication failed' }, { status: 401 });
-        }
-
-        // Serialize the cookies
-        const tokenString = serialize('token', token, {
+        const token = serialize('token', cookies[0], {
             httpOnly: true,
             path: '/',
             sameSite: 'lax',
             secure: isProduction,
         });
 
+        const roleString =  cookies[1].split("=")[1];
 
-        return NextResponse.json({ success: true, data: parsedCookies }, { status: 200, headers: { 'Set-Cookie': tokenString } });
+        const cookieString = `${token}, ${roleString}`
+
+        console.log(`Cookie String: ${cookieString}`)
+
+
+        return NextResponse.json({ success: true, data: roleString }, { status: 200, headers: { 'Set-Cookie': token } });
 
     } catch (error) {
         console.error('Error:', error);

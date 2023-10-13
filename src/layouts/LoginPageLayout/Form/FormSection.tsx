@@ -16,7 +16,7 @@ export default function FormSection() {
      },
 
      onSuccess: (data) => {
-      console.log(`Parsed Cookies: ${data.data}`);
+      //@ts-ignore
       router.push(data.data === "ADMIN"? '/admin/dashboard' : "/");
       localStorage.setItem('isLoggedIn', 'true');
      },
