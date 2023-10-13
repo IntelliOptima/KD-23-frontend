@@ -20,8 +20,11 @@ spring.datasource.username=azureUser
 spring.datasource.password=KeaDat22!
 
 
-Run the Backend
-Run the Frontend
+Run the Backend!
+
+Run the Frontend!
+
+And enjoy ;)
 
 ## Logins and Roles
 
