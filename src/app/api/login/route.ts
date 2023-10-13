@@ -12,7 +12,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import {serialize, parse  } from "cookie"
+import { serialize, parse } from "cookie"
 
 export async function POST(request: Request) {
     const isProduction = process.env.NODE_ENV === 'production';
@@ -26,20 +26,23 @@ export async function POST(request: Request) {
                 'Content-Type': 'application/json',
             },
             credentials: "include",
-            body: JSON.stringify({  email, password }),
+            body: JSON.stringify({ email, password }),
         });
+
+        console.log(`Backend Response: ${backendResponse}`);
 
         // Parse the Set-Cookie header
         const parsedCookies = parse(backendResponse.headers.get('Set-Cookie') || '');
 
-        const { token } = parsedCookies;
+        const { token, Role } = parsedCookies;
+        console.log(`Tokens cookiesdks: ${token}`);
+        console.log(`Role cookiesdks: ${Role}`);
+
 
         if (!token) {
             console.error('Token not found in cookie');
             return NextResponse.json({ success: false, message: 'Authentication failed' }, { status: 401 });
         }
-
-        const userID = await backendResponse.json().then(data => data.user_id);
 
         // Serialize the cookies
         const tokenString = serialize('token', token, {
@@ -49,7 +52,8 @@ export async function POST(request: Request) {
             secure: isProduction,
         });
 
-        return NextResponse.json({ success: true, data: userID }, { status: 200, headers: { 'Set-Cookie': tokenString } });
+
+        return NextResponse.json({ success: true, data: parsedCookies }, { status: 200, headers: { 'Set-Cookie': tokenString } });
 
     } catch (error) {
         console.error('Error:', error);

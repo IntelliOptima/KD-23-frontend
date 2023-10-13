@@ -1,0 +1,454 @@
+{
+    "id": 225,
+    "startDateTime": "2023-10-14T12:00:00",
+    "price": 100,
+    "movie": {
+        "id": 5,
+        "title": "Four Rooms",
+        "releaseDate": "1995-12-09",
+        "poster": "https://image.tmdb.org/t/p/w500//75aHn1NOYXh4M7L5shoeQ6NGykP.jpg",
+        "trailer": "https://www.youtube.com/watch?v=S_Pd2pGkq54",
+        "description": "It's Ted the Bellhop's first night on the job...and the hotel's very unusual guests are about to place him in some outrageous predicaments. It seems that this evening's room service is serving up one unbelievable happening after another.",
+        "runtime": 98,
+        "voteRating": 5.784,
+        "actors": [
+            {
+                "id": 3129,
+                "name": "Tim Roth"
+            },
+            {
+                "id": 2555,
+                "name": "David Proval"
+            },
+            {
+                "id": 3124,
+                "name": "Valeria Golino"
+            },
+            {
+                "id": 3130,
+                "name": "Jennifer Beals"
+            },
+            {
+                "id": 3131,
+                "name": "Antonio Banderas"
+            }
+        ],
+        "genres": [
+            {
+                "id": 35,
+                "name": "Comedy"
+            }
+        ],
+        "adult": false
+    },
+    "theater": {
+        "type": "STANDARD",
+        "id": 2,
+        "name": "SAL2",
+        "seatsPerRow": 10,
+        "totalRows": 10,
+        "seats": [
+            {
+                "id": 178,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 179,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 180,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 181,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 182,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 183,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 184,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 185,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 186,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 187,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 188,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 189,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 190,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 191,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 192,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 193,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 194,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 195,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 196,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 197,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 198,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 199,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 200,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 201,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 202,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 203,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 204,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 205,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 206,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 207,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 208,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 209,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 210,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 211,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 212,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 213,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 214,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 215,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 216,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 217,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 218,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 219,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 220,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 221,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 222,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 223,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 224,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 225,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 226,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 227,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 228,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 229,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 230,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 231,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 232,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 233,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 234,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 235,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 236,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 237,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 238,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 239,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 240,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 241,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 242,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 243,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 244,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 245,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 246,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 247,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 248,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 249,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 250,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 251,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 252,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 253,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 254,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 255,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 256,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 257,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 258,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 259,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 260,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 261,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 262,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 263,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 264,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 265,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 266,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 267,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 268,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 269,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 270,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 271,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 272,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 273,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 274,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 275,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 276,
+                "priceWeight": 1.0
+            },
+            {
+                "id": 277,
+                "priceWeight": 1.0
+            }
+        ],
+        "implementationStrategy": null
+    }
+}

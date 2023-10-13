@@ -2,7 +2,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 
 type UseCustomFormProps = {
     url: string;
-    onSuccess:(data: any) => void;
+    onSuccess:(data: string) => void;
     onError:(error: string) => void;
 }
 
@@ -26,6 +26,7 @@ const useCustomForm = ({url, onSuccess, onError}: UseCustomFormProps) => {
         credentials: 'include',
       });
   
+      console.log(response);
       if (response.ok) {
         const responseData = await response.json();
         onSuccess && onSuccess(responseData);

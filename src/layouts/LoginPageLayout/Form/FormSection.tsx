@@ -15,9 +15,10 @@ export default function FormSection() {
       console.log("Login failed:",  "No error message provided");
      },
 
-    onSuccess: (data) => { 
-      console.log("Login successful!");
-      router.push(process.env.NEXT_PUBLIC_BASE_URL?.toString() || '/');
+     onSuccess: (data) => {
+      console.log(`Parsed Cookies: ${data.data}`);
+      router.push(data.data === "ADMIN"? '/admin/dashboard' : "/");
+      localStorage.setItem('isLoggedIn', 'true');
      },
 });
 

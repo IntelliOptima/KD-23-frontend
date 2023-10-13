@@ -9,8 +9,6 @@ type MovieDetailsProp = {
 
 const MovieDetails = ( {movieId}: MovieDetailsProp ) => {
 
-    
-
     const [movieData, setMovieData] = useState({
         title: "",
         poster: "",
@@ -22,6 +20,8 @@ const MovieDetails = ( {movieId}: MovieDetailsProp ) => {
         voteRating: 0.0,
         description: "",
     });
+
+    
     console.log("Fetch url" + 'http://localhost:8080/movie/id=/'+ movieId)
     
     const hours = Math.floor(movieData.runtime / 60);
