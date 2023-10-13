@@ -49,8 +49,12 @@ export async function POST(request: Request) {
             return NextResponse.json({ success: false, message: 'Authentication failed' }, { status: 401 });
         }
 
-        // Extract the role from the decoded token
-        const role: string = decodedToken.Role[0].authority;
+        const role:string = decodedToken.Role;
+
+        const roleWithoutBrackets: string = role.replace(/[\[\]']+/g, '');
+
+        console.log(`Role: ${roleWithoutBrackets}`);
+        
 
         // Serialize the cookies
         const tokenString = serialize('token', token, {
@@ -60,7 +64,7 @@ export async function POST(request: Request) {
             secure: isProduction,
         });
 
-        return NextResponse.json({ success: true, data: role }, { status: 200, headers: { 'Set-Cookie': tokenString } });
+        return NextResponse.json({ success: true, data: roleWithoutBrackets }, { status: 200, headers: { 'Set-Cookie': tokenString } });
 
     } catch (error) {
         console.error('Error:', error);

@@ -19,6 +19,7 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         localStorage.setItem('isLoggedIn', 'false');
+        localStorage.setItem('role', '')
         try {
             await fetch("http://localhost:8080/logout", {
                 method: 'POST',
