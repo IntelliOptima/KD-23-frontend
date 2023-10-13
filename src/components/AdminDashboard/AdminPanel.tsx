@@ -1,5 +1,4 @@
 "use client";
-import React, { useState } from 'react'
 import AdminNavbar from './AdminNavbar/AdminNavbar'
 import AdminSidebar from './AdminSidebar/AdminSidebar'
 import { useAdminSidebar } from '@/contexts/AdminSidebarContext';
@@ -19,19 +18,24 @@ const AdminPanel = ({ children }: AdminDashboardProps) => {
   };
 
   return (
-
-    <div className="flex flex-col">
-      <AdminNavbar openSidebar={openSidebar} />
-      <div className="flex">
-        <AdminSidebar sidebarOpen={sidebarOpen} />
-        <main
-          className={`flex-grow p-4 transition-all duration-300 ease-in-out transform ${sidebarOpen ? 'ml-[250px]' : 'ml-0'
-            }`}
-        >
-          {children}
-        </main>
+    localStorage.getItem("role") === "ADMIN" ? (
+      <div className="flex flex-col">
+        <AdminNavbar openSidebar={openSidebar} />
+        <div className="flex">
+          <AdminSidebar sidebarOpen={sidebarOpen} />
+          <main
+            className={`flex-grow p-4 transition-all duration-300 ease-in-out transform ${sidebarOpen ? 'ml-[250px]' : 'ml-0'
+              }`}
+          >
+            {children}
+          </main>
+        </div>
       </div>
-    </div>
+    ) : (
+      <div>
+        <h1>Not authorized BYEBYE</h1>
+      </div>
+    )
   );
 };
 
