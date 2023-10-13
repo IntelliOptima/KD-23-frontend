@@ -1,4 +1,4 @@
-import { Movie } from "@/components/MoviesContainer/MovieCard/MovieCard";
+import type { Movie } from "@/Types/Types";
 import { IMovieFilter } from "../interfaces/IMovieFilter";
 
 abstract class MoviesSearchFilter<T, K> implements IMovieFilter<T, K> {

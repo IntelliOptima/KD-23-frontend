@@ -34,5 +34,5 @@ const Seat: FC<SeatProp> = ({id, priceWeight, row, numberInRow, onClick, isSelec
   )
 };
 
-export default Seat;
+// export default Seat;
 

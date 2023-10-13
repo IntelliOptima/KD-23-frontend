@@ -1,4 +1,4 @@
-import { Movie } from "@/components/MoviesContainer/MovieCard/MovieCard";
+import { Movie } from "@/Types/Types";
 
 interface IMovieFilter<T, K> {
     filter(T: T, Page: K): Promise<Movie[]>;

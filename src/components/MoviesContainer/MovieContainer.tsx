@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useState, useEffect, Fragment, useRef 
 import MovieCard from "./MovieCard/MovieCard";
 import Input from "@/components/CustomInputs/Input";
 import { MovieFilterHandler } from "../MovieFilterFactory/FilterHandler";
-import type { Movie } from "./MovieCard/MovieCard";
+import { Movie } from "@/Types/Types";
 import GeneralButton from "@/components/Buttons/GeneralButton";
 
 interface Props {

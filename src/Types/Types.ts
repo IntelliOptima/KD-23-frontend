@@ -23,8 +23,11 @@ export type Genre = {
 };
 
 export type Movie = {
+    id?: number;
     title?: string;
     poster?: string;
+    trailer?: string;
+    releaseDate?: Date;
     actors?: Actor[];
     genre?: Genre[];
     runtime: number; // in minutes
@@ -36,4 +39,9 @@ export type Booking = {
     email: string;
     moviewShowId: number;
     seatId: number;
+}
+
+export type StartTimeWithTheater = {
+    startTime: Date;
+    theater: Theater;
 }

@@ -31,24 +31,24 @@ const BookTicket = () => {
   function convertToTwoDimensionalArray(oneDimensionalArray: any[], rows: number, seatsPerRow: number) {
     const twoDimensionalArray = [];
   
-    for (let row = 0; row < rows; row++) {
-      const rowArray = [];
-      for (let seat = 0; seat < seatsPerRow; seat++) {
+//     for (let row = 0; row < rows; row++) {
+//       const rowArray = [];
+//       for (let seat = 0; seat < seatsPerRow; seat++) {
         
-        const index = seat * seatsPerRow + row;
+//         const index = seat * seatsPerRow + row;
         
-        rowArray.push(oneDimensionalArray[index]);
-      }
+//         rowArray.push(oneDimensionalArray[index]);
+//       }
       
-      twoDimensionalArray.push(rowArray);
-    }
+//       twoDimensionalArray.push(rowArray);
+//     }
   
-    return twoDimensionalArray;
-  }
+//     return twoDimensionalArray;
+//   }
 
-  useEffect (() => {
+//   useEffect (() => {
     
-    if (typeof window !== 'undefined') {
+//     if (typeof window !== 'undefined') {
       
       const urlParams = new URLSearchParams(window.location.search);
       const showID = Number(urlParams.get('showID'))
@@ -102,8 +102,8 @@ const BookTicket = () => {
   }
 
 
-  const formattedDate = ticketData.showTime.toISOString().split('T')[0];
-  const formattedTime = ticketData.showTime.toISOString().split('T')[1].substring(0,8);
+//   const formattedDate = ticketData.showTime.toISOString().split('T')[0];
+//   const formattedTime = ticketData.showTime.toISOString().split('T')[1].substring(0,8);
 
   const theaterName = theaterData.name;
   const showPrice = theaterData.price;
@@ -267,4 +267,4 @@ const BookTicket = () => {
   );
 };
 
-export default BookTicket;
+// export default BookTicket;
