@@ -11,7 +11,7 @@ const DayTable = () => {
   
   const [shows, setShows] = useState<Show[]>([]);
   const [selectedDateIndex, setSelectedDateIndex] = useState<number>(0);
-  console.log("DateIndex is changing", selectedDateIndex)
+  
 
   useEffect(() => {
     const newDate = new Date(todaysDate);  

@@ -1,13 +1,18 @@
-// import MainSection from '@/layouts/BookTicketLayout/MainSection'
-import { NextPage } from 'next'
-import React from 'react'
+"use client";
+import BookTicket from '@/components/BookTicket/BookTicket';
 
-const BookTicket: NextPage = () => {
-  return (
-    <div>
-        {/* <MainSection /> */}
-    </div>
-  )
-}
 
-export default BookTicket
+const BookTicketPage = ({params} : {params: {showId: number, showPrice: number , movieId: number, startTime: number, theaterId: number}}) => {
+    return (
+        <div>
+            <BookTicket 
+            showId={params.showId}
+            showPrice={params.showPrice} 
+            movieId={params.movieId} 
+            startTime={params.startTime} 
+            theaterId={params.theaterId} />
+        </div>
+    );
+};
+
+export default BookTicketPage;

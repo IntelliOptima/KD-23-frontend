@@ -15,8 +15,7 @@ const AdminPanel = ({ children }: AdminDashboardProps) => {
   const openSidebar = () => {
     console.log("Sidebar toggle clicked");
     setSidebarOpen(!sidebarOpen);
-  };
-
+  }
   return (
     localStorage.getItem("role") === "ADMIN" ? (
       <div className="flex flex-col">

@@ -22,6 +22,15 @@ export type Genre = {
     name: string;
 };
 
+export type SeatType = {
+    id: number;
+    priceWeight: number;
+    theaterId: number;
+    row: number;
+    numberInRow: number;
+}
+
+
 export type Movie = {
     id?: number;
     title?: string;
@@ -37,7 +46,7 @@ export type Movie = {
 
 export type Booking = {
     email: string;
-    moviewShowId: number;
+    movieShowId?: number;
     seatId: number;
 }
 

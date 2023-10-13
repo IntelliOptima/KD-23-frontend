@@ -40,6 +40,7 @@ const MoviesPlaying = ({movieShows}: MoviesPlayingProps) => {
           <div key={index} className='flex justify-center'>
             <Movie 
               movie={movie}
+              show={movieShows.find((show) => show.movie.id === movie.id)}
               startTimesWithTheaters={getStartingTimesWithTheaterForMovie(movie.id)}
             />
           </div>

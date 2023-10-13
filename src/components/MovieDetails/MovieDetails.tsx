@@ -26,6 +26,7 @@ const MovieDetails = ( {movieId}: MovieDetailsProp ) => {
                 },
                 credentials: 'include',
             });
+            
             const data = await movieDataResponse.json();
             if (movieDataResponse.ok) {
                 setMovieData(data);

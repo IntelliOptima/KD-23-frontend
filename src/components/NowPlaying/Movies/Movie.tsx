@@ -9,10 +9,11 @@ import NoMoviePoster from '@/public/assets/images/NoPoster.jpeg';
 type MovieProps = {
     movie: Movie;
     startTimesWithTheaters: StartTimeWithTheater[];
+    show?: Show;
 }
 
 
-const Movie = ({ movie, startTimesWithTheaters }: MovieProps) => {
+const Movie = ({ movie, show, startTimesWithTheaters }: MovieProps) => {
 
     const hour = Math.floor(movie.runtime / 60);
     const minutes = (movie.runtime % 60);
@@ -48,8 +49,8 @@ const Movie = ({ movie, startTimesWithTheaters }: MovieProps) => {
                     <>
                         <Link
                             key={index}
-                            href={`/book-ticket/${movie.id}/${startTimeWithTheater.startTime}/${startTimeWithTheater.theater.id}})`}
-                        ><span key={index}>
+                            href={`/book-ticket/${show?.id}/${show?.price}/${movie.id}/${startTimeWithTheater.startTime}/${startTimeWithTheater.theater.id}`}
+                            ><span key={index}>
                                 {(new Date(startTimeWithTheater.startTime)).getHours()} : {(new Date(startTimeWithTheater.startTime)).getMinutes() == 0 ? '00' : new Date(startTimeWithTheater.startTime).getMinutes()} |
                             </span>
                         </Link>
