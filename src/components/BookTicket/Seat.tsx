@@ -18,7 +18,7 @@ const Seat: FC<SeatProp> = ({id, priceWeight, row, numberInRow, onClick, isSelec
     isSelected ? 'bg-blue-500' : 'bg-green-500'
   }`;
 
-  const booked = `mb-2 w-6 h-8 rounded-t-lg hover:bg-orange-300 hover:cursor-pointer bg-red-500`;
+  const booked = `mb-2 w-6 h-8 rounded-t-lg bg-red-500`;
 
   useEffect(() => {
     

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Seat from './Seat';
 import Link from 'next/link';
+import useCustomForm from '@/hooks/useForm';
 
 interface BuyTicketProp {
   showID: number;
@@ -21,8 +22,48 @@ const BookTicket = () => {
   const [theaterData, setTheaterData] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
   const [bookings, setBookings] = useState([]);
+  /*
+  const { register, errors, isSubmitting, getValues, handleSubmit } = useCustomForm({
+    url: 'http://localhost:8080/booking/', 
+    onSuccess: (responseData) => {
+
+      console.log('Booking success:', responseData);
+    },
+    onError: (errorText) => {
+      console.error('Booking error:', errorText);
+    },
+  });
+  */
+  const submitSelectedSeats = async () => {
+    for (const seatId of selectedSeats) {
+      const formData = {
+        email: 'Realkoder@gmail.com',  
+        movieShow: { id: ticketData.showID }, 
+        seat: { id: seatId }       
+      };
   
+      try {
+        const response = await fetch('http://localhost:8080/booking', {
+          method: 'POST',
+          body: JSON.stringify(formData),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
   
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log('Booking success:', responseData);
+        } else {
+          const errorText = await response.text();
+          console.error('Booking error:', errorText);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  };
 
   function convertToTwoDimensionalArray(oneDimensionalArray: any[], rows: number, seatsPerRow: number) {
     const twoDimensionalArray = [];
@@ -163,8 +204,14 @@ const BookTicket = () => {
   function generateTotalPrice(selectedSeats){
     let totalPrice = 0;
     selectedSeats.forEach(element => {
-      totalPrice += (searchSeat(element).priceWeight * showPrice)
+      console.log(searchSeat(element).priceWeight)
+      console.log("Of type: ", typeof searchSeat(element).priceWeight)
+      console.log(showPrice)
+      console.log("Of type: ", showPrice)
+      totalPrice += (searchSeat(element).priceWeight * ticketData.price)
     });
+    console.log(selectedSeats)
+    return totalPrice;
   }
   
 
@@ -193,10 +240,11 @@ const BookTicket = () => {
       </div>
       </div>
       <div className='text-white mt-16'>
-        <span>Total pris:</span>
-        <span>    
-          
-        </span>
+        <span>Total pris:  {generateTotalPrice(selectedSeats)}</span>
+        <button 
+        className='btn-primary ml-4' 
+        onClick={submitSelectedSeats}>
+          Book selected seats</button>
       </div>
       <div className="theatre flex flex-row items-center justify-center h-screen">
         <div className="w-[20%] grid grid-cols-10">{generateSeats()}</div>
