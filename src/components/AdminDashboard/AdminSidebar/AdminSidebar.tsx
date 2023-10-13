@@ -13,16 +13,16 @@ const AdminSidebar = ({ sidebarOpen }: AdminSidebarProps) => {
     >
       <div className="w-full h-full">
         <ul className="flex flex-col ml-20 pt-20 justify-between h-2/5 text-white leading-loose">
-          <Link href="/">
+          <Link href="/admin/dashboard">
             <li className="hover:scale-105">Dashboard</li>
           </Link>
-          <Link href="/">
+          <Link href="/admin/dashboard">
             <li className="hover:scale-105">Program</li>
           </Link>
-          <Link href="/">
+          <Link href="/admin/dashboard">
             <li className="hover:scale-105">Statistics</li>
           </Link>
-          <Link href="/">
+          <Link href="/admin/dashboard">
             <li className="hover:scale-105">Employees</li>
           </Link>
         </ul>

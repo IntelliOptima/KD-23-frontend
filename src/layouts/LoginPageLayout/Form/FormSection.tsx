@@ -16,9 +16,11 @@ export default function FormSection() {
      },
 
      onSuccess: (data) => {
-      console.log(`Parsed Cookies: ${data.data}`);
-      router.push(data.data === "ADMIN"? '/admin/dashboard' : "/");
+      //@ts-ignore
+      router.push(data.data === "ADMIN"? '/admin/create-program' : "/");
       localStorage.setItem('isLoggedIn', 'true');
+      //@ts-ignore
+      localStorage.setItem('role', data.data);
      },
 });
 
