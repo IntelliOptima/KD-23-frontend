@@ -26,6 +26,7 @@ const useCustomForm = ({url, onSuccess, onError}: UseCustomFormProps) => {
         credentials: 'include',
       });
   
+      console.log(response);
       if (response.ok) {
         const responseData = await response.json();
         onSuccess && onSuccess(responseData);
