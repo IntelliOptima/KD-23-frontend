@@ -32,11 +32,15 @@ The user is a client to the Cinema, they get a list of the movie shows that are 
 We wanted to make a profile page for the User so that they could see their bookings, but didn't have enough time, so the login feature for the User is not actually very functional
 
 ADMIN - 
+
         email: admin@test.dk
+        
         password: admintest1234
 
 USER -  
+
         email: user@test.dk
+        
         password: usertest1234
 
 ### Prerequisites
