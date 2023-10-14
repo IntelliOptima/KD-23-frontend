@@ -74,7 +74,7 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
     };
 
     fetchData();
-  });
+  }, []);
 
   function convertToTwoDimensionalArray(oneDimensionalArray: Seat[], rows: number, seatsPerRow: number) {
     const twoDimensionalArray: Seat[][] = [];
