@@ -4,7 +4,7 @@ export type Theater = {
     type: string;
 }
 
-export type Show = {
+export type MovieShow = {
     id?: number;
     startDateTime: Date;
     movie: Movie;
@@ -22,8 +22,8 @@ export type Genre = {
     name: string;
 };
 
-export type SeatType = {
-    id: number;
+export type Seat = {
+    id?: number;
     priceWeight: number;
     theaterId: number;
     row: number;
@@ -45,8 +45,15 @@ export type Movie = {
 };
 
 export type Booking = {
+    id?: number;
     email: string;
-    movieShowId?: number;
+    movieShow?: MovieShow;
+    seat: Seat;
+}
+
+export type BookingRequest = {
+    email: string;
+    showId: number;
     seatId: number;
 }
 

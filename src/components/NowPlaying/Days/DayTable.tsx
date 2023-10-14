@@ -2,14 +2,14 @@
 import React, { useState, useEffect, useMemo } from "react";
 import DayRow from "./DayRow";
 import MoviesPlaying from "../Movies/MoviesPlaying";
-import { Show } from "@/Types/Types";
+import { MovieShow } from "@/Types/Types";
 
 
 
 const DayTable = () => {
   const todaysDate = useMemo(() => new Date(), []);
   
-  const [shows, setShows] = useState<Show[]>([]);
+  const [shows, setShows] = useState<MovieShow[]>([]);
   const [selectedDateIndex, setSelectedDateIndex] = useState<number>(0);
   
 

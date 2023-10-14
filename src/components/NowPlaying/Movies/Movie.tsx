@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
-import { Movie, Show, StartTimeWithTheater, Theater } from '@/Types/Types';
+import { Movie, MovieShow, StartTimeWithTheater, Theater } from '@/Types/Types';
 import NoMoviePoster from '@/public/assets/images/NoPoster.jpeg';
 // import BoockTicket from '@/components/BookTicket/BookTicket';
 
@@ -9,7 +9,7 @@ import NoMoviePoster from '@/public/assets/images/NoPoster.jpeg';
 type MovieProps = {
     movie: Movie;
     startTimesWithTheaters: StartTimeWithTheater[];
-    show?: Show;
+    show?: MovieShow;
 }
 
 
@@ -46,16 +46,13 @@ const Movie = ({ movie, show, startTimesWithTheaters }: MovieProps) => {
                 {startTimesWithTheaters.sort((a, b) =>
                     new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
                 ).map((startTimeWithTheater, index) => (
-                    <>
-                        <Link
-                            key={index}
-                            href={`/book-ticket/${show?.id}/${show?.price}/${movie.id}/${startTimeWithTheater.startTime}/${startTimeWithTheater.theater.id}`}
-                            ><span key={index}>
-                                {(new Date(startTimeWithTheater.startTime)).getHours()} : {(new Date(startTimeWithTheater.startTime)).getMinutes() == 0 ? '00' : new Date(startTimeWithTheater.startTime).getMinutes()} |
-                            </span>
-                        </Link>
-                    </>
-
+                    <Link
+                        key={index}
+                        href={`/book-ticket/${show?.id}/${show?.price}/${movie.id}/${startTimeWithTheater.startTime}/${startTimeWithTheater.theater.id}`}
+                    ><span key={index}>
+                            {(new Date(startTimeWithTheater.startTime)).getHours()} : {(new Date(startTimeWithTheater.startTime)).getMinutes() == 0 ? '00' : new Date(startTimeWithTheater.startTime).getMinutes()} |
+                        </span>
+                    </Link>
                 ))}
             </div>
 

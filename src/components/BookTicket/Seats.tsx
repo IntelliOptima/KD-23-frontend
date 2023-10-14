@@ -1,12 +1,10 @@
+import { Seat } from '@/Types/Types';
 import React , { MouseEventHandler } from 'react';
 
 
 
 type SeatProp = {
-  id: number;
-  priceWeight: number;
-  row: number;
-  numberInRow: number;
+  seat: Seat;
   onClick?: (id: number) => void;
   isSelected?: boolean;
   isBooked: boolean;
@@ -14,7 +12,7 @@ type SeatProp = {
 
 /* props: SeatProp */
 /* const const Seat = ({id, priceWeight, onClick}) => { */
-const Seat = ({ id, priceWeight, row, numberInRow, onClick, isSelected, isBooked } :SeatProp ) => {
+const Seats = ({ seat, onClick, isSelected, isBooked } :SeatProp ) => {
 
   const notBooked = `mb-2 w-6 h-8 rounded-t-lg hover:bg-orange-300 hover:cursor-pointer ${
     isSelected ? 'bg-blue-500' : 'bg-green-500'
@@ -25,19 +23,20 @@ const Seat = ({ id, priceWeight, row, numberInRow, onClick, isSelected, isBooked
 
     const handleClick: MouseEventHandler<HTMLDivElement> = (event: React.MouseEvent<HTMLDivElement>) => {
       const id = parseInt(event.currentTarget.id);
+      onClick &&
       onClick(id);
     };
 
     return (
       <div
-        id={id}
-        row={row}
-        priceweight={priceWeight}
-        numberinrow={numberInRow}
+        data-id={seat.id}
+        data-row={seat.row}
+        data-priceweight={seat.priceWeight}
+        data-numberinrow={seat.numberInRow}
         className={isBooked ? booked : notBooked}
         onClick={handleClick}
       />
     );
   };
 
- export default Seat;
+ export default Seats;

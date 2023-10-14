@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Movie from './Movie';
-import { Show, StartTimeWithTheater } from '@/Types/Types';
+import { MovieShow, StartTimeWithTheater } from '@/Types/Types';
 
 type MoviesPlayingProps = {
-  movieShows: Show[];
+  movieShows: MovieShow[];
 };
 
 const MoviesPlaying = ({movieShows}: MoviesPlayingProps) => {    

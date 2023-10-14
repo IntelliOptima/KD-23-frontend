@@ -4,7 +4,7 @@ import { useState, ChangeEvent, useEffect, Dispatch, SetStateAction } from 'reac
 import type { Movie } from "@/Types/Types";
 import MovieSection from "./MovieSection";
 import { useAdminSidebar } from "@/contexts/AdminSidebarContext";
-import type { Show, Theater } from "@/Types/Types";
+import type { MovieShow, Theater } from "@/Types/Types";
 import GeneralButton from "@/components/Buttons/GeneralButton";
 import { MissingTheaterOrPriceAlert, MissingTheaterPriceAlert } from "@/components/SweetAlert2/CreateProgramAlerts/MissingTheaterPriceAlert";
 import { CreateProgramGoneWrongAlert, CreateProgramSuccess } from "@/components/SweetAlert2/CreateProgramAlerts/CreateProgramCRUDAlerts";
@@ -18,16 +18,16 @@ const MainSection = () => {
     //those variables are for the new program admin is creating
     const [chosenTheater, setChosenTheater] = useState<Theater>();
     const [chosenMovie, setChosenMovie] = useState<Movie | null>(null);
-    const [chosenShowsPlayDateTime, setChosenShowsPlayDateTime] = useState<Show[]>([]);
-    const [programList, setProgramList] = useState<Show[]>([]); //this is the list of shows that will be sent to the backend to create a program
+    const [chosenShowsPlayDateTime, setChosenShowsPlayDateTime] = useState<MovieShow[]>([]);
+    const [programList, setProgramList] = useState<MovieShow[]>([]); //this is the list of shows that will be sent to the backend to create a program
     const [showPrice, setShowPrice] = useState(0);
     const [toggleRefetch, setToggleRefetch] = useState<boolean>(false);
     const [IsLoading, setIsLoading] = useState(false);
 
     const handleAddToProgram = (
-        chosenShowsPlayDateTime: Show[],
-        setProgramList: Dispatch<SetStateAction<Show[]>>,
-        setChosenShowsPlayDateTime: Dispatch<SetStateAction<Show[]>>
+        chosenShowsPlayDateTime: MovieShow[],
+        setProgramList: Dispatch<SetStateAction<MovieShow[]>>,
+        setChosenShowsPlayDateTime: Dispatch<SetStateAction<MovieShow[]>>
     ) => {
         setProgramList((prev) => {
             const uniqueShows = chosenShowsPlayDateTime.filter(newShow => 
