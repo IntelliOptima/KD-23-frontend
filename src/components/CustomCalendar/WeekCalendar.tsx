@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import WeekCalendarFunctions from './WeekCalendarFunctions';
-import  { Movie, Show, Theater } from '../../Types/Types'
+import  { Movie, MovieShow, Theater } from '../../Types/Types'
 import { DeleteShowConfirmAlert, DeleteShowSuccessAlert } from '../SweetAlert2/CreateProgramAlerts/CreateProgramCRUDAlerts';
 
 // Se nu bare her! 
@@ -8,16 +8,16 @@ import { DeleteShowConfirmAlert, DeleteShowSuccessAlert } from '../SweetAlert2/C
 type WeekCalendarProps = {
     toggleRefetch: boolean;
     movie: Movie | null;
-    chosenShowsPlayDateTime: Show[];
-    setChosenShowsPlayDateTime: Dispatch<SetStateAction<Show[]>>;
+    chosenShowsPlayDateTime: MovieShow[];
+    setChosenShowsPlayDateTime: Dispatch<SetStateAction<MovieShow[]>>;
     theater: Theater;
     showPrice: number;
-    programList: Show[];
+    programList: MovieShow[];
     setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosenShowsPlayDateTime, theater, showPrice, programList, setIsLoading }: WeekCalendarProps) => {
-    const [fetchedShows, setFetchedShows] = React.useState<Show[]>([]);   
+    const [fetchedShows, setFetchedShows] = React.useState<MovieShow[]>([]);   
 
     const {
         goNextWeek,goPrevWeek,
@@ -67,6 +67,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
         };
         fetchShows();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [theater, days, toggleRefetch]);
     
 
@@ -76,7 +77,7 @@ const WeekCalendar = ({ movie, toggleRefetch, chosenShowsPlayDateTime, setChosen
     }, [theater]);
     
 
-    const handleClickDeleteMovieShow = async (showToDelete: Show) => {
+    const handleClickDeleteMovieShow = async (showToDelete: MovieShow) => {
         DeleteShowConfirmAlert().then( async (result) => {
             const id = showToDelete.id;
             

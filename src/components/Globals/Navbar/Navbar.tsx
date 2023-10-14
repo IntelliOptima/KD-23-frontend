@@ -8,6 +8,7 @@ import React from 'react'
 
 const Navbar = () => {
     const router = useRouter();
+    //@ts-ignore
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     const activePage = useActivePage();
 

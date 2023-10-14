@@ -1,4 +1,4 @@
-import { Movie } from "@/components/MoviesContainer/MovieCard/MovieCard";
+import { Movie } from "@/Types/Types";
 import { MoviesSearchFilter } from "../BaseFilters/MovieSearchFilter";
 import { IMovieFilter } from "../interfaces/IMovieFilter";
 

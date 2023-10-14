@@ -1,23 +1,16 @@
-import React from "react";
+import React, {Dispatch, SetStateAction} from "react";
 import Day from "@components/NowPlaying/Days/Day";
 
-interface DayProps {
+type DayProps = {
   date: Date;
   numberOfDays: number;
   startDay: number;
   endDay: number;
   selectedDateIndex: number;
-  setSelectedDateIndex: (index: number) => void;
+  setSelectedDateIndex: Dispatch<SetStateAction<number>>;
 }
 
-const DayRow: React.FC<DayProps> = ({
-  startDay,
-  endDay,
-  date,
-  numberOfDays,
-  selectedDateIndex,
-  setSelectedDateIndex,
-}) => {
+const DayRow = ({ startDay, endDay, date, numberOfDays, selectedDateIndex, setSelectedDateIndex }: DayProps) => {
   const dayElements = [];
 
   for (let index = startDay; index < endDay; index++) {
@@ -27,8 +20,9 @@ const DayRow: React.FC<DayProps> = ({
       <Day
         key={index}
         date={newDate}
-        onClick={() => setSelectedDateIndex(index)}
+        setSelectedDateIndex={setSelectedDateIndex}
         isSelected={selectedDateIndex === index}
+        index={index}
       />
     );
   }

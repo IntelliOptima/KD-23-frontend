@@ -1,34 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import Movie from './Movie';
-import MovieDetails from '@/components/MovieDetails/MovieDetails';
+import { MovieShow, StartTimeWithTheater } from '@/Types/Types';
 
-const MoviesPlaying = ({ movieData}) => {
-    // Use state to store the movie data
-    const [movieShow, setMovies] = useState([]);
+type MoviesPlayingProps = {
+  movieShows: MovieShow[];
+};
+
+const MoviesPlaying = ({movieShows}: MoviesPlayingProps) => {    
+  const [uniqueMovies, setUniqueMovies] = useState<Movie[]>([]);
+
   
-    // Update the state when movieData prop changes
-    useEffect(() => {
-      setMovies(movieData);
-    }, [movieData]);
-           
+  useEffect(() => {
+    if (Array.isArray(movieShows)) {
+      const movies = movieShows.map((show) => show.movie);
+      const uniqueMovies = movies.filter((movie, index, self) => 
+        index === self.findIndex((m) => (
+          m.id === movie.id
+        ))
+      );
+      setUniqueMovies(uniqueMovies);
+    }
+  }, [movieShows]);
+
+
+  const getStartingTimesWithTheaterForMovie = (id: number): StartTimeWithTheater[] => {
+    const startingTimes = movieShows.filter((show) => show.movie.id === id);
+    const startingTimesWithTheatersForMovie = startingTimes.map((show) => ({
+        startTime: show.startDateTime,
+        theater: show.theater,
+    }));
+    return startingTimesWithTheatersForMovie;
+};
 
   return (
-    
     <div className='mt-20 flex justify-center'>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6'>
-        {movieData.map((movie, index) => (
+        {uniqueMovies.map((movie, index) => 
+        movie.id &&
           <div key={index} className='flex justify-center'>
             <Movie 
-              movieID={movie.movieID}
-              movieTitle={movie.movieTitle}
-              duration={movie.movieDuration}
-              movieImage={movie.movieImage}
-              showTimeList={movie.movieStartDateTimeList}   
-              movieTrailer={movie.movieTrailer}
+              movie={movie}
+              show={movieShows.find((show) => show.movie.id === movie.id)}
+              startTimesWithTheaters={getStartingTimesWithTheaterForMovie(movie.id)}
             />
-            
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
