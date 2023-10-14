@@ -24,11 +24,11 @@ spring.datasource.password=KeaDat22!
 
 Run the Backend!
 
-The program should be run in the develop branch
+The program should be run in the develop branch - git checkout develop
 
 Run the Frontend!
 
-The program should be run in the develop branch
+The program should be run in the develop branch - git checkout develop
 
 And enjoy ;)
 
