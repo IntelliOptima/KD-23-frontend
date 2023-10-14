@@ -8,7 +8,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 Clone the Frontend Repository: https://github.com/IntelliOptima/KD-23-frontend.git
 
-Kør kommando npm install
+Run command -  npm install
+
+The program should be run in the develop branch - git checkout develop
+
+run the frontend in development - npm run dev
 
 Clone the backend Repository: https://github.com/IntelliOptima/KD-23-backend.git
 
@@ -26,9 +30,6 @@ Run the Backend!
 
 The program should be run in the develop branch - git checkout develop
 
-Run the Frontend!
-
-The program should be run in the develop branch - git checkout develop
 
 And enjoy ;)
 
