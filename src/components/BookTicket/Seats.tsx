@@ -13,18 +13,17 @@ type SeatProp = {
 
 const Seats = ({ seat, onClick, isSelected, isBooked } :SeatProp ) => {
 
-  const notBooked = `mb-2 w-6 h-8 rounded-7 ${
-    isSelected ? 'bg-blue-500' : 'bg-green-500'
+
+const notBooked = `mb-2 w-8 h-12 rounded-md hover:bg-sky-800 hover:cursor-pointer ${
+    isSelected ? 'bg-rose-300' : 'bg-gradient-to-t from-red-900 via-rose-900 to-red-400'
   }`;
 
-
-  
-
- /* const notBooked = `mb-2 w-6 h-8 rounded-t-lg hover:bg-orange-300 hover:cursor-pointer ${
+/*
+  const notBooked = `mb-2 w-6 h-8 rounded-t-lg hover:bg-orange-300 hover:cursor-pointer ${
     isSelected ? 'bg-blue-500' : 'bg-green-500'
-  }`; */
-
-  const booked = `mb-2 w-6 h-8 rounded-t-lg bg-red-500`;
+  }`; 
+*/
+  const booked = `mb-2 w-8 h-12 rounded-md bg-gradient-to-t from-blue-900 via-blue-700 to-blue-400`;
 
 
     const handleClick: MouseEventHandler<HTMLDivElement> = (event: React.MouseEvent<HTMLDivElement>) => {
