@@ -10,13 +10,19 @@ type SeatProp = {
   isBooked: boolean;
 }
 
-/* props: SeatProp */
-/* const const Seat = ({id, priceWeight, onClick}) => { */
+
 const Seats = ({ seat, onClick, isSelected, isBooked } :SeatProp ) => {
 
-  const notBooked = `mb-2 w-6 h-8 rounded-t-lg hover:bg-orange-300 hover:cursor-pointer ${
+  const notBooked = `mb-2 w-6 h-8 rounded-7 ${
     isSelected ? 'bg-blue-500' : 'bg-green-500'
   }`;
+
+
+  
+
+ /* const notBooked = `mb-2 w-6 h-8 rounded-t-lg hover:bg-orange-300 hover:cursor-pointer ${
+    isSelected ? 'bg-blue-500' : 'bg-green-500'
+  }`; */
 
   const booked = `mb-2 w-6 h-8 rounded-t-lg bg-red-500`;
 
