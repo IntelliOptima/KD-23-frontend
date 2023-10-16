@@ -83,7 +83,7 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
       const rowArray = [];
       for (let seat = 0; seat < seatsPerRow; seat++) {
 
-        const index = seat * seatsPerRow + row;
+        const index = row * seatsPerRow + seat;
 
         rowArray.push(oneDimensionalArray[index]);
       }

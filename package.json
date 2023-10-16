@@ -20,6 +20,7 @@
     "@mui/material": "^5.14.13",
     "@types/sweetalert": "^2.0.4",
     "cookie": "^0.5.0",
+    "i": "^0.3.7",
     "jsonwebtoken": "^9.0.2",
     "next": "latest",
     "react": "latest",
