@@ -10,6 +10,24 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      transformOrigin: {
+        '0': '0%'},
+      skew: {
+        '7': '7deg',
+        '9': '9deg',
+        '11': '11deg',
+        '13': '13deg',
+        '15': '15deg',
+        '17': '17deg',
+        '19': '19deg',
+        '21': '21deg',
+        '23': '23deg',
+        '25': '25deg',
+        '27': '27deg',
+        '29': '29deg',
+        '31': '31deg'
+
+      },
       colors: {
         'main-landing-color': '#232323',
         'secondary-landing-color': '#656565',

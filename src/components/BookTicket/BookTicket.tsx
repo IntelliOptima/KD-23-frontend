@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 import Seats from '@/components/BookTicket/Seats';
 import { CirclesWithBar } from 'react-loader-spinner';
+import { isSymbolObject } from 'util/types';
 
 
 type BookTicketProp = {
@@ -65,6 +66,7 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
   }
 
   useEffect(() => {
+    console.log("UseEffect Ran")
     const fetchData = async () => {
       await fetchBookingData();
       await fetchTheaterData();
@@ -154,10 +156,6 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
     return rightArray;
   }
 
-  //const rightSideSeatArray;
-  console.log(leftSideSeatArray)
-
-
   const createBookingFetch = async (email: string) => {
     const bookingsArrayForSubmit: BookingRequest[] = [];
     selectedSeats.forEach(seat => {
@@ -201,7 +199,6 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
   };
 
 
-
   const toggleSeatSelection = (seat: Seat) => {
     selectedSeats.includes(seat) ? setSelectedSeats(selectedSeats.filter((selectedSeat) => selectedSeat !== seat))
       : setSelectedSeats([...selectedSeats, seat]);
@@ -213,36 +210,6 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
   function isSeatBooked(seatID: number) {
     return bookings.some(booking => booking.seat.id == seatID)
   }
-
-
-  function generateSeats() {
-    const seatElements: JSX.Element[] = [];
-
-    for (let rows = 0; rows < theaterRows; rows++) {
-      for (let columns = 0; columns < theaterSeatsPerRow; columns++) {
-
-        const currentSeat = seatArray[rows][columns];
-        seatElements.push(
-          (currentSeat.id !== undefined && !isSeatBooked(currentSeat.id)) ?
-            <Seats
-              key={currentSeat.id}
-              seat={currentSeat}
-              isSelected={selectedSeats.includes(currentSeat)}
-              onClick={() => toggleSeatSelection(currentSeat)}
-              isBooked={false}
-            /> :
-            <Seats
-              key={currentSeat.id}
-              seat={currentSeat}
-              isBooked={true}
-            />
-        );
-      }
-    }
-    return seatElements;
-  }
-
-
 
   function generateTotalPrice(selectedSeats: Seat[]) {
     let totalPrice = 0;
@@ -271,46 +238,14 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
       router.push('/')
     }
   }
-/*
-  function generateLeftSideSeats() {
-    const leftSideSeatElements: JSX.Element[] = [];
-
-    for (let seats = 0; seats < theaterSeatsPerRow / 2; seats++) {
-      for (let rows = 0; rows < theaterRows; rows++) {
-        const currentSeat = leftSideSeatArray[rows][seats];
-        leftSideSeatElements.push(
-          (currentSeat.id !== undefined && !isSeatBooked(currentSeat.id)) ?
-            <Seats
-              key={currentSeat.id}
-              seat={currentSeat}
-              isSelected={selectedSeats.includes(currentSeat)}
-              onClick={() => toggleSeatSelection(currentSeat)}
-              isBooked={false}
-            /> :
-            <Seats
-              key={currentSeat.id}
-              seat={currentSeat}
-              isBooked={true}
-            />
-        );
-      }
-    }
-    console.log(leftSideSeatElements)
-    return leftSideSeatElements;
-  }
-
-
-  */
-
-
-  function generateLeftSideSeats() {
-    const leftSideSeatElements: JSX.Element[] = [];
   
+  function generateLeftSideSeats() {
+    const leftSideSeatElements: JSX.Element[] = [];
+
     for (let seats = 0; seats < theaterSeatsPerRow / 2; seats++) {
-      // Create a div for each column of seats
       const columnDiv = (
-        <div key={seats} className={`flex flex-col mx-1`}>
-          
+        <div key={seats} className={`flex flex-col mx-2`}>
+
           {Array.from({ length: theaterRows }, (_, rows) => {
             const currentSeat = leftSideSeatArray[rows][seats];
             return (
@@ -321,11 +256,15 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
                     isSelected={selectedSeats.includes(currentSeat)}
                     onClick={() => toggleSeatSelection(currentSeat)}
                     isBooked={false}
+                    seatScewing={2}
+                    isLeftSideSeat={true}
                   />
                 ) : (
                   <Seats
                     seat={currentSeat}
                     isBooked={true}
+                    seatScewing={2}
+                    isLeftSideSeat={true}
                   />
                 )}
               </div>
@@ -333,102 +272,64 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
           })}
         </div>
       );
-  
+
       leftSideSeatElements.push(columnDiv);
     }
-  
+
     console.log(leftSideSeatElements);
     return leftSideSeatElements;
   }
-  
+
   function generateRightSideSeats() {
     const rightSideSeatElements: JSX.Element[] = [];
-  
+
     for (let seats = 0; seats < theaterSeatsPerRow / 2; seats++) {
-    
+      let rowScewing = 7 + seats * 2;
+      
       const columnDiv = (
-        <div key={seats} className={`flex flex-col mx-1`}>
+        <div key={seats} className={`flex flex-col mx-2 skew-x-${rowScewing}`}>
+            {Array.from({ length: theaterRows }, (_, rows) => {
+
+              const currentSeat = rightSideSeatArray[rows][seats];
+              return (
+                <div key={currentSeat.id} className={`seat-wrapper h-1/${theaterRows}`}>
+                  {(currentSeat.id !== undefined && !isSeatBooked(currentSeat.id)) ? (
+                    <Seats
+                      seat={currentSeat}
+                      isSelected={selectedSeats.includes(currentSeat)}
+                      onClick={() => toggleSeatSelection(currentSeat)}
+                      isBooked={false}
+                      seatScewing={8 + (seats * 2)}
+                      isLeftSideSeat={false}
+                    />
+                  ) : (
+                    <Seats
+                      seat={currentSeat}
+                      isBooked={true}
+                      seatScewing={8 + (seats * 2)}
+                      isLeftSideSeat={false}
+                    />
+                  )}
+                </div>
+              );
+            })}
           
-          {Array.from({ length: theaterRows }, (_, rows) => {
-            const currentSeat = rightSideSeatArray[rows][seats];
-            return (
-              <div key={currentSeat.id} className={`seat-wrapper h-1/${theaterRows}`}>
-                {(currentSeat.id !== undefined && !isSeatBooked(currentSeat.id)) ? (
-                  <Seats
-                    seat={currentSeat}
-                    isSelected={selectedSeats.includes(currentSeat)}
-                    onClick={() => toggleSeatSelection(currentSeat)}
-                    isBooked={false}
-                  />
-                ) : (
-                  <Seats
-                    seat={currentSeat}
-                    isBooked={true}
-                  />
-                )}
-              </div>
-            );
-          })}
         </div>
       );
-  
+
       rightSideSeatElements.push(columnDiv);
+      console.log(rowScewing)
+      rowScewing = 0;
     }
-  
+
     return rightSideSeatElements;
   }
 
 
-/*
-
-  function generateRightSideSeats() {
-    const rightSideSeatElements: JSX.Element[] = [];
-
-    for (let seats = 0; seats < theaterSeatsPerRow / 2; seats++) {
-      for (let rows = 0; rows < theaterRows; rows++) {
-
-        const currentSeat = rightSideSeatArray[seats][seats];
-        rightSideSeatElements.push(
-          (currentSeat.id !== undefined && !isSeatBooked(currentSeat.id)) ?
-            <Seats
-              key={currentSeat.id}
-              seat={currentSeat}
-              isSelected={selectedSeats.includes(currentSeat)}
-              onClick={() => toggleSeatSelection(currentSeat)}
-              isBooked={false}
-            /> :
-            <Seats
-              key={currentSeat.id}
-              seat={currentSeat}
-              isBooked={true}
-            />
-        );
-      }
-    }
-    return rightSideSeatElements;
-  }
-*/
   return (
     <>
 
-      {IsLoading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="flex justify-center">
-            <CirclesWithBar
-              height="100"
-              width="100"
-              color="#fff"
-              wrapperStyle={{}}
-              wrapperClass=""
-              visible={IsLoading}
-              outerCircleColor="orange"
-              innerCircleColor="red"
-              barColor=""
-              ariaLabel="circles-with-bar-loading"
-            />
-          </div>
-        </div>
-      )}
+      
       <div className='flex flex-col'>
         <div className="selected-seats flex flex-row">
           <h1 className="text-white w-20 h-50 mt-20">Valgte sæder</h1>

@@ -8,12 +8,13 @@ type SeatProp = {
   onClick?: (id: number) => void;
   isSelected?: boolean;
   isBooked: boolean;
+  seatScewing: number;
+  isLeftSideSeat: boolean;
 }
 
 
-const Seats = ({ seat, onClick, isSelected, isBooked } :SeatProp ) => {
-
-
+const Seats = ({ seat, onClick, isSelected, isBooked, seatScewing, isLeftSideSeat } :SeatProp ) => {
+ 
   const notBooked = `-mb-4 w-8 h-12 rounded-md hover:cursor-pointer transition-all duration-500 ${
     !isSelected
       ? 'bg-gradient-to-t from-red-900 via-rose-900 to-red-400'
