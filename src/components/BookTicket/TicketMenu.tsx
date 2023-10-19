@@ -82,11 +82,12 @@ const TicketMenu = ({selectedSeats, showPrice, showId}: TicketMenuProps) => {
       }
 
     return (
-        <><div className="selected-seats flex flex-row">
+      <>
+        <div className="selected-seats flex flex-column">
             <h1 className="text-white w-20 h-50 mt-20">Valgte sæder</h1>
-            <div className='flex flex-row space-x-2'>
+            <div className='flex flex-col space-x-2'>
                 {selectedSeats.map((seat, index) => (
-                    <div className='flex flex-col bg-blue-500 p-2' key={index}>
+                    <div className='flex flex-col w-20 h-32 bg-blue-500 p-2' key={index}>
                         <p>ID:{seat.id}</p>
                         <span>Række: {seat.row}</span>
                         <span>Sæde: {seat.numberInRow}</span>
@@ -103,8 +104,8 @@ const TicketMenu = ({selectedSeats, showPrice, showId}: TicketMenuProps) => {
                     className='btn-primary ml-4'
                 >
                     Book selected seats</button>
-            </div></>
-
+            </div>
+            </>
     );
 }
 

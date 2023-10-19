@@ -22,7 +22,7 @@ const DayTable = () => {
   const fetchMovieData = async (selectedDate: Date) => {
     const dateObj = new Date(selectedDate);
     const formattedDate = dateObj.toISOString().split('T')[0];
-
+    console.log("Fetching shows")
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIESHOW_API}/find-all-by-date/${formattedDate}`);
       const data = await response.json();

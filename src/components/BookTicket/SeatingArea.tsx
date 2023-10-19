@@ -1,50 +1,50 @@
-import { Seat, Booking, TheaterProps } from "@/Types/Types";
+import { Seat, Booking, TheaterProps, Movie, MovieForCinema } from "@/Types/Types";
 import { useState } from "react";
 import TicketMenu from "./TicketMenu";
 import Seats from "./Seats";
-
+import CinemaScreen from "./CinemaScreen";
 
 interface SeatingAreaProp {
     theaterData: TheaterProps;
     bookings: Booking[];
     showId: number;
     showPrice: number;
+    movie: MovieForCinema;
 }
 
-const SeatingArea = ({ theaterData, bookings, showId, showPrice }: SeatingAreaProp) => {
+const SeatingArea = ({ theaterData, bookings, showId, showPrice, movie }: SeatingAreaProp) => {
     const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
     const theaterRows = theaterData.totalRows;
     const theaterSeatsPerRow = theaterData.seatsPerRow;
     const seats = theaterData.seats;
-
     const leftSideSeatArray = convertLeftSideSeatArray(seats, theaterRows, theaterSeatsPerRow)
     const rightSideSeatArray = convertRightSideSeatArray(seats, theaterRows, theaterSeatsPerRow)
 
-  function convertLeftSideSeatArray(oneDimensionalArray: Seat[], rows: number, seatsPerRow: number) {
-    const leftArray: Seat[][] = [];
-    for (let row = 0; row < theaterRows; row++) {
-      const oneRowArray = [];
-      for (let seat = 0; seat < seatsPerRow / 2; seat++) {
-        const index = row * seatsPerRow + seat;
-        oneRowArray.push(oneDimensionalArray[index])
-      }
-      leftArray.push(oneRowArray);
+    function convertLeftSideSeatArray(oneDimensionalArray: Seat[], rows: number, seatsPerRow: number) {
+        const leftArray: Seat[][] = [];
+        for (let row = 0; row < theaterRows; row++) {
+            const oneRowArray = [];
+            for (let seat = 0; seat < seatsPerRow / 2; seat++) {
+                const index = row * seatsPerRow + seat;
+                oneRowArray.push(oneDimensionalArray[index])
+            }
+            leftArray.push(oneRowArray);
+        }
+        return leftArray;
     }
-    return leftArray;
-  }
 
-  function convertRightSideSeatArray(oneDimensionalArray: Seat[], rows: number, seatsPerRow: number) {
-    const rightArray: Seat[][] = [];
-    for (let row = 0; row < theaterRows; row++) {
-      const oneRowArray = [];
-      for (let seat = 5; seat < seatsPerRow; seat++) {
-        const index = row * seatsPerRow + seat;
-        oneRowArray.push(oneDimensionalArray[index])
-      }
-      rightArray.push(oneRowArray);
+    function convertRightSideSeatArray(oneDimensionalArray: Seat[], rows: number, seatsPerRow: number) {
+        const rightArray: Seat[][] = [];
+        for (let row = 0; row < theaterRows; row++) {
+            const oneRowArray = [];
+            for (let seat = 5; seat < seatsPerRow; seat++) {
+                const index = row * seatsPerRow + seat;
+                oneRowArray.push(oneDimensionalArray[index])
+            }
+            rightArray.push(oneRowArray);
+        }
+        return rightArray;
     }
-    return rightArray;
-  }
 
 
     const toggleSeatSelection = (seat: Seat) => {
@@ -145,36 +145,36 @@ const SeatingArea = ({ theaterData, bookings, showId, showPrice }: SeatingAreaPr
                             </div>
                         );
                     })}
-
                 </div>
             );
-
             rightSideSeatElements.push(columnDiv);
             console.log(rowScewing)
             rowScewing = 0;
         }
-
         return rightSideSeatElements;
     }
 
-    return (<>
-        <div className='flex flex-col'>
-            <TicketMenu selectedSeats={selectedSeats} showPrice={showPrice} showId={showId} />
-            <div className="theatre flex flex-row items-center justify-center h-screen">
-                <div className="flex flex-row items-center justify-center mr-3">
-                    {generateLeftSideSeats()}
-                </div>
-                <div className="flex flex-row items-center justify-center ml-3">
-                    {generateRightSideSeats()}
+    return (
+        <>
+            <CinemaScreen
+                movieLink={movie.trailer}
+            />
+        </>
+    )
+}
+export default SeatingArea;
+
+
+/*
+<div className="flex flex-row">
+                <TicketMenu selectedSeats={selectedSeats} showPrice={showPrice} showId={showId} />
+                <div className="theatre flex flex-row items-center justify-center h-screen">
+                    <div className="flex flex-row items-center justify-center mr-3">
+                        {generateLeftSideSeats()}
+                    </div>
+                    <div className="flex flex-row items-center justify-center ml-3">
+                        {generateRightSideSeats()}
+                    </div>
                 </div>
             </div>
-        </div>
-    </>
-
-
-    )
-
-}
-
-
-export default SeatingArea;
+*/

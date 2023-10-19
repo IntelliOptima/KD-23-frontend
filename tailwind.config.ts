@@ -10,8 +10,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      transformOrigin: {
-        '0': '0%'},
       skew: {
         '7': '7deg',
         '9': '9deg',

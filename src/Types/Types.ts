@@ -70,4 +70,11 @@ export type TheaterProps = {
     totalRows: number;
     seatsPerRow: number;
     seats: Seat[];
-  }
+}
+
+export type MovieForCinema = {
+    trailer?: string;
+    releaseDate?: Date;
+    runtime?: number; // in minutes
+
+};

@@ -12,10 +12,10 @@ type BookTicketProp = {
   theaterId: number;
 };
 
-const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
+const BookTicket = ({ showId, showPrice, theaterId, movieId }: BookTicketProp) => {
   
-  const { theaterData, bookings } = useGetBookings(showId, theaterId)
-
+  const { theaterData, bookings, movie } = useGetBookings(showId, theaterId, movieId)
+  console.log(movie)
   if (!theaterData || !bookings) {
     return <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="flex justify-center">
@@ -25,7 +25,6 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
           color="#fff"
           wrapperStyle={{}}
           wrapperClass=""
-          
           outerCircleColor="orange"
           innerCircleColor="red"
           barColor=""
@@ -37,11 +36,11 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
 
   return (
     <>
-      <div className='flex flex-col'>
-        
+      <div>
         <SeatingArea 
           theaterData={theaterData}
           bookings={bookings}
+          movie={movie}
           showId={showId}
           showPrice={showPrice}
            />
