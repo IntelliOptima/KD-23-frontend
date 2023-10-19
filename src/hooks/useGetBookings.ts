@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { TheaterProps, Booking } from "@/Types/Types";
 
 const useGetBookings = (showId: number, theaterId: number) => {
-    const [IsLoading, setIsLoading] = useState(true);
     const [theaterData, setTheaterData] = useState<TheaterProps | null>(null);
     const [bookings, setBookings] = useState<Booking[]>([]);
 
@@ -38,18 +37,12 @@ const useGetBookings = (showId: number, theaterId: number) => {
 
 
     useEffect(() => {
-        console.log("UseEffect Ran")
-        const fetchData = async () => {
-          await fetchBookingData();
-          await fetchTheaterData();
-          setIsLoading(false);
-        };
-    
-        fetchData();
-      }, []);
+          fetchBookingData();
+          fetchTheaterData();
+      }, [theaterData,bookings]);
       
       
 
-      return {theaterData,bookings,IsLoading};
+      return {theaterData,bookings};
 }
 export default useGetBookings
