@@ -1,11 +1,12 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { Booking, BookingRequest, Seat, MovieShow, Theater } from '@/Types/Types';
+import React, { useState } from 'react';
+import { BookingRequest, Seat } from '@/Types/Types';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 import Seats from '@/components/BookTicket/Seats';
 import { CirclesWithBar } from 'react-loader-spinner';
-import { isSymbolObject } from 'util/types';
+import useGetBookings from '@/hooks/useGetBookings';
+
 
 
 type BookTicketProp = {
@@ -16,65 +17,14 @@ type BookTicketProp = {
   theaterId: number;
 };
 
-type TheaterProps = {
-  type: string;
-  id: number;
-  implementationStrategy: void | null;
-  name: string;
-  totalRows: number;
-  seatsPerRow: number;
-  seats: Seat[];
-}
 
 
 
 
 const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
-  const [IsLoading, setIsLoading] = useState(true);
-  const [theaterData, setTheaterData] = useState<TheaterProps | null>(null);
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
-  const [bookings, setBookings] = useState<Booking[]>([]);
   const router = useRouter();
-
-  const fetchBookingData = async () => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BOOKING_API}/find-all-by-movie-show/${showId}`);
-      if (!response.ok) {
-        console.log('Response not OK');
-        return;
-      }
-      const data = await response.json();
-      setBookings(data);
-    } catch (error) {
-      console.error('Error fetching booking data:', error);
-    }
-  }
-
-
-  const fetchTheaterData = async () => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_THEATER_API}/id=/${theaterId}`);
-      if (!response.ok) {
-        console.log('Response not OK');
-        return;
-      }
-      const data = await response.json();
-      setTheaterData(data);
-    } catch (error) {
-      console.error('Error fetching theater data:', error);
-    }
-  }
-
-  useEffect(() => {
-    console.log("UseEffect Ran")
-    const fetchData = async () => {
-      await fetchBookingData();
-      await fetchTheaterData();
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, []);
+  const {theaterData, bookings, IsLoading} = useGetBookings(showId, theaterId)
 
   function convertToTwoDimensionalArray(oneDimensionalArray: Seat[], rows: number, seatsPerRow: number) {
     const twoDimensionalArray: Seat[][] = [];
@@ -328,8 +278,6 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
 
   return (
     <>
-
-      
       <div className='flex flex-col'>
         <div className="selected-seats flex flex-row">
           <h1 className="text-white w-20 h-50 mt-20">Valgte sæder</h1>
@@ -366,5 +314,4 @@ const BookTicket = ({ showId, showPrice, theaterId }: BookTicketProp) => {
     </>
   );
 };
-// <div className="w-[20%] grid grid-cols-10">{generateSeats()}</div>
 export default BookTicket;

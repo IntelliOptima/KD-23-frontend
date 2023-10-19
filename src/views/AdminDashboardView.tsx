@@ -4,9 +4,16 @@ import React from 'react'
 const AdminDashboardView = () => {
   return (
     <div>
-        <MainSection />
+        
     </div>
+    
   )
 }
+
+/*
+<div>
+        <MainSection />
+    </div>
+*/
 
 export default AdminDashboardView
