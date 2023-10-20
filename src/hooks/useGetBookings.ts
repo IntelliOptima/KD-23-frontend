@@ -9,6 +9,7 @@ const useGetBookings = (showId: number, theaterId: number, movieId: number) => {
     
 
     const fetchBookingData = async () => {
+      console.log("Fetching Booking")
         try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_BOOKING_API}/find-all-by-movie-show/${showId}`);
           if (!response.ok) {
@@ -23,6 +24,7 @@ const useGetBookings = (showId: number, theaterId: number, movieId: number) => {
       }
     
       const fetchMovieData = async () => {
+        console.log("Fetiching Movie")
         try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_MOVIE_API}/id=/${movieId}`);
           if (!response.ok) {
@@ -38,6 +40,7 @@ const useGetBookings = (showId: number, theaterId: number, movieId: number) => {
 
     
       const fetchTheaterData = async () => {
+        console.log("Fetiching Theater")
         try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_THEATER_API}/id=/${theaterId}`);
           if (!response.ok) {
@@ -53,11 +56,13 @@ const useGetBookings = (showId: number, theaterId: number, movieId: number) => {
 
 
     useEffect(() => {
+      if (!theaterData || !movie || !bookings){
           fetchBookingData();
           fetchTheaterData();
           fetchMovieData();
           console.log("Fetching")
-      }, [theaterData,bookings]);
+      }
+      }, []);
       
       
 

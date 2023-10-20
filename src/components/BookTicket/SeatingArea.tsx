@@ -1,8 +1,9 @@
 import { Seat, Booking, TheaterProps, Movie, MovieForCinema } from "@/Types/Types";
 import { useState } from "react";
 import TicketMenu from "./TicketMenu";
-import Seats from "./Seats";
+import Seats from "./SeatingArea/Seats";
 import CinemaScreen from "./CinemaScreen";
+import RightSideSeating from "./SeatingArea/RightSideSeating";
 
 interface SeatingAreaProp {
     theaterData: TheaterProps;
@@ -76,10 +77,70 @@ const SeatingArea = ({ theaterData, bookings, showId, showPrice, movie }: Seatin
 
         for (let seats = 0; seats < theaterSeatsPerRow / 2; seats++) {
             const columnDiv = (
-                <div key={seats} className={`flex flex-col mx-2`}>
+                <div key={`left-column-${seats + 1}`} id={`left-column-${seats + 1}`} className={`flex flex-col mx-2`}>
 
                     {Array.from({ length: theaterRows }, (_, rows) => {
                         const currentSeat = leftSideSeatArray[rows][seats];
+                        return (
+                            <div key={currentSeat.id} className={`seat-wrapper h-1/${theaterRows}`}>
+                                {(currentSeat.id !== undefined && !isSeatBooked(currentSeat.id)) ? (
+                                    <Seats
+                                        key={currentSeat.id}
+                                        seat={currentSeat}
+                                        isSelected={selectedSeats.includes(currentSeat)}
+                                        onClick={() => toggleSeatSelection(currentSeat)}
+                                        isBooked={false}
+                                        seatScewing={((6 + ((theaterRows / 2) * 2)) - seats * 2)}
+                                        isLeftSideSeat={true}
+                                    />
+                                ) : (
+                                    <Seats
+                                        key={currentSeat.id}
+                                        seat={currentSeat}
+                                        isBooked={true}
+                                        seatScewing={((6 + ((theaterRows / 2) * 2)) - seats * 2)}
+                                        isLeftSideSeat={true}
+                                    />
+                                )}
+                            </div>
+
+                        );
+                    }
+                    )}
+                </div>
+            );
+            console.log((-8 - ((theaterRows / 2) * 2)) + seats * 2)
+            leftSideSeatElements.push(columnDiv);
+        }
+
+        const leftSideSeatElementsWithStyles = leftSideSeatElements.map((element, index) => {
+            const skewDegree = (-7 - theaterSeatsPerRow / 2) + index * 2
+            const style = {
+                transform: `skew(${skewDegree}deg)`,
+            };
+
+            return (
+                <div id={`skew-${skewDegree}`} style={style}>
+                    {element}
+                </div>
+            );
+        });
+
+        return leftSideSeatElementsWithStyles;
+    }
+
+
+
+
+    function generateRightSideSeats() {
+        const rightSideSeatElements: JSX.Element[] = [];
+
+        for (let seats = 0; seats < theaterSeatsPerRow / 2; seats++) {
+            const columnDiv = (
+                <div key={`right-column-${theaterSeatsPerRow / 2 + seats + 1}`} id={`right-column-${theaterSeatsPerRow / 2 + seats + 1}`} className={`flex flex-col mx-2`}>
+
+                    {Array.from({ length: theaterRows }, (_, rows) => {
+                        const currentSeat = rightSideSeatArray[rows][seats];
                         return (
                             <div key={currentSeat.id} className={`seat-wrapper h-1/${theaterRows}`}>
                                 {(currentSeat.id !== undefined && !isSeatBooked(currentSeat.id)) ? (
@@ -88,38 +149,112 @@ const SeatingArea = ({ theaterData, bookings, showId, showPrice, movie }: Seatin
                                         isSelected={selectedSeats.includes(currentSeat)}
                                         onClick={() => toggleSeatSelection(currentSeat)}
                                         isBooked={false}
-                                        seatScewing={2}
-                                        isLeftSideSeat={true}
+                                        seatScewing={8 + (seats * 2)}
+                                        isLeftSideSeat={false}
                                     />
                                 ) : (
                                     <Seats
                                         seat={currentSeat}
                                         isBooked={true}
-                                        seatScewing={2}
-                                        isLeftSideSeat={true}
+                                        seatScewing={8 + (seats * 2)}
+                                        isLeftSideSeat={false}
                                     />
                                 )}
                             </div>
                         );
                     })}
+
                 </div>
             );
 
-            leftSideSeatElements.push(columnDiv);
+            rightSideSeatElements.push(columnDiv);
+
+
         }
 
-        console.log(leftSideSeatElements);
-        return leftSideSeatElements;
+        const rightSideSeatElementsWithStyles = rightSideSeatElements.map((element, index) => {
+            const skewDegree = 7 + index * 2;
+            const style = {
+                transform: `skew(${skewDegree}deg)`,
+            };
+
+            return (
+                <div id={`skew-${skewDegree}`} style={style}>
+                    {element}
+                </div>
+            );
+        });
+
+        return rightSideSeatElementsWithStyles;
     }
 
-    function generateRightSideSeats() {
+    return (
+        <>
+            <div className="">
+                <div className="absolute left-0 top-0 bottom-0">
+                    <TicketMenu selectedSeats={selectedSeats} showPrice={showPrice} showId={showId} /></div>
+                <div className="absolute left-0 top-0 right-0">
+                    <CinemaScreen movieLink={movie.trailer} /></div>
+                <div className="theatre flex flex-row place-item-center items-center justify-center h-screen">
+                    <div className="flex flex-row items-center justify-center mr-3">
+                        {generateLeftSideSeats()}
+                    </div>
+                    <div className="flex flex-row items-center justify-center ml-3">
+                        {generateRightSideSeats()}
+                    </div>
+                </div>
+            </div>
+
+        </>
+    )
+}
+export default SeatingArea;
+
+
+/*
+return (
+        <>
+            <div className="flex flex-row">
+                <div className="theatre flex flex-row items-center justify-center h-screen">
+                    <div className="flex flex-row items-center justify-center mr-3">
+                        {generateLeftSideSeats()}
+                    </div>
+                    <div className="flex flex-row items-center justify-center ml-3">
+                        {generateRightSideSeats()}
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+*/
+
+
+/*
+<div className="flex flex-row">
+                <CinemaScreen movieLink={movie.trailer}/>
+                <TicketMenu selectedSeats={selectedSeats} showPrice={showPrice} showId={showId} />
+                <div className="theatre flex flex-row items-center justify-center h-screen">
+                    <div className="flex flex-row items-center justify-center mr-3">
+                        {generateLeftSideSeats()}
+                    </div>
+                    <div className="flex flex-row items-center justify-center ml-3">
+                        {generateRightSideSeats()}
+                    </div>
+                </div>
+            </div>
+*/
+
+
+/* 
+function generateRightSideSeats() {
         const rightSideSeatElements: JSX.Element[] = [];
 
         for (let seats = 0; seats < theaterSeatsPerRow / 2; seats++) {
             let rowScewing = 7 + seats * 2;
 
             const columnDiv = (
-                <div key={seats} className={`flex flex-col mx-2 skew-x-${rowScewing}`}>
+                <div id={rightSideKey(rowScewing)} key={rightSideKey(rowScewing)} className={`flex flex-col mx-2 ${rightSideClass(rowScewing)}`}>
+                
                     {Array.from({ length: theaterRows }, (_, rows) => {
 
                         const currentSeat = rightSideSeatArray[rows][seats];
@@ -145,36 +280,16 @@ const SeatingArea = ({ theaterData, bookings, showId, showPrice, movie }: Seatin
                             </div>
                         );
                     })}
+                    <style>{rightSideClass(rowScewing)}
+                    </style>
                 </div>
             );
+            console.log(rightSideClass(rowScewing))
             rightSideSeatElements.push(columnDiv);
             console.log(rowScewing)
-            rowScewing = 0;
+        
         }
+        console.log(rightSideSeatElements)
         return rightSideSeatElements;
     }
-
-    return (
-        <>
-            <CinemaScreen
-                movieLink={movie.trailer}
-            />
-        </>
-    )
-}
-export default SeatingArea;
-
-
-/*
-<div className="flex flex-row">
-                <TicketMenu selectedSeats={selectedSeats} showPrice={showPrice} showId={showId} />
-                <div className="theatre flex flex-row items-center justify-center h-screen">
-                    <div className="flex flex-row items-center justify-center mr-3">
-                        {generateLeftSideSeats()}
-                    </div>
-                    <div className="flex flex-row items-center justify-center ml-3">
-                        {generateRightSideSeats()}
-                    </div>
-                </div>
-            </div>
 */

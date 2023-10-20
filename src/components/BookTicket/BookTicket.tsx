@@ -1,8 +1,9 @@
 "use client";
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CirclesWithBar } from 'react-loader-spinner';
 import useGetBookings from '@/hooks/useGetBookings';
 import SeatingArea from './SeatingArea';
+
 
 type BookTicketProp = {
   showId: number;
@@ -14,8 +15,9 @@ type BookTicketProp = {
 
 const BookTicket = ({ showId, showPrice, theaterId, movieId }: BookTicketProp) => {
   
+
   const { theaterData, bookings, movie } = useGetBookings(showId, theaterId, movieId)
-  console.log(movie)
+  console.log("Yolo time: ")
   if (!theaterData || !bookings) {
     return <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="flex justify-center">
