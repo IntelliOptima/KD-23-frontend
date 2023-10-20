@@ -34,43 +34,67 @@ const CinemaScreen = ({ movieLink }: CinemaScreenProps) => {
 
                     @media all and (min-width: 960px){
                     #cinemascreen {
-                    -webkit-animation: tvflicker .01s infinite alternate;
-                    -moz-animation:    tvflicker .01s infinite alternate;
-                    -o-animation:      tvflicker .01s infinite alternate;
-                    animation:         tvflicker .01s infinite alternate; 
+                    -webkit-animation: tvflicker .1s infinite alternate;
+                    -moz-animation:    tvflicker .1s infinite alternate;
+                    -o-animation:      tvflicker .1s infinite alternate;
+                    animation:         tvflicker .1s infinite alternate; 
 	                }
 
                     @-webkit-keyframes tvflicker {
                         0% {
-                            box-shadow: 0 0 100px 0 rgba(225, 235, 255, 0.4);
+                            box-shadow: 0 0 100px 0 rgba(220, 235, 255, 0.4);
                           }
-                          100% {
-                            box-shadow: 0 0 98px 0 rgba(200, 220, 255, 0.46);
+                        33% {
+                          box-shadow: 0 0 99px 0 rgba(215, 235, 255, 0.42);
+                          }
+                        66% {
+                          box-shadow: 0 0 98px 0 rgba(207, 235, 255, 0.46);
+                          }
+                        100% {
+                            box-shadow: 0 0 97px 0 rgba(200, 220, 255, 0.48);
                           }
 	                }
                     @-moz-keyframes tvflicker {
-                        0% {
-                            box-shadow: 0 0 100px 0 rgba(225, 235, 255, 0.4);
-                          }
-                          100% {
-                            box-shadow: 0 0 98px 0 rgba(200, 220, 255, 0.46);
-                          }
+                      0% {
+                        box-shadow: 0 0 100px 0 rgba(220, 235, 255, 0.4);
+                      }
+                    33% {
+                      box-shadow: 0 0 99px 0 rgba(215, 235, 255, 0.42);
+                      }
+                    66% {
+                      box-shadow: 0 0 98px 0 rgba(207, 235, 255, 0.46);
+                      }
+                    100% {
+                        box-shadow: 0 0 97px 0 rgba(200, 220, 255, 0.48);
+                      }
 	                }
                     @-o-keyframes tvflicker {
-                        0% {
-                            box-shadow: 0 0 100px 0 rgba(225, 235, 255, 0.4);
-                          }
-                          100% {
-                            box-shadow: 0 0 98px 0 rgba(200, 220, 255, 0.46);
-                          }
+                      0% {
+                        box-shadow: 0 0 100px 0 rgba(220, 235, 255, 0.4);
+                      }
+                    33% {
+                      box-shadow: 0 0 99px 0 rgba(215, 235, 255, 0.42);
+                      }
+                    66% {
+                      box-shadow: 0 0 98px 0 rgba(207, 235, 255, 0.46);
+                      }
+                    100% {
+                        box-shadow: 0 0 97px 0 rgba(200, 220, 255, 0.48);
+                      }
 	                }
                     @keyframes tvflicker {
-                        0% {
-                            box-shadow: 0 0 100px 0 rgba(225, 235, 255, 0.4);
-                          }
-                          100% {
-                            box-shadow: 0 0 98px 0 rgba(200, 220, 255, 0.46);
-                          }
+                      0% {
+                        box-shadow: 0 0 100px 0 rgba(220, 235, 255, 0.4);
+                      }
+                    33% {
+                      box-shadow: 0 0 99px 0 rgba(215, 235, 255, 0.42);
+                      }
+                    66% {
+                      box-shadow: 0 0 98px 0 rgba(207, 235, 255, 0.46);
+                      }
+                    100% {
+                        box-shadow: 0 0 97px 0 rgba(200, 220, 255, 0.48);
+                      }
 	                }
                     }
 
