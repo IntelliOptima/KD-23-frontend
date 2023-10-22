@@ -28,7 +28,7 @@ const CinemaScreen = ({ movieLink }: CinemaScreenProps) => {
 
 
     return (
-        <div className="relative">
+        <div className="w-full">
             <div id={'cinemascreen'} className={screenDivCSS}>
                 <style>{`
 
@@ -115,51 +115,3 @@ const CinemaScreen = ({ movieLink }: CinemaScreenProps) => {
 
 }
 export default CinemaScreen;
-
-
-/*
-return (
-        <div className="relative">
-          
-          <div className="absolute inset-0 z-0 bg-white opacity-75 flicker-light"></div>
-          <style>
-  {`
-    @keyframes flicker {
-      0% {
-        opacity: 0.4;
-      }
-      50% {
-        opacity: 0.5;
-      }
-      100% {
-        opacity: 0.6;
-      }
-    }
-    
-    .flicker-light {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(at center, rgba(255, 255, 255, 0.8) 10%, transparent 2%);
-      background-size: 100% 100%; 
-      opacity: 0.5;
-      animation: flicker 0.3s infinite;
-    }
-  `}
-</style>
-          <div className={screenDivCSS}>
-            <iframe
-              className={`place-self-center`}
-              width="560"
-              height="315"
-              src={`https://www.youtube.com/embed/${embedLink[1]}?autoplay=1&vq=hd1080`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            ></iframe>
-          </div>
-        </div>
-      );
-*/

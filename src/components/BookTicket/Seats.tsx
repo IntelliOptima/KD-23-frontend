@@ -29,7 +29,7 @@ const Seats = ({ seat, onClick, isSelected, isBooked, seatScewing, isLeftSideSea
     };
     }
    
-  const booked = `-mb-4 w-8 h-12 rounded-md bg-gradient-to-t from-blue-900 via-blue-700 to-blue-400`;
+  const booked = `-mb-5 w-8 h-12 rounded-md bg-gradient-to-t from-blue-900 via-blue-700 to-blue-400`;
 
 
   const handleClick: MouseEventHandler<HTMLDivElement> = (event: React.MouseEvent<HTMLDivElement>) => {
