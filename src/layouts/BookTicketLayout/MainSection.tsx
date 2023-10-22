@@ -1,4 +1,4 @@
- import BookTicket from '@/components/BookTicket/BookTicket'
+ /*import BookTicket from '@/components/BookTicket/BookTicket'
  import React from 'react'
 
  const MainSection = () => {
@@ -10,3 +10,4 @@
  }
 
  export default MainSection
+ */

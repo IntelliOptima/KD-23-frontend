@@ -61,3 +61,20 @@ export type StartTimeWithTheater = {
     startTime: Date;
     theater: Theater;
 }
+
+export type TheaterProps = {
+    type: string;
+    id: number;
+    implementationStrategy: void | null;
+    name: string;
+    totalRows: number;
+    seatsPerRow: number;
+    seats: Seat[];
+}
+
+export type MovieForCinema = {
+    trailer?: string;
+    releaseDate?: Date;
+    runtime?: number; // in minutes
+
+};
