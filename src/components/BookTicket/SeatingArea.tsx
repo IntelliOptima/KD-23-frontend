@@ -190,26 +190,60 @@ const SeatingArea = ({ theaterData, bookings, showId, showPrice, movie }: Seatin
 
     return (
         <>
-            <div className="">
-                <div className="position: absolute left-0">
-                    <TicketMenu selectedSeats={selectedSeats} showPrice={showPrice} showId={showId} />
+            <div className="position: absolute left-0">
+                <TicketMenu selectedSeats={selectedSeats} showPrice={showPrice} showId={showId} />
+            </div>
+            <div className="flex flex-col items-center justify-start h-screen">
+                <div className="absolute left-1/2 -translate-x-1/2">
+                    <CinemaScreen movieLink={movie.trailer} />
                 </div>
-                <div className="flex flex-col items-center justify-start h-screen">
-                    <div className="absolute left-1/2 -translate-x-1/2">
-                        <CinemaScreen movieLink={movie.trailer} />
+                <div className="mt-4 theatre flex flex-row place-item-center items-center justify-center h-screen">
+                    <div className="flex flex-row items-center justify-center mr-3">
+                        {generateLeftSideSeats()}
                     </div>
-                    <div className="mt-4 theatre flex flex-row place-item-center items-center justify-center h-screen">
-                        <div className="flex flex-row items-center justify-center mr-3">
-                            {generateLeftSideSeats()}
-                        </div>
-                        <div className="flex flex-row items-center justify-center ml-3">
-                            {generateRightSideSeats()}
-                        </div>
+                    <div className="flex flex-row items-center justify-center ml-3">
+                        {generateRightSideSeats()}
                     </div>
                 </div>
             </div>
+            
+            <div className="absolute right-2 top-1/2 mr-10 p-4 bg-gray-800 rounded-lg">
+                <div className="flex items-center">
+                    <div className="mr-2">
+                        <div className="w-8 h-12 rounded-md bg-gradient-to-t from-blue-900 via-blue-700 to-blue-400"></div>
+                    </div>
+                    <span className="text-white">Booked</span>
+                </div>
+
+                <div className="mt-4 flex items-center">
+                    <div className="mr-2">
+                        <div className="w-8 h-12 rounded-md shadow bg-gradient-to-t from-red-900 via-rose-900 to-red-400"></div>
+                    </div>
+                    <span className="text-white">Available</span>
+                </div>
+            </div>
+
 
         </>
     )
 }
 export default SeatingArea;
+
+/*
+<div className="position: absolute left-0">
+                <TicketMenu selectedSeats={selectedSeats} showPrice={showPrice} showId={showId} />
+            </div>
+            <div className="flex flex-col items-center justify-start h-screen">
+                <div className="absolute left-1/2 -translate-x-1/2">
+                    <CinemaScreen movieLink={movie.trailer} />
+                </div>
+                <div className="mt-4 theatre flex flex-row place-item-center items-center justify-center h-screen">
+                    <div className="flex flex-row items-center justify-center mr-3">
+                        {generateLeftSideSeats()}
+                    </div>
+                    <div className="flex flex-row items-center justify-center ml-3">
+                        {generateRightSideSeats()}
+                    </div>
+                </div>
+            </div>
+            */

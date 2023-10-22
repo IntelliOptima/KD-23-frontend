@@ -83,29 +83,46 @@ const TicketMenu = ({ selectedSeats, showPrice, showId }: TicketMenuProps) => {
 
   return (
     <>
-      <div className='text-white mt-16'>
-        <span>Total pris:  {generateTotalPrice(selectedSeats)}</span>
+      <div className=' ml-5 text-white mt-16'>
+        <span>Total price:  {generateTotalPrice(selectedSeats)}</span>
         <button
           onClick={() => handleEmailInputSwal()}
           className='btn-primary ml-4'>
           Book selected seats</button>
       </div>
-      <div className="selected-seats flex flex-column">
-        <h1 className="text-white w-20 h-50 mt-20">Valgte sæder</h1>
-        <div className='flex flex-col space-x-2'>
-          {selectedSeats.map((seat, index) => (
-            <div className='flex flex-col w-20 h-32 bg-blue-500 p-2' key={index}>
-              <p>ID:{seat.id}</p>
-              <span>Række: {seat.row}</span>
-              <span>Sæde: {seat.numberInRow}</span>
-              <span></span>
-              <span>Pris: {showPrice}</span>
-            </div>
-          ))}
+      <div className="ml-5 selected-seats space-y-4 max-h-[calc(100vh-120px)] overflow-y-auto">
+  <h1 className="text-white text-2xl">Chosen Seats</h1>
+  {selectedSeats.map((seat, index) => (
+    <div className="bg-blue-500 p-4 ml-1 mt-2 w-30 h-14 flex flex-col rounded-lg shadow-md" key={index}>
+      <div className="flex justify-between">
+        <div>
+          <span className="text-white text-lg font-semibold">Row {seat.row} -</span>
+          <span className="text-white text-lg font-semibold"> Seat {seat.numberInRow}</span>
         </div>
+        <span className="text-gray-300">Price: {showPrice}</span>
       </div>
+    </div>
+  ))}
+</div>
+
     </>
   );
 }
 
 export default TicketMenu;
+
+/*
+<div className=" ml-5 selected-seats flex flex-column">
+        <h1 className="text-white w-20 h-50 mt-20">Chosen seats</h1>
+        <div className='flex flex-col space-x-2'>
+          {selectedSeats.map((seat, index) => (
+            <div className='ml-1 mt-2 flex flex-col w-22 h-20 bg-blue-500 p-2' key={index}>
+              <span>Row: {seat.row}</span>
+              <span>Seat: {seat.numberInRow}</span>
+              <span></span>
+              <span>Price: {showPrice}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+*/
