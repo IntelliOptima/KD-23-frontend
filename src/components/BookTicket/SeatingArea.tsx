@@ -120,7 +120,7 @@ const SeatingArea = ({ theaterData, bookings, showId, showPrice, movie }: Seatin
             };
 
             return (
-                <div id={`skew-${skewDegree}`} style={style}>
+                <div id={`skew-${skewDegree}`} style={style} key={skewDegree}>
                     {element}
                 </div>
             );
@@ -179,7 +179,7 @@ const SeatingArea = ({ theaterData, bookings, showId, showPrice, movie }: Seatin
             };
 
             return (
-                <div id={`skew-${skewDegree}`} style={style}>
+                <div id={`skew-${skewDegree}`} style={style} key={skewDegree}>
                     {element}
                 </div>
             );
