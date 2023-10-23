@@ -197,7 +197,7 @@ const SeatingArea = ({ theaterData, bookings, showId, showPrice, movie }: Seatin
                 <div className="absolute left-1/2 -translate-x-1/2">
                     <CinemaScreen movieLink={movie.trailer} />
                 </div>
-                <div className="mt-4 theatre flex flex-row place-item-center items-center justify-center h-screen">
+                <div className="mt-20 theatre flex flex-row place-item-center items-center justify-center h-screen">
                     <div className="flex flex-row items-center justify-center mr-3">
                         {generateLeftSideSeats()}
                     </div>
