@@ -11,8 +11,9 @@ type DayProps = {
 const Day = ({ date, setSelectedDateIndex, isSelected, index }: DayProps) => {
   const today = new Date();
   const dayForShowing = new Date(date);
-
   
+  console.log(dayForShowing)
+  console.log(today)
   return (
     <div
       className={`flex flex-col items-center justify-center container h-14 w-60 p-4 ${
@@ -27,11 +28,12 @@ const Day = ({ date, setSelectedDateIndex, isSelected, index }: DayProps) => {
       >
         <p>
           {dayForShowing.getDate() !== today.getDate() ? dayForShowing.toLocaleDateString('en-UK', { weekday: 'long' }) + ' ' : 'Today '}
-          the {' ' + dayForShowing.getDate() + ' '} / {' ' + dayForShowing.getMonth()}
-          {}
+          the {' ' + dayForShowing.getDate() + ' '} / {' ' + (dayForShowing.getMonth() + 1)}
+          
         </p>
       </button>
     </div>
+    
   );
 };
 
